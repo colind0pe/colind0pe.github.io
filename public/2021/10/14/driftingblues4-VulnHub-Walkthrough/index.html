@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>HackTheBox-Oopsie | colind0pe&#39;s blog</title>
-  <meta name="keywords" content=" HackTheBox ">
-  <meta name="description" content="HackTheBox-Oopsie | colind0pe&#39;s blog">
+  <title>driftingblues4 VulnHub Walkthrough | colind0pe&#39;s blog</title>
+  <meta name="keywords" content=" VulnHub ">
+  <meta name="description" content="driftingblues4 VulnHub Walkthrough | colind0pe&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#x31;&amp;#51;&amp;#x37;&amp;#48;&amp;#50;&amp;#50;&amp;#55;&amp;#57;&amp;#57;&amp;#54;&amp;#64;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#109;">
 <meta property="og:type" content="website">
@@ -308,9 +308,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-HackTheBox-Oopsie" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-driftingblues4-VulnHub-Walkthrough" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">HackTheBox-Oopsie</h1>
+        <h1 class="article-title">driftingblues4 VulnHub Walkthrough</h1>
     
     <div class="article-meta">
         
@@ -328,19 +328,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color1">HackTheBox</a>
+            <a class="color3">VulnHub</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-09-29 17:23:00'>2021-08-02 17:05</time>
+            发布时间 : <time class="date" title='最后更新: 2021-10-14 15:53:04'>2021-10-14 15:49</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1.3k</span>
+        <span>字数:529</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -370,7 +370,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">实验过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-text">权限提升</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#driftingblues4-VulnHub-Walkthrough"><span class="toc-text">driftingblues4 VulnHub Walkthrough</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B1%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4"><span class="toc-text">弱密码爆破</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSH%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="toc-text">SSH免密登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-text">权限提升</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -386,107 +386,94 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/07/27/Hd9VUzsDhXpJxSb.png"></p>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>端口扫描：</strong></p>
-<pre><code>nmap -sT -Pn 10.10.10.28
+        <h2 id="driftingblues4-VulnHub-Walkthrough"><a href="#driftingblues4-VulnHub-Walkthrough" class="headerlink" title="driftingblues4 VulnHub Walkthrough"></a>driftingblues4 VulnHub Walkthrough</h2><h4 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h4><pre><code>arp-scan -l
 </code></pre>
-<p><img src="https://i.loli.net/2021/07/27/ZD8N9JvCn3Gtkyc.png"></p>
-<p>发现80端口开放，在浏览器打开，啥也没有，尝试找登录界面</p>
-<p><img src="https://i.loli.net/2021/07/27/bexZV7YuQCfHnJW.png"></p>
-<p><strong>目录扫描：</strong></p>
-<p>成功找到登录界面</p>
-<p><img src="https://i.loli.net/2021/07/27/apWtD5Xlgq4KrkH.png"></p>
-<p>在bp中也可以看到登录页的js加载记录</p>
-<p><img src="https://i.loli.net/2021/07/27/2RtDTbzapGBCWhv.png"></p>
-<p>在浏览器打开</p>
-<p><img src="https://i.loli.net/2021/07/27/5NhiCuwZTcWxtLd.png"></p>
-<h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><p>账号为<code>admin</code>，密码是上一题中出现过的<code>MEGACORP_4dm1n!!</code>，直接登录，登录后看到有一个上传功能，点击提示需要super admin权限</p>
-<p><img src="https://i.loli.net/2021/07/27/ExH9yqfplFRc6be.png"></p>
-<p>先看一下我们现在账号信息，在url中还可以看到目前的用户id=1</p>
-<p><img src="https://i.loli.net/2021/07/27/c4GRbMgQoK1pqf9.png"></p>
-<p><strong>再抓包看一下</strong>：</p>
-<p>id和user、role对应，可以尝试遍历用户</p>
-<p><img src="https://i.loli.net/2021/07/27/NQDFYJsuVKjvtUG.png"></p>
-<p><strong>发送到interlude模块</strong>，标记id参数，设置好payload开始爆破</p>
-<p><img src="https://i.loli.net/2021/07/27/IO7bRopKTVdyeEN.png"></p>
-<p><img src="https://i.loli.net/2021/07/27/jAMXOz6hqZakGB3.png"></p>
-<p>看到id=30的响应包的长度比较大，看一下他的响应包的内容，确认为super admin用户</p>
-<p><img src="https://i.loli.net/2021/07/27/bH7zidyqvxF3sQL.png"></p>
-<p><img src="https://i.loli.net/2021/07/27/Z2itEGU1TQspdwe.png"></p>
-<p>修改目前用户的user和role值，成功越权到super admin用户</p>
-<p><img src="https://i.loli.net/2021/07/27/D4Zw8Bkz39QbPyT.png"></p>
-<p><img src="https://i.loli.net/2021/07/27/EM872nWlGr6Qcux.png"></p>
-<p>然后尝试上传shell，同样修改当前用户的user和role值，就可以进行文件上传</p>
-<p><img src="https://i.loli.net/2021/07/27/qmQXoHtZi2lV1By.png"></p>
-<p>直接用kali自带的反弹shell文件，修改好ip和port</p>
-<p><img src="https://i.loli.net/2021/07/27/dqBTIuL8E36UJXf.png"></p>
-<p>注意上传的过程中也要修改当前用户的user和role，改成super admin的值，就可以成功上传</p>
-<p><img src="https://i.loli.net/2021/07/27/zmrJRpM73eCjV9q.png"></p>
-<p><img src="https://i.loli.net/2021/07/27/hnu7MqHeKplP8oF.png"></p>
-<p>接下来开启一个监听端口来接收反弹的shell</p>
-<p><img src="https://i.loli.net/2021/07/27/qW8BbmrcNsvJwoP.png"></p>
-<p>然后就是要找到我们上传的shell，扫目录的时候有一个uploads的路径，我们上传的文件应该就在这里</p>
-<p><strong>访问上传的shell来执行</strong></p>
-<p><img src="https://i.loli.net/2021/07/27/Kcw1hkTyXuig4r9.png"></p>
-<p>回到netcat中就可以看到反弹的shell了</p>
-<p><img src="https://i.loli.net/2021/07/27/TZQSK9vkXonWIfz.png"></p>
-<p>拿到shell先看看有没有有用的文件，我们拿到了数据库的账号密码</p>
-<p><img src="https://i.loli.net/2021/07/28/wFjIotzpmd9gQBC.png"></p>
-<p>但是现在的shell是非交互式的，我们接下来要升级到交互的shell，两者的区别如下：</p>
-<pre><code>交互式模式就是shell等待你的输入，并且立即执行你提交的命令，退出后才终止
-非交互式模式就是以shell script方式执行，shell不与你进行交互，而是读取存放在文件中的命令并执行它们，读取到结尾就终止
+<img src="https://i.loli.net/2021/10/14/zhRLGB6DEPml2uv.png" style="zoom:67%;" />
+
+<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><pre><code>nmap -sC -sV -p- 192.168.62.174
 </code></pre>
-<pre><code>用netcat获得的shell是非交互式的，不能传递tab来进行补全，不能使用su、nano，也不能执行ctrl+c等命令，所以我们需要升级为交互式的shell
+<img src="https://i.loli.net/2021/10/14/zLTuWXdBhYVneoM.png" style="zoom: 67%;" />
+
+<p>开放了21、22、80端口，先看了下21端口，发现需要密码</p>
+<img src="https://i.loli.net/2021/10/14/eoD7OHbsxQdl945.png" style="zoom:67%;" />
+
+<p>再访问一下80端口，看看有没有什么信息</p>
+<p><img src="https://i.loli.net/2021/10/14/RutLqmjfi95sKAS.png"></p>
+<h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>主页没有什么信息，看一下源码</p>
+<p><img src="https://i.loli.net/2021/10/14/y43jOYEQP1Wtmrz.png"></p>
+<p>base64编码，到在线网站转换一下</p>
+<img src="https://i.loli.net/2021/10/14/iPnKaR3Hxc45Q9r.png" style="zoom:50%;" />
+
+<p>再转换一次</p>
+<img src="https://i.loli.net/2021/10/14/ITbCv2kKSmcjZhH.png" style="zoom:50%;" />
+
+<p>emmm，继续</p>
+<img src="https://i.loli.net/2021/10/14/bLqOkQABpI4UN6v.png" style="zoom:50%;" />
+
+<img src="https://i.loli.net/2021/10/14/KkXxDfubgw8l7BE.png" style="zoom:50%;" />
+
+<p>最后得到一个txt的路径，访问一下</p>
+<img src="https://i.loli.net/2021/10/14/sLfinMZNFSBem8y.png" style="zoom: 67%;" />
+
+<p>Brainfuck加密，到在线网站解密一下</p>
+<p><img src="https://i.loli.net/2021/10/14/k8BNGWeDhpK4HcX.png"></p>
+<p>得到了一张图片的路径，访问一下</p>
+<p>是一个二维码</p>
+<img src="https://i.loli.net/2021/10/14/S1lyGvhiRO5VoWk.png" style="zoom: 33%;" />
+
+<p>扫描的结果是一张图片地址</p>
+<img src="https://i.loli.net/2021/10/14/ri9wbhBXtmn21Wv.png" style="zoom:80%;" />
+
+<p>访问一下</p>
+<img src="https://i.imgur.com/a4JjS76.png" alt="img" style="zoom: 67%;" />
+
+<h4 id="弱密码爆破"><a href="#弱密码爆破" class="headerlink" title="弱密码爆破"></a>弱密码爆破</h4><p>提示了几个名字，试了ssh是不支持密码登录的，那就拿来爆破ftp试试</p>
+<pre><code>hydra -L /home/colin/桌面/user -P /usr/share/wordlists/rockyou.txt ftp://192.168.62.174
 </code></pre>
-<p>逐条键入命令：</p>
-<pre><code># 将在环境变量下将shell设置为/bin/bash且参数为-q和/dev/null的情况下运行脚本，-q参数为静默运行，输出到/dev/null里，如果不加script -q /dev/null不会新启一个bash，shell=/bin/bash只是设置shell为bash，加了以后会给你挂起一个新的shell，并帮你记录所有内容
-SHELL=/bin/bash script -q /dev/null
-# 将netcat暂挂至后台
-Ctrl-Z
-# 将本地终端置于原始模式，以免干扰远程终端
-stty raw -echo
-# 将netcat返回到前台，注意：这里不会显示输入的命令
-fg
-# 重置远程终端，经测试也可以不进行此操作
-reset
-# 运行xterm
-xterm
-</code></pre>
-<p>拿到交互的shell我们就可以切换到Robert用户了</p>
-<p><img src="https://i.loli.net/2021/07/28/EdiQx9hAYpDysSk.png"></p>
-<p><strong>获取普通用户权限的flag</strong></p>
-<p><img src="https://i.loli.net/2021/07/28/aEARfWQUJsmChMP.png"></p>
-<h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><p>下面我们就要想办法提权，我们先看看这个组里面有没有特殊权限</p>
-<pre><code># -type f 为查找普通文档，-group bugtracker 限定查找的组为bugtracker，2&gt;/dev/null 将错误输出到黑洞（不显示）
-find / -type f -group bugtracker 2&gt;/dev/null 
-# -al 以长格式方式显示并且显示隐藏文件
-ls -al /usr/bin/bugtracker           
-</code></pre>
-<p><img src="https://i.loli.net/2021/07/28/KLmAGangISYdcpb.png"></p>
-<p><img src="https://i.loli.net/2021/07/28/AtRHJfpn6IU7xMg.png"></p>
-<p>拥有者有<code>s</code>（<code>setuid</code>）特殊权限，可执行的文件搭配这个权限，可以得到特权，任意存取该文件的所有者能使用的全部系统资源，我们尝试运行它，发现这个文件根据提供的<code>ID</code>值输出以该数字为编号的<code>bug</code>报告</p>
-<p><img src="https://i.loli.net/2021/07/28/y82ifUD4bzuLOTo.png"></p>
-<p>接下来我们可以使用<code>strings</code>命令来看看对象文件或二进制文件中查找可打印的字符串</p>
-<p><img src="https://i.loli.net/2021/07/28/KLOeI9juaobwQ1W.png"></p>
-<p>可以看到<code>bugtracker</code>调用了<code>cat</code>命令，输出了<code>/root/reports/</code>目录下的<code>bug</code>报告，其实本来我们当前用户是没有权限访问<code>/root</code>目录的，但是我们有了<code>setuid</code>后就拥有了<code>/root</code>目录的访问有权限，也就拥有了<code>root</code>权限，当前用户执行<code>bugtracker</code>程序是会优先使用当前的<code>path</code>变量，这时候我们就可以在当前用户环境变量<code>指定的路径</code>中搜索<code>cat</code>命令，然后创建一个恶意的<code>cat</code>命令，修改当前用户环境变量，完成提权操作</p>
-<pre><code>export PATH=/tmp:$PATH                //将/tmp目录设置为环境变量
-cd /tmp/                            //切换到/tmp目录下
-echo &#39;/bin/sh&#39; &gt; cat                //在此构造恶意的cat命令
-chmod +x cat                        //赋予执行权限
-</code></pre>
-<p><img src="https://i.loli.net/2021/07/28/ghfboUQt6Oe1wd7.png"></p>
-<p>这样<code>bugtracker</code>再次调用<code>cat</code>命令时实际上调用的是<code>/tmp</code>目录下的恶意的<code>cat</code>命令，我们运行一下<code>bugtracker</code>可以看出，此时<code>robert</code>用户临时具有了<code>root</code>权限，执行<code>id</code>命令发现只是<code>robert</code>用户的<code>uid</code>变为了<code>root</code>，不是真正的<code>root</code>用户</p>
-<p><img src="https://i.loli.net/2021/07/28/SbzZWCsydVNm5t9.png"></p>
-<p>这样我们就可以获取system的flag了</p>
-<p><img src="https://i.loli.net/2021/07/28/hs5lVjfuewa1ALJ.png"></p>
-<p>在/root/.config/filezilla/filezilla.xml文件中有下一题的ftp账号密码</p>
-<p><img src="https://i.loli.net/2021/07/28/CEoznHSvYQuDI7F.png"></p>
-<blockquote>
-<p>参考：</p>
-<p>1、<a target="_blank" rel="noopener" href="https://www.echocipher.life/index.php/archives/872/">https://www.echocipher.life/index.php/archives/872/</a></p>
-<p>2、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qlqwjy/p/8665871.html">关于Linux下s、t、i、a权限</a></p>
-<p>3、<a target="_blank" rel="noopener" href="http://www.361way.com/suid-privilege/5965.html">LINUX s权限位提权</a></p>
-</blockquote>
+<p><img src="https://i.loli.net/2021/10/14/TGkAwWjDZs5zoOQ.png"></p>
+<p>成功得到了ftp的用户名和密码</p>
+<p>用得到的用户名和密码成功登录ftp</p>
+<img src="https://i.loli.net/2021/10/14/YBD1hf4sIgpbxve.png" style="zoom:80%;" />
+
+<p>看了一下好像没有什么信息，但是发现这个hubert目录是有写权限的，我们可以写一个ssh的key上去，然后在本地免密登录</p>
+<h4 id="SSH免密登录"><a href="#SSH免密登录" class="headerlink" title="SSH免密登录"></a>SSH免密登录</h4><p>先在靶机的hubert目录下创建一个.ssh目录</p>
+<p><img src="https://i.loli.net/2021/10/14/pCZK8LhMB3wRJH5.png"></p>
+<p>将本地的authorized_keys上传到靶机</p>
+<img src="https://i.loli.net/2021/10/14/T4Uo7cedGDLgWOC.png" style="zoom: 80%;" />
+
+<p>成功登录到ssh</p>
+<img src="https://i.loli.net/2021/10/14/kiIhwnUrsYcEjJu.png" style="zoom:80%;" />
+
+<p>现在可以获取第一个flag了</p>
+<img src="https://i.loli.net/2021/10/14/vQgpersjXcqxK7W.png" style="zoom: 67%;" />
+
+<h4 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h4><p>/home/hubert目录下还有一个python脚本</p>
+<p><img src="https://i.loli.net/2021/10/14/zw8cIdiTj2N45Q6.png"></p>
+<p>查看一下内容</p>
+<img src="https://i.loli.net/2021/10/14/f9envx2HlPkoIVh.png" style="zoom:67%;" />
+
+<p>执行脚本会以root权限执行一个命令，将1输出到一个文件里，去看一下这个文件</p>
+<img src="https://i.loli.net/2021/10/14/9KScPokfV6iRd4B.png" style="zoom:80%;" />
+
+<p>这个文件里已经有很多个1了，上面的python脚本应该是一直在执行的</p>
+<p>将进程监控工具上传到靶机，看一下这个脚本的运行情况</p>
+<p>先在本机起一个http服务</p>
+<p><img src="https://i.loli.net/2021/10/14/lI4oASmUELGV5y1.png"></p>
+<p>在靶机下载，并赋予执行权限</p>
+<img src="https://i.loli.net/2021/10/14/zFAc2jdn5OeKxyR.png" style="zoom:80%;" />
+
+<p>发现emergency.py是每分钟执行一次的</p>
+<img src="https://i.loli.net/2021/10/14/9a6mWdXpPG34buf.png" style="zoom: 67%;" />
+
+<p>接下来尝试通过新建一个emergency.py来提权</p>
+<img src="https://i.loli.net/2021/10/14/Eglnj4rwqHaeAOo.png" style="zoom: 67%;" />
+
+<p>在本地开启一个监听端口来接收反弹的shell</p>
+<p><img src="https://i.loli.net/2021/10/14/2vdQToUR1Bs5C3b.png"></p>
+<p>等了一会之后，本地已经接收到了shell</p>
+<p><img src="https://i.loli.net/2021/10/14/DIiKmceuLlbyo1X.png"></p>
+<p>成功获取第二个flag</p>
+<img src="https://i.loli.net/2021/10/14/QaX6UVWEoTiO5F3.png" style="zoom:67%;" />
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1370227996@qq.com </span>
