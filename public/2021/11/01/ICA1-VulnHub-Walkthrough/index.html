@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <title>ICA1 VulnHub Walkthrough | colind0pe&#39;s blog</title>
-  <meta name="keywords" content=" VulnHub ">
+  <meta name="keywords" content=" VulnHhub ">
   <meta name="description" content="ICA1 VulnHub Walkthrough | colind0pe&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#x31;&amp;#51;&amp;#55;&amp;#x30;&amp;#x32;&amp;#x32;&amp;#55;&amp;#x39;&amp;#x39;&amp;#54;&amp;#x40;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;">
+<meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#51;&amp;#x37;&amp;#x30;&amp;#x32;&amp;#x32;&amp;#55;&amp;#57;&amp;#x39;&amp;#x36;&amp;#x40;&amp;#x71;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;">
 <meta property="og:type" content="website">
 <meta property="og:title" content="关于">
 <meta property="og:url" content="http://example.com/about/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#x31;&amp;#51;&amp;#55;&amp;#x30;&amp;#x32;&amp;#x32;&amp;#55;&amp;#x39;&amp;#x39;&amp;#54;&amp;#x40;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;">
+<meta property="og:description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#51;&amp;#x37;&amp;#x30;&amp;#x32;&amp;#x32;&amp;#55;&amp;#57;&amp;#x39;&amp;#x36;&amp;#x40;&amp;#x71;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-30T02:47:26.235Z">
 <meta property="article:modified_time" content="2021-09-30T02:47:26.235Z">
@@ -216,6 +216,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>VulnHhub</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>VulnHub</a>
             </li>
         
@@ -228,7 +232,7 @@
         
         <a  class="全部文章 渗透测试 "
            href="/2021/11/01/ICA1-VulnHub-Walkthrough/"
-           data-tag="VulnHub"
+           data-tag="VulnHhub"
            data-author="" >
             <span class="post-title" title="ICA1 VulnHub Walkthrough">ICA1 VulnHub Walkthrough</span>
             <span class="post-date" title="2021-11-01 14:35:38">2021/11/01</span>
@@ -336,19 +340,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color3">VulnHub</a>
+            <a class="color4">VulnHhub</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-11-01 14:37:14'>2021-11-01 14:35</time>
+            发布时间 : <time class="date" title='最后更新: 2021-11-01 14:43:52'>2021-11-01 14:35</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:611</span>
+        <span>字数:636</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -378,7 +382,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ICA1-VulnHub-Walkthrough"><span class="toc-text">ICA1 VulnHub Walkthrough</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-text">端口扫描</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0"><span class="toc-text">漏洞发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-text">漏洞利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4"><span class="toc-text">SSH密码爆破</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-text">权限提升</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -394,10 +398,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="ICA1-VulnHub-Walkthrough"><a href="#ICA1-VulnHub-Walkthrough" class="headerlink" title="ICA1 VulnHub Walkthrough"></a>ICA1 VulnHub Walkthrough</h2><h4 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h4><pre><code>arp-scan -l
+        <h3 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h3><pre><code>arp-scan -l
 </code></pre>
 <p><img src="https://i.loli.net/2021/11/01/DtOf6MJVR5ndoGe.png"></p>
-<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><pre><code>nmap -Pn -p- 192.168.62.182
+<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><pre><code>nmap -Pn -p- 192.168.62.182
 </code></pre>
 <p><img src="https://i.loli.net/2021/11/01/xCtO6cIAsQMSLDi.png"></p>
 <p>开放了22、80、3306端口</p>
@@ -405,12 +409,12 @@
 <img src="https://i.loli.net/2021/11/01/1ejgDTcrmNXdtRw.png" style="zoom:80%;" />
 
 <p>qdPM是一个开源的项目管理系统，基于<a target="_blank" rel="noopener" href="http://www.oschina.net/p/symfony">Symfony</a>框架+PHP/MySQL开发，可以看到qdPM的版本为9.2</p>
-<p>搜索一下exploit-db看看有没有公开的exp</p>
+<h3 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h3><p>搜索一下exploit-db看看有没有公开的exp</p>
 <p><img src="https://i.loli.net/2021/11/01/yZIxHGg2QtN9LiS.png"></p>
 <p>可以看到这个版本存在数据库敏感信息泄露，可以未授权获取数据库连接信息和密码</p>
 <p>看一下利用方式</p>
 <p><img src="https://i.loli.net/2021/11/01/6NC3oaG9FzRYWrl.png"></p>
-<p>我们可以通过访问<code>http://&lt;website&gt;/core/config/databases.yml</code>来下载包含数据库连接信息和密码的yml文件</p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>我们可以通过访问<code>http://&lt;website&gt;/core/config/databases.yml</code>来下载包含数据库连接信息和密码的yml文件</p>
 <img src="https://i.loli.net/2021/11/01/4WVgx7HBS19dC2P.png" style="zoom:80%;" />
 
 <p>通过访问<code>http://192.168.62.182/core/config/databases.yml</code>成功得到了数据库的用户名和密码<code>qdpmadmin:UcVQCMQk2STVeS6J</code></p>
@@ -422,11 +426,13 @@
 <p>在<code>staff</code>数据库中找到了五组用户名和密码，密码是经过编码加密的</p>
 <img src="https://i.loli.net/2021/11/01/wFHBokpdDs89Aj3.png" style="zoom:80%;" />
 
-<p>将经过base64编码的密码字符串解码一下，记录到一个文本中</p>
+<h3 id="SSH密码爆破"><a href="#SSH密码爆破" class="headerlink" title="SSH密码爆破"></a>SSH密码爆破</h3><p>将经过base64编码的密码字符串解码一下，记录到一个文本中</p>
 <p><img src="https://i.loli.net/2021/11/01/QaPujeoxcKYhXGm.png"></p>
 <p>将用户名也记录到一个文本中</p>
 <p><img src="https://i.loli.net/2021/11/01/ljuvOXPLYSUmhd5.png"></p>
 <p>用账户密码来爆破80端口的登陆界面无果，只能尝试爆破22端口了</p>
+<pre><code>hydra -L user -P password ssh://192.168.62.182 -f
+</code></pre>
 <p><img src="https://i.loli.net/2021/11/01/cskMQEIqhPKT2fY.png"></p>
 <p><img src="https://i.loli.net/2021/11/01/rUxToiE435wZ62q.png"></p>
 <p>成功得到了两组ssh的用户名和密码，尝试登录ssh</p>
@@ -435,7 +441,7 @@
 <p>再登录<code>dexter</code>，看到有提示，应该是要利用可执行文件来提权</p>
 <img src="https://i.loli.net/2021/11/01/i5gulQ2FmUo9j6b.png" style="zoom: 80%;" />
 
-<p>先查看一下有执行权限的文件</p>
+<h3 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h3><p>先查看一下有执行权限的文件</p>
 <pre><code>find / -perm -u=s 2&gt;/dev/null
 </code></pre>
 <p><img src="https://i.loli.net/2021/11/01/o3u5HCDSTckYPmG.png"></p>

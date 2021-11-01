@@ -7,8 +7,6 @@ tags:
 - VulnHub
 ---
 
-## driftingblues2 VulnHub Walkthrough
-
 ### 信息收集
 
 #### 主机探测

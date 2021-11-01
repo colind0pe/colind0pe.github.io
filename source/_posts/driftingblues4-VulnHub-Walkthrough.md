@@ -7,8 +7,6 @@ tags:
 - VulnHub
 ---
 
-## driftingblues4 VulnHub Walkthrough
-
 #### 主机发现
 
 ```

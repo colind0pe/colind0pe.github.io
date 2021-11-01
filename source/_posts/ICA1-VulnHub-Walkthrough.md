@@ -4,12 +4,10 @@ date: 2021-11-01 14:35:38
 categories:
 - 渗透测试
 tags:
-- VulnHub
+- VulnHhub
 ---
 
-## ICA1 VulnHub Walkthrough
-
-#### 主机发现
+### 主机发现
 
 ```
 arp-scan -l
@@ -17,7 +15,7 @@ arp-scan -l
 
 ![](https://i.loli.net/2021/11/01/DtOf6MJVR5ndoGe.png)
 
-#### 端口扫描
+### 端口扫描
 
 ```
 nmap -Pn -p- 192.168.62.182
@@ -33,6 +31,8 @@ nmap -Pn -p- 192.168.62.182
 
 qdPM是一个开源的项目管理系统，基于[Symfony](http://www.oschina.net/p/symfony)框架+PHP/MySQL开发，可以看到qdPM的版本为9.2
 
+### 漏洞发现
+
 搜索一下exploit-db看看有没有公开的exp
 
 ![](https://i.loli.net/2021/11/01/yZIxHGg2QtN9LiS.png)
@@ -42,6 +42,8 @@ qdPM是一个开源的项目管理系统，基于[Symfony](http://www.oschina.ne
 看一下利用方式
 
 ![](https://i.loli.net/2021/11/01/6NC3oaG9FzRYWrl.png)
+
+### 漏洞利用
 
 我们可以通过访问`http://<website>/core/config/databases.yml`来下载包含数据库连接信息和密码的yml文件
 
@@ -61,6 +63,8 @@ mysql -u qdpmadmin -h 192.168.62.182 -p
 
 <img src="https://i.loli.net/2021/11/01/wFHBokpdDs89Aj3.png" style="zoom:80%;" />
 
+### SSH密码爆破
+
 将经过base64编码的密码字符串解码一下，记录到一个文本中
 
 ![](https://i.loli.net/2021/11/01/QaPujeoxcKYhXGm.png)
@@ -70,6 +74,10 @@ mysql -u qdpmadmin -h 192.168.62.182 -p
 ![](https://i.loli.net/2021/11/01/ljuvOXPLYSUmhd5.png)
 
 用账户密码来爆破80端口的登陆界面无果，只能尝试爆破22端口了
+
+```
+hydra -L user -P password ssh://192.168.62.182 -f
+```
 
 ![](https://i.loli.net/2021/11/01/cskMQEIqhPKT2fY.png)
 
@@ -84,6 +92,8 @@ mysql -u qdpmadmin -h 192.168.62.182 -p
 再登录`dexter`，看到有提示，应该是要利用可执行文件来提权
 
 <img src="https://i.loli.net/2021/11/01/i5gulQ2FmUo9j6b.png" style="zoom: 80%;" />
+
+### 权限提升
 
 先查看一下有执行权限的文件
 
