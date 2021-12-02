@@ -33,15 +33,15 @@ ssh -qTfnN -D 7777 username@remotehost
 -D  本地的端口
 ```
 
-![image-20211201102041861](C:\Users\Colin\AppData\Roaming\Typora\typora-user-images\image-20211201102041861.png)
+![image-20211201102041861](https://i.loli.net/2021/12/02/v4W65cV3yq9xikr.png)
 
 浏览器开启代理：
 
-![image-20211201102314300](C:\Users\Colin\AppData\Roaming\Typora\typora-user-images\image-20211201102314300.png)
+![image-20211201102314300](https://i.loli.net/2021/12/02/bUxjd9nwPiaOGeJ.png)
 
 IP地址已经发生变化：
 
-![image-20211201102246562](C:\Users\Colin\AppData\Roaming\Typora\typora-user-images\image-20211201102246562.png)
+![image-20211201102246562](https://i.loli.net/2021/12/02/UX8ovdIgrj1ZaTp.png)
 
 ## SSH本地转发
 
