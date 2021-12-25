@@ -15,7 +15,7 @@ tags:
 
 本次靶场是 **渗透攻击红队** 出的第二个内网域渗透靶场，里面包含了最新出的漏洞：Log4j2 RCE、CVE-2021-42287、CVE-2021-42278，下面是本次靶场的拓扑图：
 
-![](https://mmbiz.qpic.cn/mmbiz_png/Fyn0LDquNlSficHgYbBFsRkBc6ddvrkDClB1Via7X4oqBtvEot920tZDdQdUiciaDpeZn0OcwMj8r3dOucu4Z9ecQA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](https://s2.loli.net/2021/12/25/nUgrAER1a7uck4T.png)
 
 PS：靶场下载地址关注微信公众号：**红队攻防实验室** 回复：**001** 即可获取到下载地址。
 
