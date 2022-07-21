@@ -89,7 +89,7 @@ stockApi=http://192.168.0.68/admin
 
 ![](https://s2.loli.net/2022/07/20/Nu3VzDg9avWqXj2.png)
 
-3、将``stockApi`参数中 的 URL 更改为`http://localhost/admin`。发送请求包后能看到管理界面。
+3、将`stockApi`参数中 的 URL 更改为`http://localhost/admin`。发送请求包后能看到管理界面。
 
 ![](https://s2.loli.net/2022/07/20/v6cwAsStLm4yDRO.png)
 
@@ -141,9 +141,9 @@ stockApi=http://192.168.0.68/admin
 
 4、开始攻击。单击“Status”列按状态码升序对其进行排序。您应该看到一个状态为 200 的条目，显示一个管理界面。
 
-![image-20220720134033145](https://s2.loli.net/2022/07/20/LUaczrjxIiBQ2gq.png)
+![](https://s2.loli.net/2022/07/20/LUaczrjxIiBQ2gq.png)
 
-5、现在我们知道管理地址为192.168.1.252/admin。单击此请求，将其发送到 Repeater，并将路径更改为：``/admin/delete?username=carlos`，即可删除`carlos`用户。
+5、现在我们知道管理地址为192.168.1.252/admin。单击此请求，将其发送到 Repeater，并将路径更改为：`/admin/delete?username=carlos`，即可删除`carlos`用户。
 
 ![](https://s2.loli.net/2022/07/20/QBJK1U8lwqLmP4i.png)
 
@@ -187,7 +187,7 @@ stockApi=http://192.168.0.68/admin
 
 ![](https://s2.loli.net/2022/07/20/gU8ZfXyls3DIM1T.png)
 
-3、通过双 URL 编码将``a`混淆为 `%25%36%31`,此时为`http://loc%25%36%31lhost/`。防火墙未拦截，成功以管理员身份访问系统。
+3、通过双 URL 编码将`a`混淆为 `%25%36%31`,此时为`http://loc%25%36%31lhost/`。防火墙未拦截，成功以管理员身份访问系统。
 
 ![](https://s2.loli.net/2022/07/20/DIlsn7wHzvSxGKR.png)
 
@@ -427,7 +427,7 @@ stockApi=http://weliketoshop.net/product/nextProduct?currentProductId=6&path=htt
 
 ![](https://s2.loli.net/2022/07/21/2qsKx385czIFi9B.png)
 
-![image-20220721125833574](https://s2.loli.net/2022/07/21/a6gEIPukQ9xB4Fb.png)
+![](https://s2.loli.net/2022/07/21/a6gEIPukQ9xB4Fb.png)
 
 3、请注意，当您加载产品页面时，它会通过 Referer 标头触发与 Burp Collaborator 的 HTTP 交互。
 
