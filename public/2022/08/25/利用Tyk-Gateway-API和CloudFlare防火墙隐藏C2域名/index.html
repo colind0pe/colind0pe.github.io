@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://s2.loli.net/2022/08/25/KUnbLxXzH5ECNvp.png">
 <meta property="og:image" content="https://s2.loli.net/2022/08/25/1igUo76aJxB4IM5.png">
 <meta property="article:published_time" content="2022-08-25T08:35:02.000Z">
-<meta property="article:modified_time" content="2022-08-25T16:10:04.623Z">
+<meta property="article:modified_time" content="2022-08-25T16:17:39.574Z">
 <meta property="article:author" content="colind0pe">
 <meta property="article:tag" content="Cobalt Strike">
 <meta property="article:tag" content="Hiding C2 Traffic">
@@ -279,7 +279,7 @@ http-stager &#123;
 <p><img src="https://s2.loli.net/2022/08/25/SvRAo7Zy4WBIYxT.png" alt="img"></p>
 <h2 id="0x03-配置CloudFlare防火墙"><a href="#0x03-配置CloudFlare防火墙" class="headerlink" title="0x03 配置CloudFlare防火墙"></a>0x03 配置CloudFlare防火墙</h2><h3 id="获得tyk-io特征"><a href="#获得tyk-io特征" class="headerlink" title="获得tyk.io特征"></a>获得tyk.io特征</h3><p>在CF的<code>WAF</code>中创建一条防火墙规则，如下：</p>
 <p><img src="https://s2.loli.net/2022/08/25/e5ZWfulg9JhKOY2.png" alt="image-20220825184109796"></p>
-<p>然后生成一个木马尝试上线CS，这是肯定是无法上线的，来到CF的概述中可以看到所有拦截记录，点击单挑拦截记录查看详细。</p>
+<p>然后生成一个木马尝试上线CS，这时肯定是无法上线的，来到CF的概述中可以看到所有拦截记录，点击单条拦截记录查看详细。</p>
 <p><img src="https://s2.loli.net/2022/08/25/5X98QebcMgPF2Yv.png" alt="image-20220825184546311"></p>
 <p>这里有很多的特征可以加到<code>WAF</code>拦截规则中，来实现只有<code>Tyk Gateway API</code>转发过来的流量才能允许访问，其他的流量都会阻止。</p>
 <h3 id="编辑防火墙规则"><a href="#编辑防火墙规则" class="headerlink" title="编辑防火墙规则"></a>编辑防火墙规则</h3><p>这里我以<code>ASN</code>为例子，配置如下：</p>
