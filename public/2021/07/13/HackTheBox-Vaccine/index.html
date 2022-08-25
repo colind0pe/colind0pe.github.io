@@ -1,476 +1,187 @@
 <!DOCTYPE html>
-<html>
+<html lang=zh>
 <head>
-  <meta charset="utf-8">
-  <title>HackTheBox-Vaccine | colind0pe&#39;s blog</title>
-  <meta name="keywords" content=" HackTheBox ">
-  <meta name="description" content="HackTheBox-Vaccine | colind0pe&#39;s blog">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#51;&amp;#55;&amp;#x30;&amp;#50;&amp;#50;&amp;#x37;&amp;#57;&amp;#57;&amp;#54;&amp;#64;&amp;#x71;&amp;#x71;&amp;#46;&amp;#99;&amp;#111;&amp;#109;">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://example.com/about/index.html">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="实验环境 信息收集端口扫描： nmap -sC -sV 10.10.10.46   看到21、22、80端口开放，先访问80端口，是一个登录界面，目前我们没有登录的账号密码  因为上一题中我们得到了一个ftp的账户密码，先试试能不能ftp登录 ftpuser&#x2F;mc@F1l3ZilL4   直接输入上一题中获得的用户名和密码可以成功登录  可以看到有一个备份文件，我们先下载下来，但是这个文件需要解压">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HackTheBox-Vaccine">
+<meta property="og:url" content="http://example.com/2021/07/13/HackTheBox-Vaccine/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="个人简介colind0pe, 网络空间安全专业本科在读，目前从事安全方面的实习工作 联系我WeChat：hl_lhcq 邮箱：&amp;#49;&amp;#51;&amp;#55;&amp;#x30;&amp;#50;&amp;#50;&amp;#x37;&amp;#57;&amp;#57;&amp;#54;&amp;#64;&amp;#x71;&amp;#x71;&amp;#46;&amp;#99;&amp;#111;&amp;#109;">
+<meta property="og:description" content="实验环境 信息收集端口扫描： nmap -sC -sV 10.10.10.46   看到21、22、80端口开放，先访问80端口，是一个登录界面，目前我们没有登录的账号密码  因为上一题中我们得到了一个ftp的账户密码，先试试能不能ftp登录 ftpuser&#x2F;mc@F1l3ZilL4   直接输入上一题中获得的用户名和密码可以成功登录  可以看到有一个备份文件，我们先下载下来，但是这个文件需要解压">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-12-25T12:19:50.097Z">
-<meta property="article:modified_time" content="2021-12-25T12:19:50.097Z">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/U3xgdw1fhKWpVOr.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/cSyZNgzVdBa5Ff7.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/N5EBSjFbAIY6vWH.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/AhkG7aVn2xTKqis.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/tSLqMYIKn7vD8U6.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/LosvlPx8rnfRt14.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/Hwrq7FKaskilPIb.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/iyYwxIrSdV7XqMZ.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/UFo8ZqT6aGQAnXx.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/EAakCZPVnoef5Xy.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/jg25tFavkQpoWOK.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/jUadD1cT6WE5rbF.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/DI6yXtBQwH3mWh7.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/oZdn7klxfEm3GFS.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/5f4KBE9dTXrsLCM.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/unHZq8YvKEdWI9A.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/bLkCnr7FzU91yIQ.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/HlFhMeK94sSOwQY.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/HMa2TXgmqjdvEc6.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/4LZdbeGSapqOo3N.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/W3egOjsi6xoAfYa.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/lRPNKFJmw2753eE.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/04/8PUE5M2Z7yuw4eH.png">
+<meta property="article:published_time" content="2021-07-13T09:05:21.000Z">
+<meta property="article:modified_time" content="2021-12-25T12:19:50.095Z">
 <meta property="article:author" content="colind0pe">
+<meta property="article:tag" content="HackTheBox">
 <meta name="twitter:card" content="summary">
-
-
-<link rel="icon" href="/img/avatar.jpg">
-
-<link href="/css/style.css?v=1.1.0" rel="stylesheet">
-
-<link href="/css/hl_theme/github.css?v=1.1.0" rel="stylesheet">
-
-<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
-
-<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="/js/titleTip.js?v=1.1.0" ></script>
-
-<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
-<script>
-    hljs.initHighlightingOnLoad();
-</script>
-
-<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
-
-
-
-<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
-
-<script src="/js/iconfont.js?v=1.1.0" ></script>
-
-<meta name="generator" content="Hexo 5.4.0"></head>
-<div style="display: none">
-  <input class="theme_disqus_on" value="false">
-  <input class="theme_preload_comment" value="">
-  <input class="theme_blog_path" value="">
-  <input id="theme_shortcut" value="true" />
-  <input id="theme_highlight_on" value="true" />
-  <input id="theme_code_copy" value="true" />
-</div>
-
-
-
-<body>
-<aside class="nav">
-    <div class="nav-left">
-        <a href="/"
-   class="avatar_target">
-    <img class="avatar"
-         src="/img/avatar.jpg"/>
-</a>
-<div class="author">
-    <span>colind0pe</span>
-</div>
-
-<div class="icon">
+<meta name="twitter:image" content="https://i.loli.net/2021/08/04/U3xgdw1fhKWpVOr.png">
     
-        
-            <a title="github"
-               href="https://github.com/colind0pe"
-               target="_blank">
-                
-                    <svg class="iconfont-svg" aria-hidden="true">
-                        <use xlink:href="#icon-github"></use>
-                    </svg>
-                
-            </a>
-        
     
-        
-            <a title="twitter"
-               href="https://twitter.com/holen_chan_hl"
-               target="_blank">
-                
-                    <svg class="iconfont-svg" aria-hidden="true">
-                        <use xlink:href="#icon-twitter"></use>
-                    </svg>
-                
-            </a>
-        
-    
-        
-    
-        
-            <a title="reddit"
-               href="https://www.reddit.com/user/ColinDope"
-               target="_blank">
-                
-                    <svg class="iconfont-svg" aria-hidden="true">
-                        <use xlink:href="#icon-reddit"></use>
-                    </svg>
-                
-            </a>
-        
-    
-        
-            <a title="email"
-               href="mailto:1370227996@qq.com"
-               target="_blank">
-                
-                    <svg class="iconfont-svg" aria-hidden="true">
-                        <use xlink:href="#icon-email"></use>
-                    </svg>
-                
-            </a>
-        
-    
-</div>
-
-
-
-
-<ul>
-    <li>
-        <div class="all active" data-rel="全部文章">全部文章
-            
-                <small>(13)</small>
-            
-        </div>
-    </li>
-    
-        
-            
-                <li>
-                    <div data-rel="渗透测试">
-                        
-                        渗透测试
-                        <small>(11)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
-    
-        
-            
-                <li>
-                    <div data-rel="内网渗透">
-                        
-                        内网渗透
-                        <small>(1)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
-    
-        
-            
-                <li>
-                    <div data-rel="Web安全">
-                        
-                        Web安全
-                        <small>(1)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
-    
-</ul>
-<div class="left-bottom">
-    <div class="menus">
-        
-            
-    </div>
-    <div>
-        
-            <a class="about  hasFriend  site_url"
-               
-               href="/about">关于</a>
-        
-        <a style="width: 50%"
-                
-                                           class="friends">友链</a>
-        
-    </div>
-</div>
-<input type="hidden" id="yelog_site_posts_number" value="13">
-<input type="hidden" id="yelog_site_word_count" value="15.3k">
-<div style="display: none">
-    <span id="busuanzi_value_site_uv"></span>
-    <span id="busuanzi_value_site_pv"></span>
-</div>
-
-    </div>
-    <div class="nav-right">
-        <div class="friends-area">
-    <div class="friends-title">
-        友情链接
-        <i class="iconfont icon-left"></i>
-    </div>
-    <div class="friends-content">
-        <ul>
-            
-            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
-            
-        </ul>
-    </div>
-</div>
-        <div class="title-list">
-    <div class="right-top">
-        <div id="default-panel">
-            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
-            <div class="right-title">全部文章</div>
-            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
-        </div>
-        <div id="search-panel">
-            <i class="iconfont icon-left" data-title="返回"></i>
-            <input id="local-search-input" autocomplete="off"/>
-            <label class="border-line" for="input"></label>
-            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
-            <i class="iconfont icon-tag" data-title="标签"></i>
-        </div>
-        <div id="outline-panel" style="display: none">
-            <div class="right-title">大纲</div>
-            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
-        </div>
-    </div>
-
-    <div class="tags-list">
-    <input id="tag-search" />
-    <div class="tag-wrapper">
-        
-            <li class="article-tag-list-item">
-                <i class="iconfont icon-tag"></i><a>端口转发</a>
-            </li>
-        
-            <li class="article-tag-list-item">
-                <i class="iconfont icon-tag"></i><a>域渗透</a>
-            </li>
-        
-            <li class="article-tag-list-item">
-                <i class="iconfont icon-tag"></i><a>HackTheBox</a>
-            </li>
-        
-            <li class="article-tag-list-item">
-                <i class="iconfont icon-tag"></i><a>SSRF</a>
-            </li>
-        
-            <li class="article-tag-list-item">
-                <i class="iconfont icon-tag"></i><a>VulnHhub</a>
-            </li>
-        
-            <li class="article-tag-list-item">
-                <i class="iconfont icon-tag"></i><a>VulnHub</a>
-            </li>
-        
-    </div>
-
-</div>
-
-    
-    <nav id="title-list-nav">
-        
-        <a  class="全部文章 Web安全 "
-           href="/2022/07/21/PortSwigger-Web-Security-Academy-SSRF/"
-           data-tag="SSRF"
-           data-author="" >
-            <span class="post-title" title="PortSwigger Web Security Academy-SSRF">PortSwigger Web Security Academy-SSRF</span>
-            <span class="post-date" title="2022-07-21 14:22:15">2022/07/21</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2022/04/08/HackTheBox-Altered/"
-           data-tag="HackTheBox"
-           data-author="" >
-            <span class="post-title" title="HackTheBox-Altered">HackTheBox-Altered</span>
-            <span class="post-date" title="2022-04-08 09:09:00">2022/04/08</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/12/25/%E6%B8%97%E9%80%8F%E6%94%BB%E5%87%BB%E7%BA%A2%E9%98%9F%E5%9F%9F%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA-2-redteam-lab-Writeup/"
-           data-tag="域渗透"
-           data-author="" >
-            <span class="post-title" title="渗透攻击红队域渗透靶场-2(redteam.lab)Writeup">渗透攻击红队域渗透靶场-2(redteam.lab)Writeup</span>
-            <span class="post-date" title="2021-12-25 20:25:57">2021/12/25</span>
-        </a>
-        
-        <a  class="全部文章 内网渗透 "
-           href="/2021/12/02/SSH%E8%BD%AC%E5%8F%91%E5%92%8Ciptables%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/"
-           data-tag="端口转发"
-           data-author="" >
-            <span class="post-title" title="SSH转发和iptables端口转发">SSH转发和iptables端口转发</span>
-            <span class="post-date" title="2021-12-02 14:54:23">2021/12/02</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/11/01/ICA1-VulnHub-Walkthrough/"
-           data-tag="VulnHhub"
-           data-author="" >
-            <span class="post-title" title="ICA1 VulnHub Walkthrough">ICA1 VulnHub Walkthrough</span>
-            <span class="post-date" title="2021-11-01 14:35:38">2021/11/01</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/10/14/driftingblues4-VulnHub-Walkthrough/"
-           data-tag="VulnHub"
-           data-author="" >
-            <span class="post-title" title="driftingblues4 VulnHub Walkthrough">driftingblues4 VulnHub Walkthrough</span>
-            <span class="post-date" title="2021-10-14 15:49:32">2021/10/14</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/10/13/driftingblues3-VulnHub-Walkthrough/"
-           data-tag="VulnHub"
-           data-author="" >
-            <span class="post-title" title="driftingblues3 VulnHub Walkthrough">driftingblues3 VulnHub Walkthrough</span>
-            <span class="post-date" title="2021-10-13 17:09:41">2021/10/13</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/10/12/driftingblues2-VulnHub-Walkthrough/"
-           data-tag="VulnHub"
-           data-author="" >
-            <span class="post-title" title="driftingblues2 VulnHub Walkthrough">driftingblues2 VulnHub Walkthrough</span>
-            <span class="post-date" title="2021-10-12 16:31:08">2021/10/12</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/10/12/driftingblues-VulnHub-Walkthrough/"
-           data-tag="VulnHub"
-           data-author="" >
-            <span class="post-title" title="driftingblues VulnHub Walkthrough">driftingblues VulnHub Walkthrough</span>
-            <span class="post-date" title="2021-10-12 16:24:52">2021/10/12</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/08/18/HackTheBox-Shield/"
-           data-tag="HackTheBox"
-           data-author="" >
-            <span class="post-title" title="HackTheBox-Shield">HackTheBox-Shield</span>
-            <span class="post-date" title="2021-08-18 17:05:21">2021/08/18</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/08/02/HackTheBox-Oopsie/"
-           data-tag="HackTheBox"
-           data-author="" >
-            <span class="post-title" title="HackTheBox-Oopsie">HackTheBox-Oopsie</span>
-            <span class="post-date" title="2021-08-02 17:05:21">2021/08/02</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/07/13/HackTheBox-Archetype/"
-           data-tag="HackTheBox"
-           data-author="" >
-            <span class="post-title" title="HackTheBox-Archetype">HackTheBox-Archetype</span>
-            <span class="post-date" title="2021-07-13 17:05:21">2021/07/13</span>
-        </a>
-        
-        <a  class="全部文章 渗透测试 "
-           href="/2021/07/13/HackTheBox-Vaccine/"
-           data-tag="HackTheBox"
-           data-author="" >
-            <span class="post-title" title="HackTheBox-Vaccine">HackTheBox-Vaccine</span>
-            <span class="post-date" title="2021-07-13 17:05:21">2021/07/13</span>
-        </a>
-        
-        <div id="no-item-tips">
-
-        </div>
-    </nav>
-    <div id="outline-list">
-    </div>
-</div>
-
-    </div>
-    <div class="hide-list">
-        <div class="semicircle" data-title="切换全屏 快捷键 s">
-            <div class="brackets first"><</div>
-            <div class="brackets">&gt;</div>
-        </div>
-    </div>
-</aside>
-<div id="post">
-    <div class="pjax">
-        <article id="post-HackTheBox-Vaccine" class="article article-type-post" itemscope itemprop="blogPost">
-    
-        <h1 class="article-title">HackTheBox-Vaccine</h1>
-    
-    <div class="article-meta">
-        
-        
-        
-        <span class="book">
-            <i class="iconfont icon-category"></i>
-            
-            
-            <a  data-rel="渗透测试">渗透测试</a>
-            
-        </span>
-        
-        
-        <span class="tag">
-            <i class="iconfont icon-tag"></i>
-            
-            <a class="color1">HackTheBox</a>
-            
-        </span>
-        
-    </div>
-    <div class="article-meta">
-        
-            发布时间 : <time class="date" title='最后更新: 2021-12-25 20:19:50'>2021-07-13 17:05</time>
-        
-    </div>
-    <div class="article-meta">
-        
-        <span>字数:623</span>
-        
-        
-        <span id="busuanzi_container_page_pv">
-            阅读 :<span id="busuanzi_value_page_pv">
-                <span class="count-comment">
-                    <span class="spinner">
-                      <div class="cube1"></div>
-                      <div class="cube2"></div>
-                    </span>
-                </span>
-            </span>
-        </span>
-        
-        
-        <span class="top-comment" title="跳转至评论区">
-            <a href="#comments">
-                评论:<span class="count-comment">
-                    <span class="spinner">
-                      <div class="cube1"></div>
-                      <div class="cube2"></div>
-                    </span>
-                </span>
-            </a>
-        </span>
-        
-    </div>
-    
-    <div class="toc-ref">
-    
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">实验过程</span></a></li></ol>
-    
-<style>
-    .left-col .switch-btn,
-    .left-col .switch-area {
-        display: none;
-    }
-    .toc-level-3 i,
-    .toc-level-3 ol {
-        display: none !important;
-    }
-</style>
-</div>
-    
-    <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/08/04/U3xgdw1fhKWpVOr.png" alt="Screenshot_2021-08-04_09_35_14"></p>
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>HackTheBox-Vaccine</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2021/07/13/HackTheBox-Archetype/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/07/13/HackTheBox-Vaccine/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&text=HackTheBox-Vaccine"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&is_video=false&description=HackTheBox-Vaccine"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HackTheBox-Vaccine&body=Check out this article: http://example.com/2021/07/13/HackTheBox-Vaccine/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&name=HackTheBox-Vaccine&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/07/13/HackTheBox-Vaccine/&t=HackTheBox-Vaccine"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">实验过程</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        HackTheBox-Vaccine
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">colind0pe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-07-13T09:05:21.000Z" itemprop="datePublished">2021-07-13</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/HackTheBox/" rel="tag">HackTheBox</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/08/04/U3xgdw1fhKWpVOr.png" alt="Screenshot_2021-08-04_09_35_14"></p>
 <h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>端口扫描：</strong></p>
 <pre><code>nmap -sC -sV 10.10.10.46
 </code></pre>
@@ -541,215 +252,150 @@ python3 -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;
 <p><a target="_blank" rel="noopener" href="https://www.echocipher.life/index.php/archives/891/">https://www.echocipher.life/index.php/archives/891/</a></p>
 </blockquote>
 
-      
-       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1370227996@qq.com </span>
-    </div>
+  </div>
 </article>
 
 
-<p>
-    <a  class="dashang" onclick="dashangToggle()">赏</a>
-</p>
 
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
 
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
 
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">实验过程</span></a></li></ol>
+    </div>
 
-    <div id="comments"></div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/07/13/HackTheBox-Vaccine/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&text=HackTheBox-Vaccine"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&is_video=false&description=HackTheBox-Vaccine"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HackTheBox-Vaccine&body=Check out this article: http://example.com/2021/07/13/HackTheBox-Vaccine/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&title=HackTheBox-Vaccine"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/07/13/HackTheBox-Vaccine/&name=HackTheBox-Vaccine&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/07/13/HackTheBox-Vaccine/&t=HackTheBox-Vaccine"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
 
-<script type="text/javascript">
-    $.getScript('/js/gitalk.js', function () {
-        var gitalk = new Gitalk({
-            clientID: 'e98f09a376e17cb36a4f',
-            clientSecret: 'd1ce9651c88bec3fdc2245ecdf84d4e36d62b3d8',
-            repo: 'colind0pe.github.io',
-            owner: 'colind0pe',
-            admin: ['colind0pe'],
-            id: decodeURI(location.pathname),
-            distractionFreeMode: 'true',
-            language: 'zh-CN',
-            perPage: parseInt('10',10)
-        })
-        gitalk.render('comments')
-    })
-</script>
+    </div>
 
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
 
+  </div>
+</div>
 
-
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
     
-
-
-
+    
+    2020-2022
+    colind0pe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
 
     </div>
-    <div class="copyright">
-        <p class="footer-entry">
-    ©2020-2021 colind0pe
-</p>
-<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+    <!-- styles -->
 
-    </div>
-    <div class="full-toc">
-        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
-<a class="" id="rocket" ></a>
 
-    </div>
-</div>
 
-<div class="hide_box" onclick="dashangToggle()"></div>
-<div class="shang_box">
-    <a class="shang_close"  onclick="dashangToggle()">×</a>
-    <div class="shang_tit">
-        <p>喜欢就点赞,疼爱就打赏</p>
-    </div>
-    <div class="shang_payimg">
-        <div class="pay_img">
-            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
-            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
-        </div>
-    </div>
-    <div class="shang_payselect">
-        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
-    </div>
-</div>
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
 
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
 
 </body>
-<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
-
-<script src="/js/script.js?v=1.1.0" ></script>
-<script>
-    var img_resize = 'default';
-    function initArticle() {
-        /*渲染对应的表格样式*/
-        
-            $("#post .pjax table").addClass("green_title");
-        
-
-        /*渲染打赏样式*/
-        
-        $("input[name=pay]").on("click", function () {
-            if($("input[name=pay]:checked").val()=="weixin"){
-                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
-            } else {
-                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
-            }
-        })
-        
-
-        /*高亮代码块行号*/
-        
-
-        /*访问数量*/
-        
-        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
-        
-
-        /*代码高亮，行号对齐*/
-        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
-
-        
-        
-    }
-
-    /*打赏页面隐藏与展示*/
-    
-    function dashangToggle() {
-        $(".shang_box").fadeToggle();
-        $(".hide_box").fadeToggle();
-    }
-    
-
-</script>
-
-<!--加入行号的高亮代码块样式-->
-
-<!--自定义样式设置-->
-<style>
-    
-    
-    .nav {
-        width: 542px;
-    }
-    .nav.fullscreen {
-        margin-left: -542px;
-    }
-    .nav-left {
-        width: 120px;
-    }
-    
-    
-    @media screen and (max-width: 1468px) {
-        .nav {
-            width: 492px;
-        }
-        .nav.fullscreen {
-            margin-left: -492px;
-        }
-        .nav-left {
-            width: 100px;
-        }
-    }
-    
-    
-    @media screen and (max-width: 1024px) {
-        .nav {
-            width: 492px;
-            margin-left: -492px
-        }
-        .nav.fullscreen {
-            margin-left: 0;
-        }
-    }
-    
-    @media screen and (max-width: 426px) {
-        .nav {
-            width: 100%;
-        }
-        .nav-left {
-            width: 100%;
-        }
-    }
-    
-    
-    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
-        color: #383636;
-    }
-    
-    
-    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
-        color: #5e5e5f;
-    }
-    
-    
-    .nav-right nav a.hover, #local-search-result a.hover{
-        background-color: #e2e0e0;
-    }
-    
-    
-
-    /*列表样式*/
-    
-
-    /* 背景图样式 */
-    
-    
-
-
-    /*引用块样式*/
-    
-
-    /*文章列表背景图*/
-    
-
-    
-</style>
-
-
-
-
-
-
-
 </html>
