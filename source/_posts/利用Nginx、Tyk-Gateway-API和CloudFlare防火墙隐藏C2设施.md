@@ -10,7 +10,7 @@ tags:
 
 
 
->本文未经允许禁止转载
+>本文首发于[先知社区](https://xz.aliyun.com/)，未经允许禁止转载
 
 ## 0x01 前言
 
@@ -22,7 +22,7 @@ Cobalt Strike的特征已经被各大安全厂商标记烂了，加上搜索引�
 
 最近看到一篇利用Tyk Gateway API隐藏C2流量的文章，通过配置Tyk Gateway API转发恶意流量，以达到类似于域前置，或者腾讯云函数隐藏C2的效果。
 
-在这个基础上，通过将域名托管到CloudFlare，配置Nginx过滤不符合规则的请求，并通过配置CloudFlare防火墙只允许Tyk Gateway API的流量访问C2域名，可以达到隐藏C2域名，并且防止搜索引擎、空间测绘扫描和识别Cobalt Strike特征导致域名被标记。
+在这个基础上，通过将域名托管到CloudFlare，配置Nginx过滤不符合规则的请求，并通过配置CloudFlare防火墙只允许Tyk Gateway API的流量访问C2域名，可以达到隐藏C2域名，并且防止搜索引擎、空间测绘扫描和识别Cobalt Strike特征导致域名或IP被标记。
 
 本文基于已经将域名托管到CloudFlare并配置SSL证书的情况，如果你不知道如何使用CloudFlare和配置SSL证书，请自行搜索相关资料。
 
@@ -141,7 +141,7 @@ http-stager {
 
 <img src="https://s2.loli.net/2022/08/25/ax9wSqE2el6nRJ7.png" alt="img"  />
 
-按这个步骤逐一新建http-get API、http-postAPI、Stager-x86 API、Stager-x64 API。
+按这个步骤逐一新建http-get API、http-post API、Stager-x86 API、Stager-x64 API。
 
 ### 设置访问验证策略
 
