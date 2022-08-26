@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="主机发现1arp-scan -l    端口扫描1nmap -sC -sV -p- 192.168.62.174    开放了21、22、80端口，先看了下21端口，发现需要密码   再访问一下80端口，看看有没有什么信息  信息收集主页没有什么信息，看一下源码  base64编码，到在线网站转换一下   再转换一次   emmm，继续     最后得到一个txt的路径，访问一下   Brainf">
+    <meta name="description" content="主机发现arp-scan -l    端口扫描nmap -sC -sV -p- 192.168.62.174    开放了21、22、80端口，先看了下21端口，发现需要密码   再访问一下80端口，看看有没有什么信息  信息收集主页没有什么信息，看一下源码  base64编码，到在线网站转换一下   再转换一次   emmm，继续     最后得到一个txt的路径，访问一下   Brainfuc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="driftingblues4 VulnHub Walkthrough">
 <meta property="og:url" content="http://example.com/2021/10/14/driftingblues4-VulnHub-Walkthrough/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="主机发现1arp-scan -l    端口扫描1nmap -sC -sV -p- 192.168.62.174    开放了21、22、80端口，先看了下21端口，发现需要密码   再访问一下80端口，看看有没有什么信息  信息收集主页没有什么信息，看一下源码  base64编码，到在线网站转换一下   再转换一次   emmm，继续     最后得到一个txt的路径，访问一下   Brainf">
+<meta property="og:description" content="主机发现arp-scan -l    端口扫描nmap -sC -sV -p- 192.168.62.174    开放了21、22、80端口，先看了下21端口，发现需要密码   再访问一下80端口，看看有没有什么信息  信息收集主页没有什么信息，看一下源码  base64编码，到在线网站转换一下   再转换一次   emmm，继续     最后得到一个txt的路径，访问一下   Brainfuc">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/10/14/zhRLGB6DEPml2uv.png">
 <meta property="og:image" content="https://i.loli.net/2021/10/14/zLTuWXdBhYVneoM.png">
@@ -190,12 +190,12 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h4 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
-
+    <h4 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h4><pre><code>arp-scan -l
+</code></pre>
 <img src="https://i.loli.net/2021/10/14/zhRLGB6DEPml2uv.png" style="zoom:67%;" />
 
-<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sC -sV -p- 192.168.62.174</span><br></pre></td></tr></table></figure>
-
+<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><pre><code>nmap -sC -sV -p- 192.168.62.174
+</code></pre>
 <img src="https://i.loli.net/2021/10/14/zLTuWXdBhYVneoM.png" style="zoom: 67%;" />
 
 <p>开放了21、22、80端口，先看了下21端口，发现需要密码</p>
@@ -232,8 +232,8 @@
 <img src="https://i.imgur.com/a4JjS76.png" alt="img" style="zoom: 67%;" />
 
 <h4 id="弱密码爆破"><a href="#弱密码爆破" class="headerlink" title="弱密码爆破"></a>弱密码爆破</h4><p>提示了几个名字，试了ssh是不支持密码登录的，那就拿来爆破ftp试试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -L /home/colin/桌面/user -P /usr/share/wordlists/rockyou.txt ftp://192.168.62.174</span><br></pre></td></tr></table></figure>
-
+<pre><code>hydra -L /home/colin/桌面/user -P /usr/share/wordlists/rockyou.txt ftp://192.168.62.174
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/14/TGkAwWjDZs5zoOQ.png"></p>
 <p>成功得到了ftp的用户名和密码</p>
 <p>用得到的用户名和密码成功登录ftp</p>

