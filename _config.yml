@@ -4,7 +4,7 @@
 
 # Site
 title: colind0pe's blog
-subtitle: ''
+subtitle: colind0pe's blog
 description: ''
 keywords:
 author: colind0pe
@@ -44,7 +44,7 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: false
+  enable: true
   line_number: true
   auto_detect: false
   tab_replace: ''

