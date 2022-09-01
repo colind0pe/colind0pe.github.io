@@ -1,17 +1,19 @@
 ---
 title: 关于
-date: 2021-09-29 16:58:38###
+date: 2021-09-29 16:58:38
 ---
 
 ### 个人简介
 
-*colind0pe*,
+## About
 
-网络空间安全专业本科在读，目前从事安全方面的实习工作
+*colind0pe*，
+
+BugHunter@Eth0Team
+
+Web安全 | 漏洞挖掘 | 红蓝对抗
 
 ### 联系我
 
-**WeChat**：hl_lhcq
-
-**邮箱**：1370227996@qq.com
-
+- Twitter: [@colind0pe](https://twitter.com/colind0pe)
+- GitHub: [colind0pe](https://github.com/colind0pe)
