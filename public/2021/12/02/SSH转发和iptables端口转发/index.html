@@ -169,9 +169,9 @@
 <li>加密SSH Client端至SSH Server端之间的通讯数据。</li>
 <li>突破防火墙的简直完成一些之前无法建立的TCP连接。</li>
 </ul>
-<h2 id="SSH本地SOCKS5代理"><a href="#SSH本地SOCKS5代理" class="headerlink" title="SSH本地SOCKS5代理"></a>SSH本地SOCKS5代理</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -qTfnN -D 7777 username@remotehost</span><br></pre></td></tr></table></figure>
+<h2 id="SSH本地SOCKS5代理"><a href="#SSH本地SOCKS5代理" class="headerlink" title="SSH本地SOCKS5代理"></a>SSH本地SOCKS5代理</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -qTfnN -D <span class="number">7777</span> <span class="symbol">username@</span>remotehost</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">参数说明：</span><br><span class="line">-C  压缩数据</span><br><span class="line">-q  安静模式</span><br><span class="line">-T  禁止远程分配终端</span><br><span class="line">-n  关闭标准输入</span><br><span class="line">-N  不执行远程命令</span><br><span class="line">-f  ssh后台运行</span><br><span class="line">-D  本地的端口</span><br></pre></td></tr></table></figure>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">参数说明：</span><br><span class="line"><span class="deletion">-C  压缩数据</span></span><br><span class="line"><span class="deletion">-q  安静模式</span></span><br><span class="line"><span class="deletion">-T  禁止远程分配终端</span></span><br><span class="line"><span class="deletion">-n  关闭标准输入</span></span><br><span class="line"><span class="deletion">-N  不执行远程命令</span></span><br><span class="line"><span class="deletion">-f  ssh后台运行</span></span><br><span class="line"><span class="deletion">-D  本地的端口</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://i.loli.net/2021/12/02/v4W65cV3yq9xikr.png"></p>
 <p>浏览器开启代理：</p>
@@ -187,25 +187,25 @@
 <li>目的：本机能访问目标机器</li>
 </ol>
 <p><strong>命令：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L localport:targethost:targetport username@sshserver</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L localport<span class="selector-pseudo">:target</span>host<span class="selector-pseudo">:target</span>port username<span class="keyword">@sshserver</span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">localport       本机开启的端口</span><br><span class="line">targethost      目标机器的IP地址</span><br><span class="line">targetport  	目标机器的端口</span><br><span class="line">username		中间服务器的用户名</span><br><span class="line">sshserver       中间服务器的IP地址</span><br></pre></td></tr></table></figure>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">localport</span>       本机开启的端口</span><br><span class="line"><span class="symbol">targethost</span>      目标机器的<span class="built_in">IP</span>地址</span><br><span class="line"><span class="symbol">targetport</span>  	目标机器的端口</span><br><span class="line"><span class="symbol">username</span>		中间服务器的用户名</span><br><span class="line"><span class="symbol">sshserver</span>       中间服务器的<span class="built_in">IP</span>地址</span><br></pre></td></tr></table></figure>
 
 <p><strong>结果：</strong></p>
 <p>此时，在在本机访问localport就可以访问目标主机的targetport了</p>
 <h2 id="SSH远程转发"><a href="#SSH远程转发" class="headerlink" title="SSH远程转发"></a>SSH远程转发</h2><p>反向连接的一种，可以穿透内网防火墙，在内网中比较好用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -R sshserverport:targethost:targetport username@sshserver</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -R sshserverport<span class="selector-pseudo">:target</span>host<span class="selector-pseudo">:target</span>port username<span class="keyword">@sshserver</span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sshserverpor        中间服务器的端口号</span><br><span class="line">targethost          目标机器的IP地址</span><br><span class="line">targetport      	目标机器的端口</span><br><span class="line">username			中间服务器的用户名</span><br><span class="line">sshserver           中间服务器的IP地址</span><br></pre></td></tr></table></figure>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">sshserverpor</span>        中间服务器的端口号</span><br><span class="line"><span class="symbol">targethost</span>          目标机器的<span class="built_in">IP</span>地址</span><br><span class="line"><span class="symbol">targetport</span>      	目标机器的端口</span><br><span class="line"><span class="symbol">username</span>			中间服务器的用户名</span><br><span class="line"><span class="symbol">sshserver</span>           中间服务器的<span class="built_in">IP</span>地址</span><br></pre></td></tr></table></figure>
 
 <p><strong>开启远程需要更改配置</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/ssh/sshd_config	</span><br><span class="line">#任何人访问这台机器的某一个端口，都可以访问到目标机的映射出的端口；这个需要在中间服务器上开启</span><br><span class="line">GatewayPorts    yes</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo vim <span class="regexp">/etc/</span>ssh/sshd_config	</span><br><span class="line"><span class="comment">#任何人访问这台机器的某一个端口，都可以访问到目标机的映射出的端口；这个需要在中间服务器上开启</span></span><br><span class="line">GatewayPorts    yes</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/ssh/sshd_config restart   #重启SSH</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="regexp">/etc/</span>ssh/sshd_config restart   <span class="comment">#重启SSH</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>因为是反向连接，所以肯定需要在目标机器上执行命令</strong></p>
 <p>在目标机器上执行命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -R 8899:10.10.10.132:80 test@10.10.10.135 </span><br><span class="line">#把目标机的80端口转发到10.10.10.135(中间服务器)上的8899端口</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ssh</span> -R <span class="number">8899</span>:<span class="number">10.10.10.132:80</span> test@<span class="number">10.10.10.135</span> </span><br><span class="line"><span class="comment">#把目标机的80端口转发到10.10.10.135(中间服务器)上的8899端口</span></span><br></pre></td></tr></table></figure>
 
 <p>现在任何机器，只要访问10.10.10.13这台中间服务器的8899端口，就相当于访问了不出网的内网10.10.10.132机器的80端口</p>
 <h2 id="iptables端口转发"><a href="#iptables端口转发" class="headerlink" title="iptables端口转发"></a>iptables端口转发</h2><h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><ol>
@@ -213,23 +213,23 @@
 <p><strong>方法1：</strong></p>
 </li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.编辑sysctl配置文件 vim /etc/sysctl.conf</span><br><span class="line">2.开启ipv4 forward</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.编辑sysctl配置文件 vim <span class="regexp">/etc/</span>sysctl.conf</span><br><span class="line"><span class="number">2</span>.开启ipv4 forward</span><br></pre></td></tr></table></figure>
 
 <p>​        <strong>方法2</strong>： 直接sysctl修改</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">使用sysctl -w net.ipv4.ip_forward=1</span><br><span class="line">然后查看sysctl -p和之前修改的一样。</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">使用sysctl -w net.ipv4.<span class="attribute">ip_forward</span>=1</span><br><span class="line">然后查看sysctl -p和之前修改的一样。</span><br></pre></td></tr></table></figure>
 
 <h3 id="本地端口转发"><a href="#本地端口转发" class="headerlink" title="本地端口转发"></a>本地端口转发</h3><p>REDIRECT模式是防火墙所在的机子内部转发包或流到另一个端口，也就是所有接收的包只转发给本地端口。</p>
 <p>将本机的 7777 端口转发到 6666 端口：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp --dport 7777 -j REDIRECT --to-port 6666</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -<span class="selector-tag">A</span> PREROUTING -<span class="selector-tag">p</span> tcp --dport <span class="number">7777</span> -j REDIRECT --<span class="selector-tag">to</span>-port <span class="number">6666</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="远程端口转发"><a href="#远程端口转发" class="headerlink" title="远程端口转发"></a>远程端口转发</h3><p>通过 1.168 的 6666 端口访问 1.8 的 7777 端口，在 1.168 上设置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w net.ipv4.ip_forward=1</span><br><span class="line">iptables -t nat -A PREROUTING -p tcp --dport 6666 -j DNAT --to-destination 192.168.1.8:7777</span><br><span class="line">iptables -t nat -A POSTROUTING -p tcp -d 192.168.1.8 --dport 7777 -j SNAT --to-source 192.168.1.168</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sysctl</span> -w net.ipv<span class="number">4</span>.ip_forward=<span class="number">1</span></span><br><span class="line"><span class="attribute">iptables</span> -t nat -A PREROUTING -p tcp --dport <span class="number">6666</span> -j DNAT --to-destination <span class="number">192.168.1.8:7777</span></span><br><span class="line"><span class="attribute">iptables</span> -t nat -A POSTROUTING -p tcp -d <span class="number">192.168.1.8</span> --dport <span class="number">7777</span> -j SNAT --to-source <span class="number">192.168.1.168</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="删除该端口转发"><a href="#删除该端口转发" class="headerlink" title="删除该端口转发"></a>删除该端口转发</h3><p>查看当前iptables 的 nat 表的所有规则：（不用 -t 指定表名默认的是指 filter 表）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -nL --line</span><br></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -<span class="keyword">nL</span> --<span class="keyword">line</span></span><br></pre></td></tr></table></figure>
 
 <p>删除指定表的指定链上的规则， -D 并指定序号即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -D PREROUTING 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">iptables</span> -t nat -D PREROUTING <span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 
 

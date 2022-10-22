@@ -1,1 +1,1 @@
-cmd /k"e: E:\blog&&hexo clean&&hexo g&&hexo d&&git add --all&&git commit -m "backup"&&git push -f"
+cmd /k"g: G:\blog&&hexo clean&&hexo g&&hexo d&&git add --all&&git commit -m "backup"&&git push -f"
