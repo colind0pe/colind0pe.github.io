@@ -2,7 +2,9 @@
 title: Rust免杀-Shellcode加载与混淆
 date: 2023-06-23 21:28:37
 categories: 后渗透
-tags: Rust, 免杀
+tags: 
+- Rust
+- 免杀
 ---
 
 ## 前言
